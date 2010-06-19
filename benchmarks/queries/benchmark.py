@@ -1,15 +1,12 @@
 import time
 
-from django.core.management import call_command
+from utils import run_benchmark
 
 from queries.models import Book
 
-call_command("syncdb")
 
-start = time.time()
+def benchmark():
+    for i in xrange(10):
+        Book.objects.create(title=unicode(i))
 
-for i in xrange(10):
-    Book.objects.create(title=unicode(i))
-
-
-print time.time() - start
+run_benchmark(benchmark)
