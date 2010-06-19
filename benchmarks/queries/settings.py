@@ -1,8 +1,4 @@
 INSTALLED_APPS = ['queries']
 
-DATABASES = {
-    'default': {
-        'ENGINE':'sqlite3',
-        'NAME': ':memory:'
-    }
-}
+DATABASE_ENGINE = 'sqlite3'
+DATABASE_NAME = ':memory:'

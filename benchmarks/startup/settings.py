@@ -1,7 +1,4 @@
 INSTALLED_APPS = ['startup']
-DATABASES = {
-    'default': {
-        'ENGINE':'sqlite3',
-        'NAME': ':memory:'
-    }
-}
+
+DATABASE_ENGINE = 'sqlite3'
+DATABASE_NAME = ':memory:'
