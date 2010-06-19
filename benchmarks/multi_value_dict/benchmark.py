@@ -1,13 +1,10 @@
-from time import time, sleep
+from time import time
 
 from django.utils.datastructures import MultiValueDict
 import django.utils.copycompat as copy
 
-
-
 case = {'a': ['a'], 'b': ['a','b'], 'c':['a','b','c']}
 update = {'a': ['a'], 'b': ['a','b'], 'c':['a','b','c']}
-
 
 def benchmark_multi():
     #instantiate a new MultiValueDict and call key method (i.e. that do something diff than dict)
@@ -51,7 +48,6 @@ def benchmark_dict():
     caseDict['b'] = ['B']
     caseDict['c'] = ['C']
 
-        
 diff = 0.0
 for x in range(200):
     multi_time_start = time()
