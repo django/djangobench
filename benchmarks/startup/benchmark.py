@@ -6,4 +6,4 @@ def benchmark():
     from django.db import models
     models.get_models()
     
-run_benchmark(benchmark)
+run_benchmark(benchmark, syncdb=False)
