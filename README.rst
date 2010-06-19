@@ -21,7 +21,7 @@ So, for example, to benchmark Django 1.2 against trunk::
 
     svn co http://code.djangoproject.com/svn/django/tags/releases/1.2/ django-control
     svn co http://code.djangoproject.com/svn/django/trunk django-experiment
-    ./djangobench
+    ./djangobench.py
     
 At the time of this writing Django's trunk hasn't significantly diverged
 from Django 1.2, so you should expect to see not-statistically-significant
