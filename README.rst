@@ -48,15 +48,14 @@ TODO
 ----
 
 * Right now each benchmark gets run multiple times by the harness,
-  incurring startup overhead. The startup benchmark shows this is a non-trivial amount of time,
-  so there really needs to be a way for individual benchmarks to run n-trials in-process
-  to avoid that overhead and warmup time. Unladen's ``perf.py`` supports this; the harness
-  code needs to, also.
+  incurring startup overhead. The startup benchmark shows this is a non-trivial
+  amount of time, so there really needs to be a way for individual benchmarks
+  to run n-trials in-process to avoid that overhead and warmup time. Unladen's
+  ``perf.py`` supports this; the harness code needs to, also.
   
-* The number of trials is hard-coded. This should be an --option, or,
-  better yet, it could be automatically determined by running trials
-  until the results reach a particular confidence internal or some large
-  ceiling is hit.
+* The number of trials is hard-coded. This should be an --option, or, better
+  yet, it could be automatically determined by running trials until the results
+  reach a particular confidence internal or some large ceiling is hit.
   
 * Lots and lots and lots more benchmarks. Some ideas:
 
