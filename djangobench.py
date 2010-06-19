@@ -6,12 +6,14 @@ Run us some Django benchmarks.
 
 import os
 import subprocess
+import sys
 import tempfile
 
 import argparse
 from unipath import DIRS, FSPath as Path
 
 import perf
+
 
 BENCMARK_DIR = Path(__file__).parent.child('benchmarks')
 
@@ -38,14 +40,14 @@ def main(control, experiment, benchmark_dir=BENCMARK_DIR):
         experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
         
         control_data = perf.MeasureCommand(
-            ['python', '%s/benchmark.py' % benchmark],
+            [sys.executable, '%s/benchmark.py' % benchmark],
             iterations = trials,
             env = control_env,
             track_memory = False,
         )
         
         experiment_data = perf.MeasureCommand(
-            ['python', '%s/benchmark.py' % benchmark],
+            [sys.executable, '%s/benchmark.py' % benchmark],
             iterations = trials,
             env = experiment_env,
             track_memory = False,
