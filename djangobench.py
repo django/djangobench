@@ -22,6 +22,8 @@ def main(control, experiment, benchmarks, benchmark_dir=BENCMARK_DIR):
     if benchmarks:
         print ": ",
         print ", ".join(benchmarks)
+    else:
+        print
     print "Control: Django %s (in %s)" % (get_django_version(control), control)
     print "Experiment: Django %s (in %s)" % (get_django_version(experiment), experiment)
     print
@@ -50,7 +52,7 @@ def main(control, experiment, benchmarks, benchmark_dir=BENCMARK_DIR):
     results = []
 
     for benchmark in discover_benchmarks(benchmark_dir):
-        if benchmark.name in benchmarks:
+        if not benchmarks or benchmark.name in benchmarks:
             print "Running '%s' benchmark ..." % benchmark.name
             settings_mod = '%s.settings' % benchmark.name
             control_env['DJANGO_SETTINGS_MODULE'] = settings_mod
