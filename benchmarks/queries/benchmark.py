@@ -1,7 +1,5 @@
 import time
 
-from django.core.management import call_command
-
 from utils import run_benchmark
 
 from queries.models import Book
