@@ -21,10 +21,18 @@ def main(control, experiment, benchmark_dir=BENCMARK_DIR):
     # Calculate the subshell envs that we'll use to execute the
     # benchmarks in.
     control_env = {
-        'PYTHONPATH': "%s:%s" % (Path(benchmark_dir).absolute(), Path(control).parent.absolute()),
+        'PYTHONPATH': ":".join([
+            Path(benchmark_dir).absolute(),
+            Path(control).parent.absolute(),
+            Path(__file__).parent
+        ]),
     }
     experiment_env = {
-        'PYTHONPATH': "%s:%s" % (Path(benchmark_dir).absolute(), Path(experiment).parent.absolute()),
+        'PYTHONPATH': ":".join([
+            Path(benchmark_dir).absolute(),
+            Path(experiment).parent.absolute(),
+            Path(__file__).parent
+        ]),
     }
     
     # TODO: make this configurable, or, better, make it an option
