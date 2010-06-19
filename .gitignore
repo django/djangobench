@@ -1,0 +1,3 @@
+*.pyc
+django-control/
+django-experiment/
