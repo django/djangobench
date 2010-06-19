@@ -18,12 +18,10 @@ import perf
 BENCMARK_DIR = Path(__file__).parent.child('benchmarks')
 
 def main(control, experiment, benchmarks, benchmark_dir=BENCMARK_DIR):
-    print "Running benchmarks",
     if benchmarks:
-        print ": ",
-        print ", ".join(benchmarks)
+        print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
-        print
+        print "Running all benchmarks"
     print "Control: Django %s (in %s)" % (get_django_version(control), control)
     print "Experiment: Django %s (in %s)" % (get_django_version(experiment), experiment)
     print
@@ -107,7 +105,8 @@ if __name__ == '__main__':
         help = "Path to the Django version to use as experiment."
     )
     parser.add_argument(
-        '-b', '--benchmarks',
+        'benchmarks',
+        metavar = 'name',
         default = None,
         help = "Benchmarks to be run.  Defaults to all.",
         nargs = '*'
