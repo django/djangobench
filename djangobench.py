@@ -18,6 +18,11 @@ import perf
 BENCMARK_DIR = Path(__file__).parent.child('benchmarks')
 
 def main(control, experiment, benchmark_dir=BENCMARK_DIR):
+    print "Running benchmarks"
+    print "Control: Django %s (in %s)" % (get_django_version(control), control)
+    print "Experiment: Django %s (in %s)" % (get_django_version(experiment), experiment)
+    print
+    
     # Calculate the subshell envs that we'll use to execute the
     # benchmarks in.
     control_env = {
@@ -75,6 +80,13 @@ def discover_benchmarks(benchmark_dir):
     for app in Path(benchmark_dir).listdir(filter=DIRS):
         if app.child('benchmark.py').exists() and app.child('settings.py').exists():
             yield app
+
+def get_django_version(djangodir):
+    out, err, _ = perf.CallAndCaptureOutput(
+        [sys.executable, '-c' 'import django; print django.get_version()'],
+        env = {'PYTHONPATH': Path(djangodir).parent.absolute()}
+    )
+    return out.strip()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
