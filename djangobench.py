@@ -17,8 +17,11 @@ import perf
 
 BENCMARK_DIR = Path(__file__).parent.child('benchmarks')
 
-def main(control, experiment, benchmark_dir=BENCMARK_DIR):
-    print "Running benchmarks"
+def main(control, experiment, benchmarks, benchmark_dir=BENCMARK_DIR):
+    print "Running benchmarks",
+    if benchmarks:
+        print ": ",
+        print ", ".join(benchmarks)
     print "Control: Django %s (in %s)" % (get_django_version(control), control)
     print "Experiment: Django %s (in %s)" % (get_django_version(experiment), experiment)
     print
@@ -47,34 +50,35 @@ def main(control, experiment, benchmark_dir=BENCMARK_DIR):
     results = []
 
     for benchmark in discover_benchmarks(benchmark_dir):
-        print "Running '%s' benchmark ..." % benchmark.name
-        settings_mod = '%s.settings' % benchmark.name
-        control_env['DJANGO_SETTINGS_MODULE'] = settings_mod
-        experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
-        
-        control_data = perf.MeasureCommand(
-            [sys.executable, '%s/benchmark.py' % benchmark],
-            iterations = trials,
-            env = control_env,
-            track_memory = False,
-        )
-        
-        experiment_data = perf.MeasureCommand(
-            [sys.executable, '%s/benchmark.py' % benchmark],
-            iterations = trials,
-            env = experiment_env,
-            track_memory = False,
-        )
-        
-        options = argparse.Namespace(
-            track_memory = False, 
-            diff_instrumentation = False,
-            benchmark_name = benchmark.name,
-            disable_timelines = True
-        )
-        result = perf.CompareBenchmarkData(control_data, experiment_data, options)
-        print result
-        print
+        if benchmark.name in benchmarks:
+            print "Running '%s' benchmark ..." % benchmark.name
+            settings_mod = '%s.settings' % benchmark.name
+            control_env['DJANGO_SETTINGS_MODULE'] = settings_mod
+            experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
+            
+            control_data = perf.MeasureCommand(
+                [sys.executable, '%s/benchmark.py' % benchmark],
+                iterations = trials,
+                env = control_env,
+                track_memory = False,
+            )
+            
+            experiment_data = perf.MeasureCommand(
+                [sys.executable, '%s/benchmark.py' % benchmark],
+                iterations = trials,
+                env = experiment_env,
+                track_memory = False,
+            )
+            
+            options = argparse.Namespace(
+                track_memory = False, 
+                diff_instrumentation = False,
+                benchmark_name = benchmark.name,
+                disable_timelines = True
+            )
+            result = perf.CompareBenchmarkData(control_data, experiment_data, options)
+            print result
+            print
     
 def discover_benchmarks(benchmark_dir):
     for app in Path(benchmark_dir).listdir(filter=DIRS):
@@ -100,5 +104,11 @@ if __name__ == '__main__':
         default = 'django-experiment/django',
         help = "Path to the Django version to use as experiment."
     )
+    parser.add_argument(
+        '-b', '--benchmarks',
+        default = None,
+        help = "Benchmarks to be run.  Defaults to all.",
+        nargs = '*'
+    )
     args = parser.parse_args()
-    main(args.control, args.experiment)
+    main(args.control, args.experiment, args.benchmarks)
