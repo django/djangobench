@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
+    {% spaceless %}
+    <head>
+        <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+        <title>{% block fulltitle %}{% block title %}Home{% endblock %}{% endblock %}</title>
+        <link rel="shortcut icon" href="http://www.site.com/favicon.ico" />
+        {% block canonical %}{% endblock %}
+
+        {% block meta_robots %}
+        {% endblock %}
+        
+        {% block meta %}
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+            <meta name="msvalidate.01" content="2023BFE481924C66B1A502B8C57D6CB7" />
+        {% endblock %}
+        <meta name="description" content="{% block meta_description %}Unbranded Site{% endblock %}" />
+
+        <!--[if IE 6]>
+            <link rel="stylesheet" type="text/css" media="screen,projection" href="/some/url/ie.css" />
+        <![endif]-->
+        <!--[if IE 7]>
+            <link rel="stylesheet" type="text/css" media="screen,projection" href="/some/url/ie7.css" />
+        <![endif]-->
+        <!--[if lt IE 6]>
+            <link rel="stylesheet" type="text/css" media="screen,projection" href="/some/url/ie.css" />
+        <![endif]-->
+        {% block styles %}
+        {% endblock %}
+        
+        {% block feeds %}
+        {% endblock %}
+        
+        <script type="text/javascript" src="{{ SCRIPT_CONTENT_URL }}/content/scripts/jquery-1.3.2.min.js"></script>
+        <script type="text/javascript" src="{{ SCRIPT_CONTENT_URL }}/content/scripts/jquery-ui-1.7.1.custom.min.js"></script>
+        <script type="text/javascript">
+            var CONTENT_URL = '{{ SCRIPT_CONTENT_URL }}';
+            var JOIN_URL = "{% url join %}";
+            var LOGIN_URL = "{% url login %}";
+            var LOGOUT_URL = "{% url logout %}";
+            var WEBSITE_DOMAIN = "{{ WEBSITE_DOMAIN }}";
+            var isLoggedIn = {% if user.is_authenticated %}true{% else %}false{% endif %};
+        </script>
+        {% block scripts %}
+        {% endblock %}
+        {% include "somefile.js" %}
+    </head>
+    {% endspaceless %}
+    
+    <body{% block bodyattr %}{% endblock %}>
+        <a name="top"></a>
+        {% block alt_header %}
+            {% if SHOW_ALT_HEADER %}
+                {% include "header.html" %}
+            {% endif %}
+        {% endblock %}
+
+        {% block header %}
+        <div id="header">
+            <div id="top-bar">
+                <div class="center-header">
+                    <div class="header-inner">
+                        <div id="actionbar">{% block actionbar %}
+                            {% if object2 %}
+                                <p>Put something here<p>
+                            {% endif %}
+                        {% endblock actionbar %}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        {% endblock %}
+        <div id="site">
+            <div class="center-content">
+                {% if objects1 %}
+                    {% for obj in objects1 %}
+                        {{ object }}
+                        <br />
+                    {% endfor %}
+                {% endif %}
+        
+                {% block content %}
+                    <div id="content">
+                    {% block left_column %}
+                        <div id="left-column" class="wide-column">
+                        </div>
+                    {% endblock %}
+
+                    {% block right_column %}
+                        <div id="right-column" class="narrow-column">
+                        </div>
+                    {% endblock %}
+                    
+                    {% block content_footer %}
+                        <div class="footer">
+                            {% if boolean1 %}
+                                <div>
+                                    {{ object2 }}
+                                </div>
+                            {% endif %}
+                            <div class="clear"></div>
+                        </div>
+                    {% endblock %}
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+        
+        {% block footer %}
+            {% include "footer.html" %}
+        {% endblock %}
+
+        {% if object3 %}
+            <script type="text/javascript">
+            //<![CDATA[
+                    document.write('something here');
+                }
+            //]]>
+            </script>
+        {% endif %}
+        
+        {% block inline_js %}
+        {% endblock %}
+
+        <script type="text/javascript">
+        _qoptions={
+        qacct:"random_chars"
+        };
+        </script>
+        <script type="text/javascript" src="http://some.domain.com/file.js"></script>
+        <noscript>
+        <img src="http://some.domain.com/pic.gif"
+        style="display: none;" border="0" height="1" width="1" />
+        </noscript>
+
+    </body>
+</html>
