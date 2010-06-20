@@ -2,6 +2,6 @@ from query_dates.models import Book
 from utils import run_benchmark
 
 def benchmark():
-    Book.objects.dates("created_date", "year", "ASC")
+    list(Book.objects.dates("created_date", "year", "ASC"))
 
 run_benchmark(benchmark, trials=50)
