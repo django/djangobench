@@ -7,4 +7,4 @@ from query_count.models import Book
 def benchmark():
     Book.objects.count()
 
-run_benchmark(benchmark)
+run_benchmark(benchmark, trials=50)
