@@ -3,6 +3,8 @@ from time import time
 from utils import run_benchmark
 
 from django.test.client import Client
+from django.conf import global_settings
+from django.conf import settings
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.handlers.wsgi import WSGIHandler
 
@@ -48,17 +50,23 @@ class RequestFactory(Client):
         return WSGIRequest(environ)
 
 def benchmark():
-
     req_factory = RequestFactory()
     handler = WSGIHandler()
+    
+    # Try first with Django's default middleware
+    settings.MIDDLEWARE_CLASSES = global_settings.MIDDLEWARE_CLASSES
     handler.load_middleware()
 
     with_middleware_time = time()
     handler.get_response(req_factory.get('/'))
     with_middleware_time = time() - with_middleware_time
 
+    # Now try the same process, but this time without any middleware.
+    settings.MIDDLEWARE_CLASSES = []
+    handler.load_middleware()
+
     no_middleware_time = time()
-    index(req_factory.get('/'))
+    handler.get_response(req_factory.get('/'))
     no_middleware_time = time() - no_middleware_time
 
     return with_middleware_time - no_middleware_time
