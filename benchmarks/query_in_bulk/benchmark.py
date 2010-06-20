@@ -1,4 +1,4 @@
-from query_inbulk.models import Book
+from query_in_bulk.models import Book
 from utils import run_benchmark
 
 def benchmark():
