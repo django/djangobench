@@ -1,0 +1,2 @@
+﻿def basic():
+    pass
