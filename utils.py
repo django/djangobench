@@ -10,5 +10,9 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=1):
     
     for x in xrange(trials):
         start = time()
-        benchmark()
-        print time() - start
+        benchmark_result = benchmark()
+
+        if benchmark_result is not None:
+            print benchmark_result
+        else:
+            print time() - start
