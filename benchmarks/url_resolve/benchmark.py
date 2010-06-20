@@ -6,4 +6,4 @@ def benchmark():
     resolve('/basic/')
     resolve('/fallthroughview/')
 
-run_benchmark(benchmark)
+run_benchmark(benchmark, trials=20)
