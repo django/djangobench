@@ -110,7 +110,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '-t', '--trials',
         type = int,
-        default = 10,
+        default = 50,
         help = 'Number of times to run each benchmark.'
     )
     parser.add_argument(

@@ -23,5 +23,4 @@ def benchmark():
     c = Context({'objects': objects})
     t.render(c)
 
-for i in range(10):
-    run_benchmark(benchmark, syncdb=False)
+run_benchmark(benchmark, syncdb=False, trials=100)

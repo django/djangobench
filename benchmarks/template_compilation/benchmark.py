@@ -25,4 +25,4 @@ def benchmark():
         {% endfor %}
     """)
 
-run_benchmark(benchmark, syncdb=False)
+run_benchmark(benchmark, syncdb=False, trials=100)
