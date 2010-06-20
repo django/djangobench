@@ -17,7 +17,6 @@ import perf
 
 BENCMARK_DIR = Path(__file__).parent.child('benchmarks')
 
-
 class colorize(object):
     GOOD = '\033[92m'
     INSIGNIFICANT = '\033[94m'
@@ -45,7 +44,7 @@ class colorize(object):
     def bad(cls, text):
         return cls.colorize(cls.BAD, text)
 
-def colorize_benchmark_result(result):
+def format_benchmark_result(result, num_points):
     if isinstance(result, perf.BenchmarkResult):
         output = ''
         delta_min = result.delta_min
@@ -75,6 +74,7 @@ def colorize_benchmark_result(result):
         elif 'smaller' in delta_std:
             delta_std = colorize.good(delta_std)
         output += "Stddev: %.5f -> %.5f: %s" %(result.std_base, result.std_changed, delta_std)
+        output += " (N = %s)" % num_points
         output += result.get_timeline()
         return output
     else:
@@ -130,7 +130,7 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
                 experiment_label = experiment_label,
             )
             result = perf.CompareBenchmarkData(control_data, experiment_data, options)
-            print colorize_benchmark_result(result)
+            print format_benchmark_result(result, len(control_data.runtimes))
             print
 
 def discover_benchmarks(benchmark_dir):
@@ -179,7 +179,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '-t', '--trials',
         type = int,
-        default = 50,
+        default = 5,
         help = 'Number of times to run each benchmark.'
     )
     parser.add_argument(
