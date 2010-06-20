@@ -1,0 +1,73 @@
+[
+    {
+         "model": "query_distinct.book",
+         "pk": 1,
+         "fields": {
+            "title": "a"
+        }
+    },
+    {
+         "model": "query_distinct.book",
+         "pk": 2,
+         "fields": {
+            "title": "b"
+        }
+    },
+    {
+         "model": "query_distinct.book",
+         "pk": 3,
+         "fields": {
+            "title": "c"
+        }
+    },
+    {
+         "model": "query_distinct.book",
+         "pk": 4,
+         "fields": {
+            "title": "d"
+        }
+    },
+    {
+         "model": "query_distinct.book",
+         "pk": 5,
+         "fields": {
+            "title": "e"
+        }
+    },
+    {
+         "model": "query_distinct.book",
+         "pk": 6,
+         "fields": {
+            "title": "f"
+        }
+    },
+    {
+         "model": "query_distinct.book",
+         "pk": 7,
+         "fields": {
+            "title": "g"
+        }
+    },
+    {
+         "model": "query_distinct.book",
+         "pk": 8,
+         "fields": {
+            "title": "h"
+        }
+    },
+    {
+         "model": "query_distinct.book",
+         "pk": 9,
+         "fields": {
+            "title": "i"
+        }
+    },
+    {
+         "model": "query_distinct.book",
+         "pk": 10,
+         "fields": {
+            "title": "j"
+        }
+    }
+
+]
