@@ -1,10 +1,8 @@
+from query_iterator.models import Book
 from utils import run_benchmark
 
-from query_iterator.models import Book
-
-fixtures = ['books']
-
 def benchmark():
-    Book.objects.iterator()
+    for i in Book.objects.iterator():
+        pass
 
-run_benchmark(benchmark)
+run_benchmark(benchmark, trials=50)
