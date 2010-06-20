@@ -1,8 +1,8 @@
 from django.db.models import Count
-from query_annotate.models import Book
+from query_aggregate.models import Book
 from utils import run_benchmark
 
 def benchmark():
-    list(Book.objects.values('title').annotate(books_total=Count('id')))
+    Book.objects.all().aggregate(Count('title'))
 
 run_benchmark(benchmark, trials=50)

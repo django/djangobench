@@ -1,7 +1,7 @@
-from query_update.models import Book
+from query_none.models import Book
 from utils import run_benchmark
 
 def benchmark():
-    Book.objects.all().update(title='z')
+    Book.objects.none()
 
 run_benchmark(benchmark, trials=50)

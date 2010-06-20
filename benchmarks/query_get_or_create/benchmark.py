@@ -1,4 +1,3 @@
-import time
 import itertools
 from query_get_or_create.models import Book
 from utils import run_benchmark

@@ -1,4 +1,3 @@
-import time
 from query_filter.models import Book
 from utils import run_benchmark
 

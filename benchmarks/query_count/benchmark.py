@@ -1,4 +1,3 @@
-import time
 from query_count.models import Book
 from utils import run_benchmark
 

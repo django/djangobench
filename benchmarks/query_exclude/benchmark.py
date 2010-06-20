@@ -1,7 +1,7 @@
-from query_update.models import Book
+from query_exclude.models import Book
 from utils import run_benchmark
 
 def benchmark():
-    Book.objects.all().update(title='z')
+    list(Book.objects.exclude(id=1))
 
 run_benchmark(benchmark, trials=50)
