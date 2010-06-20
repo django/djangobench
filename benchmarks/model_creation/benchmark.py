@@ -1,8 +1,6 @@
 import time
-
 from utils import run_benchmark
-
-from queries.models import Book
+from model_creation.models import Book
 
 def benchmark():
     Book.objects.create(title='hi!')
