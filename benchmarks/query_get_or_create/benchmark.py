@@ -1,9 +1,7 @@
 import time
 import itertools
-
-from utils import run_benchmark
-
 from query_get_or_create.models import Book
+from utils import run_benchmark
 
 counter = itertools.count(1)
 

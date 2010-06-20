@@ -1,5 +1,4 @@
 from django.template import Template, Context
-
 from utils import run_benchmark
 
 def benchmark():
