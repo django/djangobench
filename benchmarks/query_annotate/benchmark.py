@@ -1,5 +1,3 @@
-import time
-
 from django.db.models import Count
 
 from utils import run_benchmark

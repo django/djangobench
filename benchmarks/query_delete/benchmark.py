@@ -1,5 +1,3 @@
-import time
-
 from utils import run_benchmark
 
 from query_delete.models import Book

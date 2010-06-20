@@ -1,5 +1,3 @@
-import time
-
 from utils import run_benchmark
 
 from query_get.models import Book
