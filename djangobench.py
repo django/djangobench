@@ -8,22 +8,25 @@ import os
 import subprocess
 import sys
 import tempfile
+import urllib
 
 import argparse
 from unipath import DIRS, FSPath as Path
 
 import perf
 
-
 BENCMARK_DIR = Path(__file__).parent.child('benchmarks')
 
-def main(control, experiment, benchmarks, benchmark_dir=BENCMARK_DIR):
+def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
         print "Running all benchmarks"
-    print "Control: Django %s (in %s)" % (get_django_version(control), control)
-    print "Experiment: Django %s (in %s)" % (get_django_version(experiment), experiment)
+        
+    control_label = get_django_version(control)
+    experiment_label = get_django_version(experiment)
+    print "Control: Django %s (in %s)" % (control_label, control)
+    print "Experiment: Django %s (in %s)" % (experiment_label, experiment)
     print
     
     # Calculate the subshell envs that we'll use to execute the
@@ -43,10 +46,6 @@ def main(control, experiment, benchmarks, benchmark_dir=BENCMARK_DIR):
         ]),
     }
     
-    # TODO: make this configurable, or, better, make it an option
-    # to run until results are significant or some ceiling is hit.
-    trials = 5
-    
     results = []
 
     for benchmark in discover_benchmarks(benchmark_dir):
@@ -56,25 +55,16 @@ def main(control, experiment, benchmarks, benchmark_dir=BENCMARK_DIR):
             control_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             
-            control_data = perf.MeasureCommand(
-                [sys.executable, '%s/benchmark.py' % benchmark],
-                iterations = trials,
-                env = control_env,
-                track_memory = False,
-            )
-            
-            experiment_data = perf.MeasureCommand(
-                [sys.executable, '%s/benchmark.py' % benchmark],
-                iterations = trials,
-                env = experiment_env,
-                track_memory = False,
-            )
+            control_data = run_benchmark(benchmark, trials, control_env)
+            experiment_data = run_benchmark(benchmark, trials, experiment_env)
             
             options = argparse.Namespace(
                 track_memory = False, 
                 diff_instrumentation = False,
                 benchmark_name = benchmark.name,
-                disable_timelines = True
+                disable_timelines = True,
+                control_label = control_label,
+                experiment_label = experiment_label,
             )
             result = perf.CompareBenchmarkData(control_data, experiment_data, options)
             print result
@@ -84,6 +74,25 @@ def discover_benchmarks(benchmark_dir):
     for app in Path(benchmark_dir).listdir(filter=DIRS):
         if app.child('benchmark.py').exists() and app.child('settings.py').exists():
             yield app
+
+def run_benchmark(benchmark, trials, env):
+    """
+    Similar to perf.MeasureGeneric, but modified a bit for our purposes.
+    """
+    # Remove Pycs, then call the command once to prime the pump and
+    # re-generate fresh ones This makes sure we're measuring as little of
+    # Python's startup time as possible.
+    perf.RemovePycs()
+    command = [sys.executable, '%s/benchmark.py' % benchmark]
+    perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
+
+    # Now do the actual mesurements.
+    data_points = []
+    for i in range(trials):
+        output = perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
+        stdout, stderr, mem_usage = output
+        data_points.extend(float(line) for line in stdout.splitlines())
+    return perf.RawData(data_points, mem_usage, inst_output=stderr)
 
 def get_django_version(djangodir):
     out, err, _ = perf.CallAndCaptureOutput(
@@ -105,6 +114,12 @@ if __name__ == '__main__':
         help = "Path to the Django version to use as experiment."
     )
     parser.add_argument(
+        '-t', '--trials',
+        type = int,
+        default = 50,
+        help = 'Number of times to run each benchmark.'
+    )
+    parser.add_argument(
         'benchmarks',
         metavar = 'name',
         default = None,
@@ -112,4 +127,4 @@ if __name__ == '__main__':
         nargs = '*'
     )
     args = parser.parse_args()
-    main(args.control, args.experiment, args.benchmarks)
+    main(args.control, args.experiment, args.benchmarks, args.trials)
