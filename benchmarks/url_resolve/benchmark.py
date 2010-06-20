@@ -1,11 +1,9 @@
-import time
-
-from django.core.urlresolvers import reverse, resolve
+from django.core.urlresolvers import resolve
 
 from utils import run_benchmark
 
 def benchmark():
     resolve('/basic/')
-    reverse('urls.views.basic')
+    resolve('/fallthroughview/')
 
 run_benchmark(benchmark)
