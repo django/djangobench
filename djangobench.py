@@ -79,14 +79,20 @@ def run_benchmark(benchmark, trials, env):
     """
     Similar to perf.MeasureGeneric, but modified a bit for our purposes.
     """
+    # Remove Pycs, then call the command once to prime the pump and
+    # re-generate fresh ones This makes sure we're measuring as little of
+    # Python's startup time as possible.
     perf.RemovePycs()
     command = [sys.executable, '%s/benchmark.py' % benchmark]
-    times = []
+    perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
+
+    # Now do the actual mesurements.
+    data_points = []
     for i in range(trials):
         output = perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
         stdout, stderr, mem_usage = output
-        times.extend(float(line) for line in stdout.splitlines())
-    return perf.RawData(times, mem_usage, inst_output=stderr)
+        data_points.extend(float(line) for line in stdout.splitlines())
+    return perf.RawData(data_points, mem_usage, inst_output=stderr)
 
 def get_django_version(djangodir):
     out, err, _ = perf.CallAndCaptureOutput(
