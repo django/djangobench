@@ -117,9 +117,13 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
             settings_mod = '%s.settings' % benchmark.name
             control_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
-
-            control_data = run_benchmark(benchmark, trials, control_env)
-            experiment_data = run_benchmark(benchmark, trials, experiment_env)
+            
+            try:
+                control_data = run_benchmark(benchmark, trials, control_env)
+                experiment_data = run_benchmark(benchmark, trials, experiment_env)
+            except SkipBenchmark, reason:
+                print "Skipped: %s\n" % reason
+                continue
 
             options = argparse.Namespace(
                 track_memory = False,
@@ -138,6 +142,10 @@ def discover_benchmarks(benchmark_dir):
         if app.child('benchmark.py').exists() and app.child('settings.py').exists():
             yield app
 
+
+class SkipBenchmark(Exception):
+    pass
+
 def run_benchmark(benchmark, trials, env):
     """
     Similar to perf.MeasureGeneric, but modified a bit for our purposes.
@@ -147,7 +155,9 @@ def run_benchmark(benchmark, trials, env):
     # Python's startup time as possible.
     perf.RemovePycs()
     command = [sys.executable, '%s/benchmark.py' % benchmark]
-    perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
+    out, _, _ = perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
+    if out.startswith('SKIP:'):
+        raise SkipBenchmark(out.replace('SKIP:', '').strip())
 
     # Now do the actual mesurements.
     data_points = []
