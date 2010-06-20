@@ -17,18 +17,81 @@ import perf
 
 BENCMARK_DIR = Path(__file__).parent.child('benchmarks')
 
+
+class colorize(object):
+    GOOD = '\033[92m'
+    INSIGNIFICANT = '\033[94m'
+    SIGNIFICANT = '\033[93m'
+    BAD = '\033[91m'
+    ENDC = '\033[0m'
+
+    @classmethod
+    def colorize(cls, color, text):
+        return "%s%s%s" % (color, text, cls.ENDC)
+
+    @classmethod
+    def good(cls, text):
+        return cls.colorize(cls.GOOD, text)
+
+    @classmethod
+    def significant(cls, text):
+        return cls.colorize(cls.SIGNIFICANT, text)
+
+    @classmethod
+    def insignificant(cls, text):
+        return cls.colorize(cls.INSIGNIFICANT, text)
+
+    @classmethod
+    def bad(cls, text):
+        return cls.colorize(cls.BAD, text)
+
+def colorize_benchmark_result(result):
+    if isinstance(result, perf.BenchmarkResult):
+        output = ''
+        delta_min = result.delta_min
+        if 'faster' in delta_min:
+            delta_min = colorize.good(delta_min)
+        elif 'slower' in result.delta_min:
+            delta_min = colorize.bad(delta_min)
+        output += "Min: %f -> %f: %s\n" % (result.min_base, result.min_changed, delta_min)
+
+        delta_avg = result.delta_avg
+        if 'faster' in delta_avg:
+            delta_avg = colorize.good(delta_avg)
+        elif 'slower' in delta_avg:
+            delta_avg = colorize.bad(delta_avg)
+        output += "Avg: %f -> %f: %s\n" % (result.avg_base, result.avg_changed, delta_avg)
+
+        t_msg = result.t_msg
+        if 'Not significant' in t_msg:
+            t_msg = colorize.insignificant(t_msg)
+        elif 'Significant' in result.t_msg:
+            t_msg = colorize.significant(t_msg)
+        output += t_msg
+
+        delta_std = result.delta_std
+        if 'larger' in delta_std:
+            delta_std = colorize.bad(delta_std)
+        elif 'smaller' in delta_std:
+            delta_std = colorize.good(delta_std)
+        output += "Stddev: %.5f -> %.5f: %s" %(result.std_base, result.std_changed, delta_std)
+        output += result.get_timeline()
+        return output
+    else:
+        return str(result)
+
 def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
         print "Running all benchmarks"
-        
+
     control_label = get_django_version(control)
     experiment_label = get_django_version(experiment)
     print "Control: Django %s (in %s)" % (control_label, control)
     print "Experiment: Django %s (in %s)" % (experiment_label, experiment)
     print
-    
+
     # Calculate the subshell envs that we'll use to execute the
     # benchmarks in.
     control_env = {
@@ -45,7 +108,7 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
             Path(__file__).parent
         ]),
     }
-    
+
     results = []
 
     for benchmark in discover_benchmarks(benchmark_dir):
@@ -54,12 +117,12 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
             settings_mod = '%s.settings' % benchmark.name
             control_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
-            
+
             control_data = run_benchmark(benchmark, trials, control_env)
             experiment_data = run_benchmark(benchmark, trials, experiment_env)
-            
+
             options = argparse.Namespace(
-                track_memory = False, 
+                track_memory = False,
                 diff_instrumentation = False,
                 benchmark_name = benchmark.name,
                 disable_timelines = True,
@@ -67,9 +130,9 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
                 experiment_label = experiment_label,
             )
             result = perf.CompareBenchmarkData(control_data, experiment_data, options)
-            print result
+            print colorize_benchmark_result(result)
             print
-    
+
 def discover_benchmarks(benchmark_dir):
     for app in Path(benchmark_dir).listdir(filter=DIRS):
         if app.child('benchmark.py').exists() and app.child('settings.py').exists():
