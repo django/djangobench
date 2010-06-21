@@ -4,7 +4,6 @@ from utils import run_benchmark
 class BookForm(forms.Form):
     title = forms.CharField(max_length=100)
 
-def benchmark():
-    BookForm({'title': 'a'})
+form = BookForm({'title': 'hi'})
 
-run_benchmark(benchmark, trials=50)
+run_benchmark(form.full_clean, trials=50)
