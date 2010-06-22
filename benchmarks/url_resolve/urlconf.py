@@ -9,6 +9,7 @@ patterns_input = ['']
 patterns_input += generate_filler_patterns(10)
 patterns_input.append((r'^basic/$', 'url_resolve.views.basic'))
 patterns_input.append((r'^[a-z]*/$', 'url_resolve.views.catchall'))
+patterns_input.append((r'^replace/(?P<var>.*?)', 'url_resolve.views.vars'))
 
 
 urlpatterns = patterns(*patterns_input)

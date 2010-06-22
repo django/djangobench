@@ -51,6 +51,7 @@ def benchmark_dict():
 
 diff = 0.0
 for x in range(200):
+    diff = 0.0
     multi_time_start = time()
     benchmark_multi()
     multi_time_diff = time() - multi_time_start
@@ -58,6 +59,6 @@ for x in range(200):
     benchmark_dict()
     dict_time_diff = time() - dict_time_start
     diff = diff + multi_time_diff - dict_time_diff
-print diff  
+    print diff  
 
 
