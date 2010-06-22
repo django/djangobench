@@ -17,7 +17,7 @@ import perf
 
 BENCMARK_DIR = Path(__file__).parent.child('benchmarks')
 
-def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
+def main(control, experiment, benchmarks, trials, dump_times=False, benchmark_dir=BENCMARK_DIR):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
@@ -56,8 +56,8 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
             experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             
             try:
-                control_data = run_benchmark(benchmark, trials, control_env)
-                experiment_data = run_benchmark(benchmark, trials, experiment_env)
+                control_data = run_benchmark(benchmark, trials, control_env, dump_times)
+                experiment_data = run_benchmark(benchmark, trials, experiment_env, dump_times)
             except SkipBenchmark, reason:
                 print "Skipped: %s\n" % reason
                 continue
@@ -82,7 +82,7 @@ def discover_benchmarks(benchmark_dir):
 class SkipBenchmark(Exception):
     pass
 
-def run_benchmark(benchmark, trials, env):
+def run_benchmark(benchmark, trials, env, dump_times=False):
     """
     Similar to perf.MeasureGeneric, but modified a bit for our purposes.
     """
@@ -100,6 +100,7 @@ def run_benchmark(benchmark, trials, env):
     for i in range(trials):
         output = perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
         stdout, stderr, mem_usage = output
+        if dump_times: print stdout
         data_points.extend(float(line) for line in stdout.splitlines())
     return perf.RawData(data_points, mem_usage, inst_output=stderr)
 
@@ -198,6 +199,13 @@ if __name__ == '__main__':
         help = 'Number of times to run each benchmark.'
     )
     parser.add_argument(
+        '--dump-times',
+        dest = 'dump_times',
+        action = 'store_true',
+        default = False,
+        help = 'Dump raw times to stdout. Careful - prints a *lot* of data!',
+    )
+    parser.add_argument(
         'benchmarks',
         metavar = 'name',
         default = None,
@@ -205,4 +213,4 @@ if __name__ == '__main__':
         nargs = '*'
     )
     args = parser.parse_args()
-    main(args.control, args.experiment, args.benchmarks, args.trials)
+    main(args.control, args.experiment, args.benchmarks, args.trials, args.dump_times)
