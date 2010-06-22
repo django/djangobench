@@ -49,6 +49,18 @@ class RequestFactory(Client):
 
         return WSGIRequest(environ)
 
+def setup():
+    global req_factory, handler_default_middleware, handler_no_middleware
+    req_factory = RequestFactory()
+    
+    settings.MIDDLEWARE_CLASSES = global_settings.MIDDLEWARE_CLASSES
+    handler_default_middleware = WSGIHandler()
+    handler_default_middleware.load_middleware()
+    
+    settings.MIDDLEWARE_CLASSES = []
+    handler_no_middleware = WSGIHandler()
+    handler_no_middleware.load_middleware()
+
 def benchmark_request(middleware_classes):
     settings.MIDDLEWARE_CLASSES = middleware_classes
     req_factory = RequestFactory()
@@ -57,9 +69,17 @@ def benchmark_request(middleware_classes):
     handler.get_response(req_factory.get('/'))
 
 def benchmark_default_middleware():
-    return benchmark_request(global_settings.MIDDLEWARE_CLASSES)
+    global req_factory, handler_default_middleware
+    handler_default_middleware.get_response(req_factory.get('/'))
 
-def bencharmk_no_middleware():
-    return benchmark_request([])
+def benchmark_no_middleware():
+    global req_factory, handler_no_middleware
+    handler_no_middleware.get_response(req_factory.get('/'))
 
-run_comparison_benchmark(benchmark_default_middleware, bencharmk_no_middleware, syncdb=False, trials=50)
+run_comparison_benchmark(
+    benchmark_default_middleware,
+    benchmark_no_middleware, 
+    setup = setup,
+    syncdb = False,
+    trials = 50
+)
