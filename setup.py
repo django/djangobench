@@ -6,7 +6,7 @@ def read(fname):
 
 setup(
     name = "djangobench",
-    version = "1.0",
+    version = "0.9",
     description = "A harness and a set of benchmarks for measuring Django's performance over time.",
     long_description = read('README.rst'),
     url = 'http://github.com/jacobian/djangobench',
