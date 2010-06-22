@@ -1,6 +1,6 @@
 from time import time
 
-from utils import run_benchmark
+from utils import run_comparison_benchmark
 
 from django.test.client import Client
 from django.conf import global_settings
@@ -49,26 +49,17 @@ class RequestFactory(Client):
 
         return WSGIRequest(environ)
 
-def benchmark():
+def benchmark_request(middleware_classes):
+    settings.MIDDLEWARE_CLASSES = middleware_classes
     req_factory = RequestFactory()
     handler = WSGIHandler()
-    
-    # Try first with Django's default middleware
-    settings.MIDDLEWARE_CLASSES = global_settings.MIDDLEWARE_CLASSES
     handler.load_middleware()
-
-    with_middleware_time = time()
     handler.get_response(req_factory.get('/'))
-    with_middleware_time = time() - with_middleware_time
 
-    # Now try the same process, but this time without any middleware.
-    settings.MIDDLEWARE_CLASSES = []
-    handler.load_middleware()
+def benchmark_default_middleware():
+    return benchmark_request(global_settings.MIDDLEWARE_CLASSES)
 
-    no_middleware_time = time()
-    handler.get_response(req_factory.get('/'))
-    no_middleware_time = time() - no_middleware_time
+def bencharmk_no_middleware():
+    return benchmark_request([])
 
-    return with_middleware_time - no_middleware_time
-
-run_benchmark(benchmark, trials=50)
+run_comparison_benchmark(benchmark_default_middleware, bencharmk_no_middleware, syncdb=False, trials=50)
