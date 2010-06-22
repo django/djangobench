@@ -1,6 +1,7 @@
 import django.utils.copycompat as copy
-from time import time
 from django.utils.datastructures import MultiValueDict
+from time import time
+from utils import run_comparison_benchmark
 
 case = {'a': ['a'], 'b': ['a','b'], 'c':['a','b','c']}
 update = {'a': ['a'], 'b': ['a','b'], 'c':['a','b','c']}
@@ -49,16 +50,4 @@ def benchmark_dict():
     caseDict['b'] = ['B']
     caseDict['c'] = ['C']
 
-diff = 0.0
-for x in range(200):
-    diff = 0.0
-    multi_time_start = time()
-    benchmark_multi()
-    multi_time_diff = time() - multi_time_start
-    dict_time_start = time()
-    benchmark_dict()
-    dict_time_diff = time() - dict_time_start
-    diff = diff + multi_time_diff - dict_time_diff
-    print diff  
-
-
+run_comparison_benchmark(benchmark_multi, benchmark_dict, syncdb=False, trials=200)
