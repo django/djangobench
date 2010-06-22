@@ -1,5 +1,5 @@
+from djangobench.utils import run_benchmark
 from query_exclude.models import Book
-from utils import run_benchmark
 
 def benchmark():
     list(Book.objects.exclude(id=1))

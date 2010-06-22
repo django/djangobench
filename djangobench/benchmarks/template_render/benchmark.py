@@ -1,6 +1,6 @@
 import os
 from django.shortcuts import render_to_response
-from utils import run_benchmark
+from djangobench.utils import run_benchmark
 
 #set up some vars
 objects1 = [object(), object(), object(), object(), object()]
@@ -14,7 +14,6 @@ boolean1 = True
 SCRIPT_CONTENT_URL = '/some/prefix'
 WEBSITE_DOMAIN = 'http://www.somedomain.com'
 SHOW_ALT_HEADER = 'True'
-
 
 def benchmark():
     context = {

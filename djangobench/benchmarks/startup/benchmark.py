@@ -1,4 +1,4 @@
-from utils import run_benchmark
+from djangobench.utils import run_benchmark
 
 def benchmark():
     # Make sure the models and settings are loaded, then we're done. Calling

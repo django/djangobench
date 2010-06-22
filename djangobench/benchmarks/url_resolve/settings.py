@@ -1,4 +1,4 @@
-from base_settings import *
+from djangobench.base_settings import *
 
 INSTALLED_APPS = ['url_resolve']
-ROOT_URLCONF = 'urlconf'
+ROOT_URLCONF = 'url_resolve.urls'

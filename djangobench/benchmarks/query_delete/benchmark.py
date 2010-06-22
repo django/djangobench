@@ -1,4 +1,4 @@
-from utils import run_benchmark
+from djangobench.utils import run_benchmark
 from query_delete.models import Book
 
 def setup():

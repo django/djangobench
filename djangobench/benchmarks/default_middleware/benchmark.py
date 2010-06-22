@@ -1,14 +1,12 @@
 from time import time
 
-from utils import run_comparison_benchmark
-
 from django.test.client import Client
 from django.conf import global_settings
 from django.conf import settings
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.handlers.wsgi import WSGIHandler
 
-from default_middleware.views import index
+from djangobench.utils import run_comparison_benchmark
 
 class RequestFactory(Client):
     """

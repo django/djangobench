@@ -1,5 +1,4 @@
-from utils import run_benchmark
-
+from djangobench.utils import run_benchmark
 from query_latest.models import Book
 
 def benchmark():

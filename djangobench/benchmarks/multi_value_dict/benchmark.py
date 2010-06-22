@@ -1,7 +1,9 @@
+from time import time
+
 import django.utils.copycompat as copy
 from django.utils.datastructures import MultiValueDict
-from time import time
-from utils import run_comparison_benchmark
+
+from djangobench.utils import run_comparison_benchmark
 
 case = {'a': ['a'], 'b': ['a','b'], 'c':['a','b','c']}
 update = {'a': ['a'], 'b': ['a','b'], 'c':['a','b','c']}

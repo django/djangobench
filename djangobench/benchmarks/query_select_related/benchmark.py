@@ -1,5 +1,5 @@
+from djangobench.utils import run_benchmark
 from query_select_related.models import Book
-from utils import run_benchmark
 
 def benchmark():
     list(Book.objects.select_related())

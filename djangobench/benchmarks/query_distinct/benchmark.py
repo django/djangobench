@@ -1,5 +1,5 @@
+from djangobench.utils import run_benchmark
 from query_distinct.models import Book
-from utils import run_benchmark
 
 def benchmark():
     list(Book.objects.distinct())

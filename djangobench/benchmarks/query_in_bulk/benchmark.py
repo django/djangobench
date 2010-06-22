@@ -1,5 +1,5 @@
+from djangobench.utils import run_benchmark
 from query_in_bulk.models import Book
-from utils import run_benchmark
 
 def benchmark():
     Book.objects.in_bulk([1]) 

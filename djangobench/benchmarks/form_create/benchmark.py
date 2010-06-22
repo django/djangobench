@@ -1,5 +1,5 @@
 from django import forms
-from utils import run_benchmark
+from djangobench.utils import run_benchmark
 
 class BookForm(forms.Form):
     title = forms.CharField(max_length=100)

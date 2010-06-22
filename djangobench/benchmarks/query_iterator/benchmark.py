@@ -1,5 +1,5 @@
+from djangobench.utils import run_benchmark
 from query_iterator.models import Book
-from utils import run_benchmark
 
 def benchmark():
     for i in Book.objects.iterator():

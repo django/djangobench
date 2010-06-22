@@ -4,20 +4,14 @@
 Run us some Django benchmarks.
 """
 
-import os
-import subprocess
 import sys
-import tempfile
-import urllib
-
 import argparse
 from unipath import DIRS, FSPath as Path
+from djangobench import perf
 
-import perf
+BENCMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
 
-BENCMARK_DIR = Path(__file__).parent.child('benchmarks')
-
-def main(control, experiment, benchmarks, trials, dump_times=False, benchmark_dir=BENCMARK_DIR):
+def run_benchmarks(control, experiment, benchmarks, trials, dump_times=False, benchmark_dir=BENCMARK_DIR):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
@@ -31,22 +25,14 @@ def main(control, experiment, benchmarks, trials, dump_times=False, benchmark_di
 
     # Calculate the subshell envs that we'll use to execute the
     # benchmarks in.
-    control_env = {
-        'PYTHONPATH': ":".join([
-            Path(benchmark_dir).absolute(),
-            Path(control).parent.absolute(),
-            Path(__file__).parent
-        ]),
-    }
-    experiment_env = {
-        'PYTHONPATH': ":".join([
-            Path(benchmark_dir).absolute(),
-            Path(experiment).parent.absolute(),
-            Path(__file__).parent
-        ]),
-    }
-
-    results = []
+    control_env = {'PYTHONPATH': ':'.join([
+        Path(control).absolute(),
+        Path(benchmark_dir),
+    ])}
+    experiment_env = {'PYTHONPATH': ':'.join([
+        Path(experiment).absolute(), 
+        Path(benchmark_dir),
+    ])}
 
     for benchmark in discover_benchmarks(benchmark_dir):
         if not benchmarks or benchmark.name in benchmarks:
@@ -172,24 +158,23 @@ def format_benchmark_result(result, num_points):
     else:
         return str(result)
 
-
 def get_django_version(djangodir):
     out, err, _ = perf.CallAndCaptureOutput(
         [sys.executable, '-c' 'import django; print django.get_version()'],
-        env = {'PYTHONPATH': Path(djangodir).parent.absolute()}
+        env = {'PYTHONPATH': Path(djangodir).absolute()}
     )
     return out.strip()
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--control',
-        default = 'django-control/django',
+        default = 'django-control',
         help = "Path to the Django code tree to use as control."
     )
     parser.add_argument(
         '--experiment',
-        default = 'django-experiment/django',
+        default = 'django-experiment',
         help = "Path to the Django version to use as experiment."
     )
     parser.add_argument(
@@ -213,4 +198,7 @@ if __name__ == '__main__':
         nargs = '*'
     )
     args = parser.parse_args()
-    main(args.control, args.experiment, args.benchmarks, args.trials, args.dump_times)
+    run_benchmarks(args.control, args.experiment, args.benchmarks, args.trials, args.dump_times)
+
+if __name__ == '__main__':
+    main()

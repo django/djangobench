@@ -1,3 +1,3 @@
-from base_settings import *
+from djangobench.base_settings import *
 
 INSTALLED_APPS = ['query_exclude']
