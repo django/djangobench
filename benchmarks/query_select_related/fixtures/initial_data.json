@@ -1,0 +1,32 @@
+[
+    {
+         "model": "query_select_related.author",
+         "pk": 1,
+         "fields": {
+            "title": 1
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 2,
+         "fields": {
+            "title": 2
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 1,
+         "fields": {
+            "title": "a",
+            "author": 1
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 2,
+         "fields": {
+            "title": "b",
+            "author":2
+        }
+    }
+]

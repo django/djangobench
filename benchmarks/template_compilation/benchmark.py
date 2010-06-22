@@ -1,7 +1,5 @@
 from django.template import Template
-
 from utils import run_benchmark
-
 
 def benchmark():
     # Just compile the template, no rendering

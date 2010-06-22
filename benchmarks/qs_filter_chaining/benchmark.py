@@ -1,9 +1,7 @@
 import datetime
 import time
-
-from utils import run_benchmark
-
 from qs_filter_chaining.models import Book
+from utils import run_benchmark
 
 def benchmark():
     list(Book.objects.filter(title='Talent')\

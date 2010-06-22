@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load i18n %}{% load cache %}
+
+{% block canonical %}
+<link rel="canonical" href="{{ object1 }}" /> 
+{% endblock %}
+
+{% block feeds %}
+    <link rel="alternate" type="application/rss+xml" title="'{{ object1 }}'" href="/feeds/{{ object1 }}" />
+{% endblock %}
+
+{% block meta_description %}{{ object2 }}{% endblock %}
+
+{% block title %}{{ object2 }}{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ CONTENT_URL }}/content/scripts/jquery.bookmark.js"></script>
+{% endblock %}
+
+{% block bodyattr %}{% if object2 %} onload="initialize();" onunload="GUnload();"{% endif %}{% endblock %}
+
+{% block content %}
+
+<div id="content">
+    <div id="left-column" class="wide-column">
+    {% include "confirmation_message.html" %}
+    {% include "confirmation_message.html" %}
+    <div id="message-container" class="large-indent"><!--IE6 FIX--></div>
+
+    <h2 class="wide-heading">
+    {% if object3 %}
+        {{ object3 }}
+    {% else %}
+        {{ object2 }}
+    {% endif %}
+    </h2>
+
+    <div class="clear"></div>
+
+    {% include "for_loop.html" %}
+   
+    {% if not object2 and objects2 %}
+    <div>
+        {{ object2 }}
+    </div>
+    {% endif %}
+    <div class="clear"></div>
+
+    {% ifnotequal num1 1 %}
+        {% if not object3 %}
+            {% ifnotequal 1 num2 %}
+                {{ num2 }}
+            {% else %}
+                <p>Nothing</p>
+            {% endifnotequal %}
+        {% else %}
+            {{ num1 }}
+        {% endif %}
+    {% endifnotequal %}
+    <div class="clear"></div>
+
+    {% ifnotequal num2 0 %}
+        {% if not object3 %}
+            {% ifnotequal 1 num2 %}
+                {{ num2 }}
+            {% else %}
+                <p>Nothing</p>
+            {% endifnotequal %}
+        {% else %}
+            {{ num1 }}
+        {% endif %}
+    {% endifnotequal %}
+    <div class="clear"></div>
+
+
+    {% ifnotequal num1 0 %}
+        {% if not object3 %}
+            {% ifnotequal 1 num2 %}
+                {{ num2 }}
+            {% else %}
+                <p>Nothing</p>
+            {% endifnotequal %}
+        {% else %}
+            {{ num1 }}
+        {% endif %}
+    {% endifnotequal %}
+    <div class="clear"></div>
+
+    {% include "for_loop.html" %}
+
+    <div id="right-column" class="narrow-column">
+        {% include "sidebar.html" %}
+    </div>
+</div>
+
+{% endblock %}

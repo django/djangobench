@@ -22,13 +22,13 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
         print "Running all benchmarks"
-        
+
     control_label = get_django_version(control)
     experiment_label = get_django_version(experiment)
     print "Control: Django %s (in %s)" % (control_label, control)
     print "Experiment: Django %s (in %s)" % (experiment_label, experiment)
     print
-    
+
     # Calculate the subshell envs that we'll use to execute the
     # benchmarks in.
     control_env = {
@@ -45,7 +45,7 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
             Path(__file__).parent
         ]),
     }
-    
+
     results = []
 
     for benchmark in discover_benchmarks(benchmark_dir):
@@ -55,11 +55,15 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
             control_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             
-            control_data = run_benchmark(benchmark, trials, control_env)
-            experiment_data = run_benchmark(benchmark, trials, experiment_env)
-            
+            try:
+                control_data = run_benchmark(benchmark, trials, control_env)
+                experiment_data = run_benchmark(benchmark, trials, experiment_env)
+            except SkipBenchmark, reason:
+                print "Skipped: %s\n" % reason
+                continue
+
             options = argparse.Namespace(
-                track_memory = False, 
+                track_memory = False,
                 diff_instrumentation = False,
                 benchmark_name = benchmark.name,
                 disable_timelines = True,
@@ -67,13 +71,16 @@ def main(control, experiment, benchmarks, trials, benchmark_dir=BENCMARK_DIR):
                 experiment_label = experiment_label,
             )
             result = perf.CompareBenchmarkData(control_data, experiment_data, options)
-            print result
+            print format_benchmark_result(result, len(control_data.runtimes))
             print
-    
+
 def discover_benchmarks(benchmark_dir):
     for app in Path(benchmark_dir).listdir(filter=DIRS):
         if app.child('benchmark.py').exists() and app.child('settings.py').exists():
             yield app
+
+class SkipBenchmark(Exception):
+    pass
 
 def run_benchmark(benchmark, trials, env):
     """
@@ -84,7 +91,9 @@ def run_benchmark(benchmark, trials, env):
     # Python's startup time as possible.
     perf.RemovePycs()
     command = [sys.executable, '%s/benchmark.py' % benchmark]
-    perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
+    out, _, _ = perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
+    if out.startswith('SKIP:'):
+        raise SkipBenchmark(out.replace('SKIP:', '').strip())
 
     # Now do the actual mesurements.
     data_points = []
@@ -93,6 +102,75 @@ def run_benchmark(benchmark, trials, env):
         stdout, stderr, mem_usage = output
         data_points.extend(float(line) for line in stdout.splitlines())
     return perf.RawData(data_points, mem_usage, inst_output=stderr)
+
+def supports_color():
+    return sys.platform != 'win32' and hasattr(sys.stdout, 'isatty') and sys.stdout.isatty()
+
+class colorize(object):
+    GOOD = INSIGNIFICANT = SIGNIFICANT = BAD = ENDC = ''
+    if supports_color():
+        GOOD = '\033[92m'
+        INSIGNIFICANT = '\033[94m'
+        SIGNIFICANT = '\033[93m'
+        BAD = '\033[91m'
+        ENDC = '\033[0m'
+
+    @classmethod
+    def colorize(cls, color, text):
+        return "%s%s%s" % (color, text, cls.ENDC)
+
+    @classmethod
+    def good(cls, text):
+        return cls.colorize(cls.GOOD, text)
+
+    @classmethod
+    def significant(cls, text):
+        return cls.colorize(cls.SIGNIFICANT, text)
+
+    @classmethod
+    def insignificant(cls, text):
+        return cls.colorize(cls.INSIGNIFICANT, text)
+
+    @classmethod
+    def bad(cls, text):
+        return cls.colorize(cls.BAD, text)
+
+def format_benchmark_result(result, num_points):
+    if isinstance(result, perf.BenchmarkResult):
+        output = ''
+        delta_min = result.delta_min
+        if 'faster' in delta_min:
+            delta_min = colorize.good(delta_min)
+        elif 'slower' in result.delta_min:
+            delta_min = colorize.bad(delta_min)
+        output += "Min: %f -> %f: %s\n" % (result.min_base, result.min_changed, delta_min)
+
+        delta_avg = result.delta_avg
+        if 'faster' in delta_avg:
+            delta_avg = colorize.good(delta_avg)
+        elif 'slower' in delta_avg:
+            delta_avg = colorize.bad(delta_avg)
+        output += "Avg: %f -> %f: %s\n" % (result.avg_base, result.avg_changed, delta_avg)
+
+        t_msg = result.t_msg
+        if 'Not significant' in t_msg:
+            t_msg = colorize.insignificant(t_msg)
+        elif 'Significant' in result.t_msg:
+            t_msg = colorize.significant(t_msg)
+        output += t_msg
+
+        delta_std = result.delta_std
+        if 'larger' in delta_std:
+            delta_std = colorize.bad(delta_std)
+        elif 'smaller' in delta_std:
+            delta_std = colorize.good(delta_std)
+        output += "Stddev: %.5f -> %.5f: %s" %(result.std_base, result.std_changed, delta_std)
+        output += " (N = %s)" % num_points
+        output += result.get_timeline()
+        return output
+    else:
+        return str(result)
+
 
 def get_django_version(djangodir):
     out, err, _ = perf.CallAndCaptureOutput(
@@ -116,7 +194,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '-t', '--trials',
         type = int,
-        default = 50,
+        default = 5,
         help = 'Number of times to run each benchmark.'
     )
     parser.add_argument(
