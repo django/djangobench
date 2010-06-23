@@ -9,9 +9,9 @@ import argparse
 from unipath import DIRS, FSPath as Path
 from djangobench import perf
 
-BENCMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
+DEFAULT_BENCMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
 
-def run_benchmarks(control, experiment, benchmarks, trials, dump_times=False, benchmark_dir=BENCMARK_DIR):
+def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, dump_times):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
@@ -191,14 +191,29 @@ def main():
         help = 'Dump raw times to stdout. Careful - prints a *lot* of data!',
     )
     parser.add_argument(
+        '--benchmark-dir',
+        dest = 'benchmark_dir',
+        default = DEFAULT_BENCMARK_DIR,
+        help = ('Directory to inspect for benchmarks. Defaults to the '
+                'benchmarks included with djangobench.'),
+    )
+    parser.add_argument(
         'benchmarks',
         metavar = 'name',
         default = None,
         help = "Benchmarks to be run.  Defaults to all.",
         nargs = '*'
     )
+    
     args = parser.parse_args()
-    run_benchmarks(args.control, args.experiment, args.benchmarks, args.trials, args.dump_times)
+    run_benchmarks(
+        control = args.control, 
+        experiment = args.experiment,
+        benchmark_dir = args.benchmark_dir,
+        benchmarks = args.benchmarks, 
+        trials = args.trials, 
+        dump_times = args.dump_times
+    )
 
 if __name__ == '__main__':
     main()
