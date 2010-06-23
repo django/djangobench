@@ -4,20 +4,29 @@
 Run us some Django benchmarks.
 """
 
-import sys
-import email
 import argparse
-from unipath import DIRS, FSPath as Path
+import email
+import simplejson
+import sys
 from djangobench import perf
+from unipath import DIRS, FSPath as Path
+
+__version__ = '0.9'
 
 DEFAULT_BENCMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
 
-def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, dump_times):
+def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, record_dir=None):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
         print "Running all benchmarks"
 
+    if record_dir:
+        record_dir = Path(record_dir).expand().absolute()
+        if not record_dir.exists():
+            raise ValueError('Recording directory "%s" does not exist' % record_dir)
+        print "Recording data to '%s'" % record_dir
+    
     control_label = get_django_version(control)
     experiment_label = get_django_version(experiment)
     print "Control: Django %s (in %s)" % (control_label, control)
@@ -43,8 +52,8 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, dump_
             experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             
             try:
-                control_data = run_benchmark(benchmark, trials, control_env, dump_times)
-                experiment_data = run_benchmark(benchmark, trials, experiment_env, dump_times)
+                control_data = run_benchmark(benchmark, trials, control_env)
+                experiment_data = run_benchmark(benchmark, trials, experiment_env)
             except SkipBenchmark, reason:
                 print "Skipped: %s\n" % reason
                 continue
@@ -58,6 +67,16 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, dump_
                 experiment_label = experiment_label,
             )
             result = perf.CompareBenchmarkData(control_data, experiment_data, options)
+            if record_dir:
+                record_benchmark_results(
+                    dest = record_dir.child('%s.json' % benchmark.name),
+                    name = benchmark.name,
+                    result = result,
+                    control = control_label,
+                    experiment = experiment_label,
+                    control_data = control_data,
+                    experiment_data = experiment_data,
+                )
             print format_benchmark_result(result, len(control_data.runtimes))
             print
 
@@ -69,7 +88,7 @@ def discover_benchmarks(benchmark_dir):
 class SkipBenchmark(Exception):
     pass
 
-def run_benchmark(benchmark, trials, env, dump_times=False):
+def run_benchmark(benchmark, trials, env):
     """
     Similar to perf.MeasureGeneric, but modified a bit for our purposes.
     """
@@ -85,10 +104,37 @@ def run_benchmark(benchmark, trials, env, dump_times=False):
     # Now do the actual mesurements.
     output = perf.CallAndCaptureOutput(command + ['-t', str(trials)], env, track_memory=False, inherit_env=[])
     stdout, stderr, mem_usage = output
-    if dump_times: print stdout
     message = email.message_from_string(stdout)
     data_points = [float(line) for line in message.get_payload().splitlines()]
     return perf.RawData(data_points, mem_usage, inst_output=stderr)
+
+def record_benchmark_results(dest, **kwargs):
+    kwargs['version'] = __version__
+    simplejson.dump(kwargs, open(dest, 'w'), default=json_encode_custom)
+
+def json_encode_custom(obj):
+    if isinstance(obj, perf.RawData):
+        return obj.runtimes
+    if isinstance(obj, perf.BenchmarkResult):
+        return {
+            'min_base'    : obj.min_base,
+            'min_changed' : obj.min_changed,
+            'delta_min'   : obj.delta_min,
+            'avg_base'    : obj.avg_base,
+            'avg_changed' : obj.avg_changed,
+            'delta_avg'   : obj.delta_avg,
+            't_msg'       : obj.t_msg,
+            'std_base'    : obj.std_base,
+            'std_changed' : obj.std_changed,
+            'delta_std'   : obj.delta_std,
+        }
+    if isinstance(obj, perf.SimpleBenchmarkResult):
+        return {
+            'base_time'    : obj.base_time,
+            'changed_time' : obj.changed_time,
+            'time_delta'   : obj.time_delta,
+        }
+    raise TypeError("%r is not JSON serializable" % obj)
 
 def supports_color():
     return sys.platform != 'win32' and hasattr(sys.stdout, 'isatty') and sys.stdout.isatty()
@@ -169,11 +215,13 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--control',
+        metavar = 'PATH',
         default = 'django-control',
         help = "Path to the Django code tree to use as control."
     )
     parser.add_argument(
         '--experiment',
+        metavar = 'PATH',
         default = 'django-experiment',
         help = "Path to the Django version to use as experiment."
     )
@@ -184,15 +232,15 @@ def main():
         help = 'Number of times to run each benchmark.'
     )
     parser.add_argument(
-        '--dump-times',
-        dest = 'dump_times',
-        action = 'store_true',
-        default = False,
-        help = 'Dump raw times to stdout. Careful - prints a *lot* of data!',
+        '-r', '--record',
+        default = None,
+        metavar = 'PATH',
+        help = 'Directory to record detailed output as a series of JSON files.',
     )
     parser.add_argument(
         '--benchmark-dir',
         dest = 'benchmark_dir',
+        metavar = 'PATH',
         default = DEFAULT_BENCMARK_DIR,
         help = ('Directory to inspect for benchmarks. Defaults to the '
                 'benchmarks included with djangobench.'),
@@ -212,7 +260,7 @@ def main():
         benchmark_dir = args.benchmark_dir,
         benchmarks = args.benchmarks, 
         trials = args.trials, 
-        dump_times = args.dump_times
+        record_dir = args.record,
     )
 
 if __name__ == '__main__':

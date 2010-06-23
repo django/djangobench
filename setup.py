@@ -25,7 +25,7 @@ setup(
         'Topic :: Software Development :: Testing',
         'Topic :: System :: Benchmark'
     ],
-    install_requires = ['argparse==1.1', 'Unipath==0.2.1'],
+    install_requires = ['argparse==1.1', 'Unipath==0.2.1', 'simplejson==2.1.1'],
         
     entry_points = {
         'console_scripts': ['djangobench = djangobench.main:main']
