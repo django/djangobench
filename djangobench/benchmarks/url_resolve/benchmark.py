@@ -6,4 +6,9 @@ def benchmark():
     resolve('/fallthroughview/')
     resolve('/replace/1')
 
-run_benchmark(benchmark, trials=20)
+run_benchmark(
+    benchmark,
+    meta = {
+        'description': 'URL resolution.',
+    }
+)

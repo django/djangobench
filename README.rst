@@ -46,12 +46,31 @@ Writing new benchmarks
 ----------------------
 
 Benchmarks are very simple: they're a Django app, along with a settings
-file, and an executable ``benchmarks.py`` that gets run by the harness.
-The benchmark file should print data points to stdout; those points will be compared
-between the two runs.
+file, and an executable ``benchmarks.py`` that gets run by the harness. The
+benchmark script needs to honor a simple contract:
 
-There's a few utility functions in ``djangobench.utils`` that you can use
-to automate some of the steps of running benchmarks.
+    * It's an executable Python script, run as ``__main__`` (e.g. ``python
+      path/to/benchmark.py``). The subshell environment will have
+      ``PYTHONPATH`` set up to point to the correct Django; it'll also have
+      ``DJANGO_SETTINGS_MODULE`` set to ``<benchmark_dir>.settings``.
+      
+    * The benchmark script needs to accept a ``--trials`` argument giving
+      the number of trials to run.
+      
+    * The output should be simple RFC 822-ish text -- a set of headers,
+      followed by data points::
+      
+            Title: some benchmark
+            Description: whatever the benchmark does
+        
+            1.002
+            1.003
+            ...
+        
+      The list of headers is TBD.
+
+There's a couple of utility functions in ``djangobench.utils`` that assist
+with honoring this contract; see those functions' docstrings for details.
 
 The existing benchmarks should be pretty easy to read for inspiration. The
 ``query_delete`` benchmark is probably a good place to start.

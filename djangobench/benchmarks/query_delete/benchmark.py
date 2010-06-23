@@ -1,12 +1,16 @@
+import time
 from djangobench.utils import run_benchmark
 from query_delete.models import Book
 
-def setup():
-    global books
-    books = [Book.objects.create(title='hi') for i in range(50)]
-
 def benchmark():
-    global books
-    books.pop().delete()
+    b = Book.objects.create(title='hi')
+    start = time.time()
+    b.delete()
+    return time.time() - start
 
-run_benchmark(benchmark, setup=setup, trials=50)
+run_benchmark(
+    benchmark,
+    meta = {
+        'description': 'Delete an object via Model.delete().',
+    }
+)

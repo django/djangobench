@@ -5,4 +5,9 @@ from model_creation.models import Book
 def benchmark():
     Book.objects.create(title='hi!')
 
-run_benchmark(benchmark, trials=50)
+run_benchmark(
+    benchmark, 
+    meta = {
+        'description': 'Time of a Model.objects.create() call.',
+    }
+)

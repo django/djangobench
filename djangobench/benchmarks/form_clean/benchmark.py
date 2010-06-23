@@ -6,4 +6,10 @@ class BookForm(forms.Form):
 
 form = BookForm({'title': 'hi'})
 
-run_benchmark(form.full_clean, trials=50)
+run_benchmark(
+    form.full_clean,
+    syncdb = False,
+    meta = {
+    'description': 'Speed of a Form.clean call.',
+    }
+)

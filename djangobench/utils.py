@@ -1,6 +1,11 @@
-from time import time
+import argparse
+import inspect
+import time
 
-def run_benchmark(benchmark, syncdb=True, setup=None, trials=1):
+benchmark_parser = argparse.ArgumentParser()
+benchmark_parser.add_argument('-t', '--trials', type=int, default=100)
+
+def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=True, meta={}):
     """
     Run a benchmark a few times and report the results.
     
@@ -22,8 +27,23 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=1):
             function(s).
             
         trials
-            The number of times to run the benchmark function.
+            The number of times to run the benchmark function. If not given
+            and if ``handle_argv`` is ``True`` this'll be automatically
+            determined from the ``--trials`` flag.
+            
+        handle_argv
+            ``True`` if the script should handle ``sys.argv`` and set
+            the number of trials accordingly.
+            
+        meta
+            Key/value pairs to be returned as part of the benchmark results.
     """
+    if handle_argv:
+        args = benchmark_parser.parse_args()
+        trials = trials or args.trials
+    
+    print_benchmark_header(benchmark, meta)
+    
     if syncdb:
         from django.core.management import call_command
         call_command("syncdb", verbosity=0)
@@ -32,15 +52,15 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=1):
         setup()
     
     for x in xrange(trials):
-        start = time()
+        start = time.time()
         benchmark_result = benchmark()
 
         if benchmark_result is not None:
             print benchmark_result
         else:
-            print time() - start
+            print time.time() - start
 
-def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, trials=1):
+def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, trials=None, handle_argv=True, meta={}):
     """
     Benchmark the difference between two functions.
     
@@ -57,6 +77,12 @@ def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, 
     (otherwise djangobench will report results like "-1.2x slower", which
     is just confusing).    
     """
+    if handle_argv:
+        args = benchmark_parser.parse_args()
+        trials = trials or args.trials
+    
+    print_benchmark_header(benchmark_a, meta)
+    
     if syncdb:
         from django.core.management import call_command
         call_command("syncdb", verbosity=0)
@@ -65,12 +91,19 @@ def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, 
         setup()
         
     for x in xrange(trials):
-        start_a = time()
+        start_a = time.time()
         result_a = benchmark_a()
-        result_a = result_a or time() - start_a
+        result_a = result_a or time.time() - start_a
         
-        start_b = time()
+        start_b = time.time()
         result_b = benchmark_b()
-        result_b = result_b or time() - start_b
+        result_b = result_b or time.time() - start_b
         
         print result_a - result_b
+        
+def print_benchmark_header(benchmark, meta):
+    if 'title' not in map(str.lower, meta.keys()):
+        meta['title'] = inspect.getmodule(benchmark).__name__
+    for key, value in meta.items():
+        print '%s: %s' % (key.lower(), value)
+    print

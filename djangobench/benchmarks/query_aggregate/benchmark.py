@@ -5,4 +5,9 @@ from query_aggregate.models import Book
 def benchmark():
     Book.objects.all().aggregate(Count('title'))
 
-run_benchmark(benchmark, trials=50)
+run_benchmark(
+    benchmark,
+    meta = {
+        'description': 'A simple Model.objects.aggregate() call.',
+    }
+)

@@ -31,4 +31,11 @@ def benchmark():
     }
     render_to_response('permalink.html', context)
 
-run_benchmark(benchmark, syncdb=False, trials=100)
+run_benchmark(
+    benchmark,
+    syncdb = False,
+    meta = {
+        'description': ('Render a somewhat complex, fairly typical template '
+                        '(including inheritance, reverse URL resolution, etc.).'),
+    }
+)

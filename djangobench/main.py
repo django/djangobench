@@ -5,6 +5,7 @@ Run us some Django benchmarks.
 """
 
 import sys
+import email
 import argparse
 from unipath import DIRS, FSPath as Path
 from djangobench import perf
@@ -73,21 +74,20 @@ def run_benchmark(benchmark, trials, env, dump_times=False):
     Similar to perf.MeasureGeneric, but modified a bit for our purposes.
     """
     # Remove Pycs, then call the command once to prime the pump and
-    # re-generate fresh ones This makes sure we're measuring as little of
+    # re-generate fresh ones. This makes sure we're measuring as little of
     # Python's startup time as possible.
     perf.RemovePycs()
     command = [sys.executable, '%s/benchmark.py' % benchmark]
-    out, _, _ = perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
+    out, _, _ = perf.CallAndCaptureOutput(command + ['-t', 1], env, track_memory=False, inherit_env=[])
     if out.startswith('SKIP:'):
         raise SkipBenchmark(out.replace('SKIP:', '').strip())
 
     # Now do the actual mesurements.
-    data_points = []
-    for i in range(trials):
-        output = perf.CallAndCaptureOutput(command, env, track_memory=False, inherit_env=[])
-        stdout, stderr, mem_usage = output
-        if dump_times: print stdout
-        data_points.extend(float(line) for line in stdout.splitlines())
+    output = perf.CallAndCaptureOutput(command + ['-t', str(trials)], env, track_memory=False, inherit_env=[])
+    stdout, stderr, mem_usage = output
+    if dump_times: print stdout
+    message = email.message_from_string(stdout)
+    data_points = [float(line) for line in message.get_payload().splitlines()]
     return perf.RawData(data_points, mem_usage, inst_output=stderr)
 
 def supports_color():
@@ -180,7 +180,7 @@ def main():
     parser.add_argument(
         '-t', '--trials',
         type = int,
-        default = 5,
+        default = 50,
         help = 'Number of times to run each benchmark.'
     )
     parser.add_argument(

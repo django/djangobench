@@ -4,4 +4,9 @@ from query_values_list.models import Book
 def benchmark():
     list(Book.objects.values_list('title'))
 
-run_benchmark(benchmark, trials=50)
+run_benchmark(
+    benchmark,
+    meta = {
+        'description': 'A simple Model.objects.values_list() call.',
+    }
+)

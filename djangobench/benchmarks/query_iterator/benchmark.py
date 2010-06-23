@@ -2,7 +2,11 @@ from djangobench.utils import run_benchmark
 from query_iterator.models import Book
 
 def benchmark():
-    for i in Book.objects.iterator():
-        pass
+    list(Book.objects.iterator())
 
-run_benchmark(benchmark, trials=50)
+run_benchmark(
+    benchmark,
+    meta = {
+        'description': 'A simple Model.objects.iterator() call.',
+    }
+)

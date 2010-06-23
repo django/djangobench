@@ -9,6 +9,11 @@ def benchmark():
     Book.objects.filter(id=11).exists()
 
 if hasattr(Book.objects, 'exists'):
-    run_benchmark(benchmark, trials=50)
+    run_benchmark(
+        benchmark,
+        meta = {
+            'description': 'A Model.objects.exists() call for both existing and non-existing objects.'
+        }
+    )
 else:
     print "SKIP: Django before 1.2 doesn't have QuerySet.exists()"

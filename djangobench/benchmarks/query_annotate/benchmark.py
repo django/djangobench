@@ -5,4 +5,9 @@ from query_annotate.models import Book
 def benchmark():
     list(Book.objects.values('title').annotate(books_total=Count('id')))
 
-run_benchmark(benchmark, trials=50)
+run_benchmark(
+    benchmark,
+    meta = {
+        'description': 'A simple Model.objects.annotate() call.',
+    }
+)

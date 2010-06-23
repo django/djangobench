@@ -7,4 +7,10 @@ class BookForm(forms.Form):
 def benchmark():
     BookForm({'title': 'a'})
 
-run_benchmark(benchmark, trials=50)
+run_benchmark(
+    benchmark,
+    syncdb = False,
+    meta = {
+        'description': 'Time required to instantiate and bind a form.',
+    }
+)

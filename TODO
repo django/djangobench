@@ -1,3 +1,5 @@
+* Fix the startup benchmark.
+
 * Lots and lots and lots more benchmarks. Some remaining ideas
 
     * ORM overhead compared to cursor.execute()
@@ -7,31 +9,7 @@
     * model validation
     * holistic request/response round-trip time (probably requires spawning
       a running server and testing it).
-
-* The number of trials is hard-coded. This should be an --option, or, better
-  yet, it could be automatically determined by running trials until the results
-  reach a particular confidence internal or some large ceiling is hit.
-
-* Along similar lines, the number of trials is weirdly split between
-  djangobench's trials and each individual benchmarks. This ideally should
-  be centralized so that it's not an (N*M) situation.
   
-  Probably the best way to do this is to pass the number of trials as a
-  command-line arg to the benchmark script. However, this doesn't exactly
-  work for the startup benchmark, or any other benchmark that can't
-  loop for some reason. Those benchmarks could further spawn processes,
-  I s'pose, but it might be nice to make the harness smart about that.
-  
-* Add benchmark metadata: benchmarks should provide short descriptions,
-  explanations of what the data points are, etc. I'd picture the benchmark
-  output being something like::
-  
-        Title: form clean
-        Description: Speed of a Form.clean() call
-        Units: seconds
-        
-        <data points>
-
 * Parameterized benchmark output: it'd be awesome if there could be, say, a
   single middleware benchmark that tested the overhead of each individual
   middleware component. This could be done with multiple benchmarks, but

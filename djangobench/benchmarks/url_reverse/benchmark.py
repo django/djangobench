@@ -7,4 +7,9 @@ def benchmark():
     reverse('url_resolve.views.vars',args=[1,])
     reverse('url_resolve.views.vars',kwargs={'var':1})
 
-run_benchmark(benchmark, trials=20)
+run_benchmark(
+    benchmark,
+    meta = {
+        'description': 'Reverse URL resolution.',
+    }
+)

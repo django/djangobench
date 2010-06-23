@@ -23,4 +23,10 @@ def benchmark():
         {% endfor %}
     """)
 
-run_benchmark(benchmark, syncdb=False, trials=100)
+run_benchmark(
+    benchmark,
+    syncdb = False,
+    meta = {
+        'description': 'Template compilation time.',
+    }
+)

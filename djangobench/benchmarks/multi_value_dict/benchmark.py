@@ -52,4 +52,11 @@ def benchmark_dict():
     caseDict['b'] = ['B']
     caseDict['c'] = ['C']
 
-run_comparison_benchmark(benchmark_multi, benchmark_dict, syncdb=False, trials=200)
+run_comparison_benchmark(
+    benchmark_multi,
+    benchmark_dict,
+    syncdb = False,
+    meta = {
+        'description': 'Overhead of a MultiValueDict compared to a builtin dict.',
+    }
+)
