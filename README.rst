@@ -10,7 +10,7 @@ Running the benchmarks
 Here's the short version::
 
     mkvirtualenv --no-site-packages djangobench
-    pip install djangobench
+    pip install -e git://github.com/jacobian/djangobench.git#egg=djangobench
     svn co http://code.djangoproject.com/svn/django/tags/releases/1.2/ django-control
     svn co http://code.djangoproject.com/svn/django/trunk django-experiment
     djangobench
@@ -31,6 +31,14 @@ Now, because you need two Django source trees, you can't exactly install
 them: ``djangobench`` works its magic by mucking with ``PYTHONPATH``.
 However, the benchmarks themselves need access to the ``djangobench``
 module, so you'll need to install it.
+
+If you're feeling fancy, you can use one of them there newfangled DVCSes instead
+and test against a single repository containing branches::
+
+    git clone git@github.com:django/django.git
+    djangobench --vcs=git --control=1.2 --experiment=trunk
+    
+Git's the only supported VCS right now, but patches are welcome.
 
 At the time of this writing Django's trunk hasn't significantly diverged
 from Django 1.2, so you should expect to see not-statistically-significant

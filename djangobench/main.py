@@ -4,6 +4,7 @@
 Run us some Django benchmarks.
 """
 
+import subprocess
 import argparse
 import email
 import simplejson
@@ -15,7 +16,7 @@ __version__ = '0.9'
 
 DEFAULT_BENCMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
 
-def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, record_dir=None):
+def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=None, record_dir=None):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
@@ -26,23 +27,23 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, recor
         if not record_dir.exists():
             raise ValueError('Recording directory "%s" does not exist' % record_dir)
         print "Recording data to '%s'" % record_dir
-    
-    control_label = get_django_version(control)
-    experiment_label = get_django_version(experiment)
-    print "Control: Django %s (in %s)" % (control_label, control)
-    print "Experiment: Django %s (in %s)" % (experiment_label, experiment)
+        
+    control_label = get_django_version(control, vcs=vcs)
+    experiment_label = get_django_version(experiment, vcs=vcs)
+    branch_info = "%s branch " % vcs if vcs else ""
+    print "Control: Django %s (in %s%s)" % (control_label, branch_info, control)
+    print "Experiment: Django %s (in %s%s)" % (experiment_label, branch_info, experiment)
     print
 
     # Calculate the subshell envs that we'll use to execute the
     # benchmarks in.
-    control_env = {'PYTHONPATH': ':'.join([
-        Path(control).absolute(),
-        Path(benchmark_dir),
-    ])}
-    experiment_env = {'PYTHONPATH': ':'.join([
-        Path(experiment).absolute(), 
-        Path(benchmark_dir),
-    ])}
+    if vcs:
+        control_env = experiment_env = {
+            'PYTHONPATH': '%s:%s' % (Path.cwd().absolute(), Path(benchmark_dir)),
+        }
+    else:
+        control_env = {'PYTHONPATH': '%s:%s' % (Path(control).absolute(), Path(benchmark_dir))}
+        experiment_env = {'PYTHONPATH': '%s:%s' % (Path(experiment).absolute(), Path(benchmark_dir))}
 
     for benchmark in discover_benchmarks(benchmark_dir):
         if not benchmarks or benchmark.name in benchmarks:
@@ -52,7 +53,9 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, recor
             experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             
             try:
+                if vcs: switch_to_branch(vcs, control)
                 control_data = run_benchmark(benchmark, trials, control_env)
+                if vcs: switch_to_branch(vcs, experiment)
                 experiment_data = run_benchmark(benchmark, trials, experiment_env)
             except SkipBenchmark, reason:
                 print "Skipped: %s\n" % reason
@@ -204,13 +207,25 @@ def format_benchmark_result(result, num_points):
     else:
         return str(result)
 
-def get_django_version(djangodir):
+def get_django_version(loc, vcs=None):
+    if vcs: 
+        switch_to_branch(vcs, loc)
+        pythonpath = Path.cwd()
+    else:
+        pythonpath = Path(loc).absolute()
     out, err, _ = perf.CallAndCaptureOutput(
         [sys.executable, '-c' 'import django; print django.get_version()'],
-        env = {'PYTHONPATH': Path(djangodir).absolute()}
+        env = {'PYTHONPATH': pythonpath}
     )
     return out.strip()
 
+def switch_to_branch(vcs, branchname):
+    if vcs == 'git':
+        cmd = ['git', 'checkout', branchname]
+    else:
+        raise ValueError("Sorry, %s isn't supported (yet?)" % vcs)
+    subprocess.check_call(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -224,6 +239,11 @@ def main():
         metavar = 'PATH',
         default = 'django-experiment',
         help = "Path to the Django version to use as experiment."
+    )
+    parser.add_argument(
+        '--vcs',
+        choices = ['git'],
+        help = 'Use a VCS for control/experiment. Makes --control/--experiment specify branches, not paths.'
     )
     parser.add_argument(
         '-t', '--trials',
@@ -260,6 +280,7 @@ def main():
         benchmark_dir = args.benchmark_dir,
         benchmarks = args.benchmarks, 
         trials = args.trials, 
+        vcs = args.vcs,
         record_dir = args.record,
     )
 
