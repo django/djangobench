@@ -52,13 +52,13 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=T
         setup()
     
     for x in xrange(trials):
-        start = time.time()
+        start = time.clock()
         benchmark_result = benchmark()
 
         if benchmark_result is not None:
             print benchmark_result
         else:
-            print time.time() - start
+            print time.clock() - start
 
 def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, trials=None, handle_argv=True, meta={}):
     """
@@ -91,13 +91,13 @@ def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, 
         setup()
         
     for x in xrange(trials):
-        start_a = time.time()
+        start_a = time.clock()
         result_a = benchmark_a()
-        result_a = result_a or time.time() - start_a
+        result_a = result_a or time.clock() - start_a
         
-        start_b = time.time()
+        start_b = time.clock()
         result_b = benchmark_b()
-        result_b = result_b or time.time() - start_b
+        result_b = result_b or time.clock() - start_b
         
         print result_a - result_b
         
