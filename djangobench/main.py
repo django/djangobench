@@ -16,7 +16,7 @@ __version__ = '0.9'
 
 DEFAULT_BENCMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
 
-def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=None, record_dir=None):
+def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=None, record_dir=None, profile_dir=None):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
@@ -27,7 +27,7 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=N
         if not record_dir.exists():
             raise ValueError('Recording directory "%s" does not exist' % record_dir)
         print "Recording data to '%s'" % record_dir
-        
+
     control_label = get_django_version(control, vcs=vcs)
     experiment_label = get_django_version(experiment, vcs=vcs)
     branch_info = "%s branch " % vcs if vcs else ""
@@ -38,9 +38,10 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=N
     # Calculate the subshell envs that we'll use to execute the
     # benchmarks in.
     if vcs:
-        control_env = experiment_env = {
+        control_env = {
             'PYTHONPATH': '%s:%s' % (Path.cwd().absolute(), Path(benchmark_dir)),
         }
+        experiment_env = control_env.copy()
     else:
         control_env = {'PYTHONPATH': '%s:%s' % (Path(control).absolute(), Path(benchmark_dir))}
         experiment_env = {'PYTHONPATH': '%s:%s' % (Path(experiment).absolute(), Path(benchmark_dir))}
@@ -51,7 +52,9 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=N
             settings_mod = '%s.settings' % benchmark.name
             control_env['DJANGO_SETTINGS_MODULE'] = settings_mod
             experiment_env['DJANGO_SETTINGS_MODULE'] = settings_mod
-            
+            if profile_dir is not None:
+                control_env['DJANGOBENCH_PROFILE_FILE'] = Path(profile_dir, "con-%s" % benchmark.name)
+                experiment_env['DJANGOBENCH_PROFILE_FILE'] = Path(profile_dir, "exp-%s" % benchmark.name)
             try:
                 if vcs: switch_to_branch(vcs, control)
                 control_data = run_benchmark(benchmark, trials, control_env)
@@ -208,7 +211,7 @@ def format_benchmark_result(result, num_points):
         return str(result)
 
 def get_django_version(loc, vcs=None):
-    if vcs: 
+    if vcs:
         switch_to_branch(vcs, loc)
         pythonpath = Path.cwd()
     else:
@@ -225,7 +228,7 @@ def switch_to_branch(vcs, branchname):
     else:
         raise ValueError("Sorry, %s isn't supported (yet?)" % vcs)
     subprocess.check_call(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -257,6 +260,7 @@ def main():
         metavar = 'PATH',
         help = 'Directory to record detailed output as a series of JSON files.',
     )
+
     parser.add_argument(
         '--benchmark-dir',
         dest = 'benchmark_dir',
@@ -272,16 +276,25 @@ def main():
         help = "Benchmarks to be run.  Defaults to all.",
         nargs = '*'
     )
-    
+    parser.add_argument(
+        '-p',
+        '--profile-dir',
+        dest = 'profile_dir',
+        default = None,
+        metavar = 'PATH',
+        help = 'Directory to record profiling statistics for the control and experimental run of each benchmark'
+    )
+
     args = parser.parse_args()
     run_benchmarks(
-        control = args.control, 
+        control = args.control,
         experiment = args.experiment,
         benchmark_dir = args.benchmark_dir,
-        benchmarks = args.benchmarks, 
-        trials = args.trials, 
+        benchmarks = args.benchmarks,
+        trials = args.trials,
         vcs = args.vcs,
         record_dir = args.record,
+        profile_dir = args.profile_dir
     )
 
 if __name__ == '__main__':
