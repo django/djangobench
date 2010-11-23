@@ -10,11 +10,11 @@ Running the benchmarks
 Here's the short version::
 
     mkvirtualenv --no-site-packages djangobench
-    pip install djangobench
+    pip install -e git://github.com/jacobian/djangobench.git#egg=djangobench
     svn co http://code.djangoproject.com/svn/django/tags/releases/1.2/ django-control
     svn co http://code.djangoproject.com/svn/django/trunk django-experiment
     djangobench
-    
+
 Okay, so what the heck's going on here?
 
 First, ``djangobench`` doesn't test a single Django version in isolation --
@@ -32,6 +32,14 @@ them: ``djangobench`` works its magic by mucking with ``PYTHONPATH``.
 However, the benchmarks themselves need access to the ``djangobench``
 module, so you'll need to install it.
 
+If you're feeling fancy, you can use one of them there newfangled DVCSes instead
+and test against a single repository containing branches::
+
+    git clone git://github.com/django/django.git
+    djangobench --vcs=git --control=1.2 --experiment=master
+
+Git's the only supported VCS right now, but patches are welcome.
+
 At the time of this writing Django's trunk hasn't significantly diverged
 from Django 1.2, so you should expect to see not-statistically-significant
 results::
@@ -41,7 +49,7 @@ results::
     Avg: 0.139009 -> 0.139378: 1.0027x slower
     Not significant
     Stddev: 0.00044 -> 0.00046: 1.0382x larger
-    
+
 Writing new benchmarks
 ----------------------
 
@@ -53,20 +61,20 @@ benchmark script needs to honor a simple contract:
       path/to/benchmark.py``). The subshell environment will have
       ``PYTHONPATH`` set up to point to the correct Django; it'll also have
       ``DJANGO_SETTINGS_MODULE`` set to ``<benchmark_dir>.settings``.
-      
+
     * The benchmark script needs to accept a ``--trials`` argument giving
       the number of trials to run.
-      
+
     * The output should be simple RFC 822-ish text -- a set of headers,
       followed by data points::
-      
+
             Title: some benchmark
             Description: whatever the benchmark does
-        
+
             1.002
             1.003
             ...
-        
+
       The list of headers is TBD.
 
 There's a couple of utility functions in ``djangobench.utils`` that assist
