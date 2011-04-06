@@ -1,6 +1,6 @@
 from time import time
+import copy
 
-import django.utils.copycompat as copy
 from django.utils.datastructures import MultiValueDict
 
 from djangobench.utils import run_comparison_benchmark
