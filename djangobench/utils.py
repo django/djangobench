@@ -1,7 +1,11 @@
 import argparse
 import inspect
 import os
-import time
+
+# timeit uses either time.time() or time.clock() depending on which is more
+# accurate on the current platform:
+from timeit import default_timer as time_f
+
 try:
     import cProfile as profile
 except ImportError:
@@ -57,7 +61,7 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=T
         setup()
 
     for x in xrange(trials):
-        start = time.clock()
+        start = time_f()
         profile_file = os.environ.get('DJANGOBENCH_PROFILE_FILE', None)
         if profile_file is not None:
             loc = locals().copy()
@@ -68,7 +72,7 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=T
         if benchmark_result is not None:
             print benchmark_result
         else:
-            print time.clock() - start
+            print time_f() - start
 
 def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, trials=None, handle_argv=True, meta={}):
     """
@@ -101,13 +105,13 @@ def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, 
         setup()
 
     for x in xrange(trials):
-        start_a = time.clock()
+        start_a = time_f()
         result_a = benchmark_a()
-        result_a = result_a or time.clock() - start_a
+        result_a = result_a or time_f() - start_a
 
-        start_b = time.clock()
+        start_b = time_f()
         result_b = benchmark_b()
-        result_b = result_b or time.clock() - start_b
+        result_b = result_b or time_f() - start_b
 
         print result_a - result_b
 

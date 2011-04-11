@@ -1,4 +1,5 @@
 import os
+import sys
 
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render_to_response
@@ -17,7 +18,9 @@ def make_request():
         'SERVER_NAME': 'testserver',
         'SERVER_PORT': 80,
         'SERVER_PROTOCOL': 'HTTP/1.1',
+        "wsgi.input": sys.stdin
         }
+
     return WSGIRequest(environ)
 
 

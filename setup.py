@@ -14,6 +14,8 @@ setup(
     author = 'Jacob Kaplan-Moss',
     author_email = 'jacob@jacobian.org',
     packages = find_packages(),
+    include_package_data = True,
+    zip_safe=False,
     classifiers = [
         'Development Status :: 4 - Beta',
         'Environment :: Console',
