@@ -1,6 +1,6 @@
 from time import time
 
-from django.test.client import Client
+from django.test.client import Client, FakePayload
 from django.conf import global_settings
 from django.conf import settings
 from django.core.handlers.wsgi import WSGIRequest
@@ -41,6 +41,7 @@ class RequestFactory(Client):
             'SERVER_NAME': 'testserver',
             'SERVER_PORT': 80,
             'SERVER_PROTOCOL': 'HTTP/1.1',
+            'wsgi.input': FakePayload(''),
         }
         environ.update(self.defaults)
         environ.update(request)
