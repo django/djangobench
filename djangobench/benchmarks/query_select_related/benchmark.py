@@ -2,7 +2,8 @@ from djangobench.utils import run_benchmark
 from query_select_related.models import Book
 
 def benchmark():
-    list(Book.objects.select_related())
+    for i in xrange(20):
+        list(Book.objects.select_related('author'))
 
 run_benchmark(
     benchmark,
