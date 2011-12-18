@@ -14,6 +14,692 @@
         }
     },
     {
+         "model": "query_select_related.author",
+         "pk": 3,
+         "fields": {
+            "title": 3
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 4,
+         "fields": {
+            "title": 4
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 5,
+         "fields": {
+            "title": 5
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 6,
+         "fields": {
+            "title": 6
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 7,
+         "fields": {
+            "title": 7
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 8,
+         "fields": {
+            "title": 8
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 9,
+         "fields": {
+            "title": 9
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 10,
+         "fields": {
+            "title": 10
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 11,
+         "fields": {
+            "title": 11
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 12,
+         "fields": {
+            "title": 12
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 13,
+         "fields": {
+            "title": 13
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 14,
+         "fields": {
+            "title": 14
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 15,
+         "fields": {
+            "title": 15
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 16,
+         "fields": {
+            "title": 16
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 17,
+         "fields": {
+            "title": 17
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 18,
+         "fields": {
+            "title": 18
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 19,
+         "fields": {
+            "title": 19
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 20,
+         "fields": {
+            "title": 20
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 21,
+         "fields": {
+            "title": 21
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 22,
+         "fields": {
+            "title": 22
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 23,
+         "fields": {
+            "title": 23
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 24,
+         "fields": {
+            "title": 24
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 25,
+         "fields": {
+            "title": 25
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 26,
+         "fields": {
+            "title": 26
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 27,
+         "fields": {
+            "title": 27
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 28,
+         "fields": {
+            "title": 28
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 29,
+         "fields": {
+            "title": 29
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 30,
+         "fields": {
+            "title": 30
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 31,
+         "fields": {
+            "title": 31
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 32,
+         "fields": {
+            "title": 32
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 33,
+         "fields": {
+            "title": 33
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 34,
+         "fields": {
+            "title": 34
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 35,
+         "fields": {
+            "title": 35
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 36,
+         "fields": {
+            "title": 36
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 37,
+         "fields": {
+            "title": 37
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 38,
+         "fields": {
+            "title": 38
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 39,
+         "fields": {
+            "title": 39
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 40,
+         "fields": {
+            "title": 40
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 41,
+         "fields": {
+            "title": 41
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 42,
+         "fields": {
+            "title": 42
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 43,
+         "fields": {
+            "title": 43
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 44,
+         "fields": {
+            "title": 44
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 45,
+         "fields": {
+            "title": 45
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 46,
+         "fields": {
+            "title": 46
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 47,
+         "fields": {
+            "title": 47
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 48,
+         "fields": {
+            "title": 48
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 49,
+         "fields": {
+            "title": 49
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 50,
+         "fields": {
+            "title": 50
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 51,
+         "fields": {
+            "title": 51
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 52,
+         "fields": {
+            "title": 52
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 53,
+         "fields": {
+            "title": 53
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 54,
+         "fields": {
+            "title": 54
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 55,
+         "fields": {
+            "title": 55
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 56,
+         "fields": {
+            "title": 56
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 57,
+         "fields": {
+            "title": 57
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 58,
+         "fields": {
+            "title": 58
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 59,
+         "fields": {
+            "title": 59
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 60,
+         "fields": {
+            "title": 60
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 61,
+         "fields": {
+            "title": 61
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 62,
+         "fields": {
+            "title": 62
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 63,
+         "fields": {
+            "title": 63
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 64,
+         "fields": {
+            "title": 64
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 65,
+         "fields": {
+            "title": 65
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 66,
+         "fields": {
+            "title": 66
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 67,
+         "fields": {
+            "title": 67
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 68,
+         "fields": {
+            "title": 68
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 69,
+         "fields": {
+            "title": 69
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 70,
+         "fields": {
+            "title": 70
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 71,
+         "fields": {
+            "title": 71
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 72,
+         "fields": {
+            "title": 72
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 73,
+         "fields": {
+            "title": 73
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 74,
+         "fields": {
+            "title": 74
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 75,
+         "fields": {
+            "title": 75
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 76,
+         "fields": {
+            "title": 76
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 77,
+         "fields": {
+            "title": 77
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 78,
+         "fields": {
+            "title": 78
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 79,
+         "fields": {
+            "title": 79
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 80,
+         "fields": {
+            "title": 80
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 81,
+         "fields": {
+            "title": 81
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 82,
+         "fields": {
+            "title": 82
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 83,
+         "fields": {
+            "title": 83
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 84,
+         "fields": {
+            "title": 84
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 85,
+         "fields": {
+            "title": 85
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 86,
+         "fields": {
+            "title": 86
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 87,
+         "fields": {
+            "title": 87
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 88,
+         "fields": {
+            "title": 88
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 89,
+         "fields": {
+            "title": 89
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 90,
+         "fields": {
+            "title": 90
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 91,
+         "fields": {
+            "title": 91
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 92,
+         "fields": {
+            "title": 92
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 93,
+         "fields": {
+            "title": 93
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 94,
+         "fields": {
+            "title": 94
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 95,
+         "fields": {
+            "title": 95
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 96,
+         "fields": {
+            "title": 96
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 97,
+         "fields": {
+            "title": 97
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 98,
+         "fields": {
+            "title": 98
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 99,
+         "fields": {
+            "title": 99
+        }
+    },
+    {
+         "model": "query_select_related.author",
+         "pk": 100,
+         "fields": {
+            "title": 100
+        }
+    },
+    {
          "model": "query_select_related.book",
          "pk": 1,
          "fields": {
@@ -26,7 +712,791 @@
          "pk": 2,
          "fields": {
             "title": "b",
-            "author":2
+            "author": 2
         }
-    }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 3,
+         "fields": {
+            "title": "b",
+            "author": 3
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 4,
+         "fields": {
+            "title": "b",
+            "author": 4
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 5,
+         "fields": {
+            "title": "b",
+            "author": 5
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 6,
+         "fields": {
+            "title": "a",
+            "author": 6
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 7,
+         "fields": {
+            "title": "a",
+            "author": 7
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 8,
+         "fields": {
+            "title": "a",
+            "author": 8
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 9,
+         "fields": {
+            "title": "a",
+            "author": 9
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 10,
+         "fields": {
+            "title": "a",
+            "author": 10
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 11,
+         "fields": {
+            "title": "a",
+            "author": 11
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 12,
+         "fields": {
+            "title": "a",
+            "author": 12
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 13,
+         "fields": {
+            "title": "a",
+            "author": 13
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 14,
+         "fields": {
+            "title": "a",
+            "author": 14
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 15,
+         "fields": {
+            "title": "a",
+            "author": 15
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 16,
+         "fields": {
+            "title": "a",
+            "author": 16
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 17,
+         "fields": {
+            "title": "a",
+            "author": 17
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 18,
+         "fields": {
+            "title": "a",
+            "author": 18
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 19,
+         "fields": {
+            "title": "a",
+            "author": 19
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 20,
+         "fields": {
+            "title": "a",
+            "author": 20
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 21,
+         "fields": {
+            "title": "a",
+            "author": 21
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 22,
+         "fields": {
+            "title": "a",
+            "author": 22
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 23,
+         "fields": {
+            "title": "a",
+            "author": 23
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 24,
+         "fields": {
+            "title": "a",
+            "author": 24
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 25,
+         "fields": {
+            "title": "a",
+            "author": 25
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 26,
+         "fields": {
+            "title": "a",
+            "author": 26
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 27,
+         "fields": {
+            "title": "a",
+            "author": 27
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 28,
+         "fields": {
+            "title": "a",
+            "author": 28
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 29,
+         "fields": {
+            "title": "a",
+            "author": 29
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 30,
+         "fields": {
+            "title": "a",
+            "author": 30
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 31,
+         "fields": {
+            "title": "a",
+            "author": 31
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 32,
+         "fields": {
+            "title": "a",
+            "author": 32
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 33,
+         "fields": {
+            "title": "a",
+            "author": 33
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 34,
+         "fields": {
+            "title": "a",
+            "author": 34
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 35,
+         "fields": {
+            "title": "a",
+            "author": 35
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 36,
+         "fields": {
+            "title": "a",
+            "author": 36
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 37,
+         "fields": {
+            "title": "a",
+            "author": 37
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 38,
+         "fields": {
+            "title": "a",
+            "author": 38
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 39,
+         "fields": {
+            "title": "a",
+            "author": 39
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 40,
+         "fields": {
+            "title": "a",
+            "author": 40
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 41,
+         "fields": {
+            "title": "a",
+            "author": 41
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 42,
+         "fields": {
+            "title": "a",
+            "author": 42
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 43,
+         "fields": {
+            "title": "a",
+            "author": 43
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 44,
+         "fields": {
+            "title": "a",
+            "author": 44
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 45,
+         "fields": {
+            "title": "a",
+            "author": 45
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 46,
+         "fields": {
+            "title": "a",
+            "author": 46
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 47,
+         "fields": {
+            "title": "a",
+            "author": 47
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 48,
+         "fields": {
+            "title": "a",
+            "author": 48
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 49,
+         "fields": {
+            "title": "a",
+            "author": 49
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 50,
+         "fields": {
+            "title": "a",
+            "author": 50
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 51,
+         "fields": {
+            "title": "a",
+            "author": 51
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 52,
+         "fields": {
+            "title": "a",
+            "author": 52
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 53,
+         "fields": {
+            "title": "a",
+            "author": 53
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 54,
+         "fields": {
+            "title": "a",
+            "author": 54
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 55,
+         "fields": {
+            "title": "a",
+            "author": 55
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 56,
+         "fields": {
+            "title": "a",
+            "author": 56
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 57,
+         "fields": {
+            "title": "a",
+            "author": 57
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 58,
+         "fields": {
+            "title": "a",
+            "author": 58
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 59,
+         "fields": {
+            "title": "a",
+            "author": 59
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 60,
+         "fields": {
+            "title": "a",
+            "author": 60
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 61,
+         "fields": {
+            "title": "a",
+            "author": 61
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 62,
+         "fields": {
+            "title": "a",
+            "author": 62
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 63,
+         "fields": {
+            "title": "a",
+            "author": 63
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 64,
+         "fields": {
+            "title": "a",
+            "author": 64
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 65,
+         "fields": {
+            "title": "a",
+            "author": 65
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 66,
+         "fields": {
+            "title": "a",
+            "author": 66
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 67,
+         "fields": {
+            "title": "a",
+            "author": 67
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 68,
+         "fields": {
+            "title": "a",
+            "author": 68
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 69,
+         "fields": {
+            "title": "a",
+            "author": 69
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 70,
+         "fields": {
+            "title": "a",
+            "author": 70
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 71,
+         "fields": {
+            "title": "a",
+            "author": 71
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 72,
+         "fields": {
+            "title": "a",
+            "author": 72
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 73,
+         "fields": {
+            "title": "a",
+            "author": 73
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 74,
+         "fields": {
+            "title": "a",
+            "author": 74
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 75,
+         "fields": {
+            "title": "a",
+            "author": 75
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 76,
+         "fields": {
+            "title": "a",
+            "author": 76
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 77,
+         "fields": {
+            "title": "a",
+            "author": 77
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 78,
+         "fields": {
+            "title": "a",
+            "author": 78
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 79,
+         "fields": {
+            "title": "a",
+            "author": 79
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 80,
+         "fields": {
+            "title": "a",
+            "author": 80
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 81,
+         "fields": {
+            "title": "a",
+            "author": 81
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 82,
+         "fields": {
+            "title": "a",
+            "author": 82
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 83,
+         "fields": {
+            "title": "a",
+            "author": 83
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 84,
+         "fields": {
+            "title": "a",
+            "author": 84
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 85,
+         "fields": {
+            "title": "a",
+            "author": 85
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 86,
+         "fields": {
+            "title": "a",
+            "author": 86
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 87,
+         "fields": {
+            "title": "a",
+            "author": 87
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 88,
+         "fields": {
+            "title": "a",
+            "author": 88
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 89,
+         "fields": {
+            "title": "a",
+            "author": 89
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 90,
+         "fields": {
+            "title": "a",
+            "author": 90
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 91,
+         "fields": {
+            "title": "a",
+            "author": 91
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 92,
+         "fields": {
+            "title": "a",
+            "author": 92
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 93,
+         "fields": {
+            "title": "a",
+            "author": 93
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 94,
+         "fields": {
+            "title": "a",
+            "author": 94
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 95,
+         "fields": {
+            "title": "a",
+            "author": 95
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 96,
+         "fields": {
+            "title": "a",
+            "author": 96
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 97,
+         "fields": {
+            "title": "a",
+            "author": 97
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 98,
+         "fields": {
+            "title": "a",
+            "author": 98
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 99,
+         "fields": {
+            "title": "a",
+            "author": 99
+        }
+    },
+    {
+         "model": "query_select_related.book",
+         "pk": 100,
+         "fields": {
+            "title": "a",
+            "author": 100
+        }
+    },
 ]
