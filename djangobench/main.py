@@ -225,6 +225,8 @@ def get_django_version(loc, vcs=None):
 def switch_to_branch(vcs, branchname):
     if vcs == 'git':
         cmd = ['git', 'checkout', branchname]
+    elif vcs == 'hg':
+        cmd = ['hg', 'update', '-C', branchname]
     else:
         raise ValueError("Sorry, %s isn't supported (yet?)" % vcs)
     subprocess.check_call(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -245,7 +247,7 @@ def main():
     )
     parser.add_argument(
         '--vcs',
-        choices = ['git'],
+        choices = ['git', 'hg'],
         help = 'Use a VCS for control/experiment. Makes --control/--experiment specify branches, not paths.'
     )
     parser.add_argument(
