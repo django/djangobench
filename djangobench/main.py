@@ -16,7 +16,7 @@ __version__ = '0.9'
 
 DEFAULT_BENCMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
 
-def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=None, record_dir=None, profile_dir=None):
+def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=None, record_dir=None, profile_dir=None, continue_on_errror=False):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
@@ -63,6 +63,11 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=N
             except SkipBenchmark, reason:
                 print "Skipped: %s\n" % reason
                 continue
+            except RuntimeError, error:
+                if continue_on_errror:
+                    print "Failed: %s\n" % error
+                    continue
+                raise
 
             options = argparse.Namespace(
                 track_memory = False,
@@ -225,6 +230,8 @@ def get_django_version(loc, vcs=None):
 def switch_to_branch(vcs, branchname):
     if vcs == 'git':
         cmd = ['git', 'checkout', branchname]
+    elif vcs == 'hg':
+        cmd = ['hg', 'update', '-C', branchname]
     else:
         raise ValueError("Sorry, %s isn't supported (yet?)" % vcs)
     subprocess.check_call(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -245,7 +252,7 @@ def main():
     )
     parser.add_argument(
         '--vcs',
-        choices = ['git'],
+        choices = ['git', 'hg'],
         help = 'Use a VCS for control/experiment. Makes --control/--experiment specify branches, not paths.'
     )
     parser.add_argument(
@@ -284,6 +291,12 @@ def main():
         metavar = 'PATH',
         help = 'Directory to record profiling statistics for the control and experimental run of each benchmark'
     )
+    parser.add_argument(
+        '--continue-on-error',
+        dest = 'continue_on_errror',
+        action = 'store_true',
+        help = 'Continue with the remaining benchmarks if any fail',
+    )
 
     args = parser.parse_args()
     run_benchmarks(
@@ -294,7 +307,8 @@ def main():
         trials = args.trials,
         vcs = args.vcs,
         record_dir = args.record,
-        profile_dir = args.profile_dir
+        profile_dir = args.profile_dir,
+        continue_on_errror = args.continue_on_errror
     )
 
 if __name__ == '__main__':
