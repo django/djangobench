@@ -7,3 +7,5 @@ DATABASES = {
         'NAME': ':memory:'
     },
 }
+
+SECRET_KEY = "NOT REALLY SECRET"
