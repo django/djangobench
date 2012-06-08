@@ -14,7 +14,7 @@ from unipath import DIRS, FSPath as Path
 
 __version__ = '0.9'
 
-DEFAULT_BENCMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
+DEFAULT_BENCHMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
 
 def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=None, record_dir=None, profile_dir=None, continue_on_errror=False):
     if benchmarks:
@@ -272,7 +272,7 @@ def main():
         '--benchmark-dir',
         dest = 'benchmark_dir',
         metavar = 'PATH',
-        default = DEFAULT_BENCMARK_DIR,
+        default = DEFAULT_BENCHMARK_DIR,
         help = ('Directory to inspect for benchmarks. Defaults to the '
                 'benchmarks included with djangobench.'),
     )
