@@ -1,5 +1,10 @@
-from django.conf.urls.defaults import patterns, include, url
 import string
+
+try:
+    from django.conf.urls import include, patterns, url
+except ImportError:
+    from django.conf.urls.defaults import include, patterns, url
+
 
 def ok_view(request, *a, **kw):
     pass
