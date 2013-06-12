@@ -10,7 +10,7 @@ Running the benchmarks
 Here's the short version::
 
     mkvirtualenv djangobench
-    pip install -e git://github.com/jacobian/djangobench.git#egg=djangobench
+    pip install -e git://github.com/django/djangobench.git#egg=djangobench
     git clone git://github.com/django/django.git
     cd django
     djangobench --vcs=git --control=1.2 --experiment=master
