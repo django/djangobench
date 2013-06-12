@@ -12,6 +12,7 @@ Here's the short version::
     mkvirtualenv djangobench
     pip install -e git://github.com/jacobian/djangobench.git#egg=djangobench
     git clone git://github.com/django/django.git
+    cd django
     djangobench --vcs=git --control=1.2 --experiment=master
 
 Okay, so what the heck's going on here?
@@ -21,20 +22,21 @@ that wouldn't be very useful. Instead, it benchmarks an "experiment" Django
 against a "control", reporting on the difference between the two and
 measuring for statistical significance.
 
-Because a Git clone can contain all the project development story, you can test
-against a single repository containing branches as we've done above, specifying
-their names with the ``--control`` and ``--experiment`` options.
+Because a Git clone can contain all the project development history, you can
+test against a single repository specifying the ``--cs=git`` switch and
+individual commit IDs, tags (as we've done above) and even possibly branches
+with the ``--control`` and ``--experiment`` options.
 
-Git's the only supported VCS right now, but patches are welcome.
+There is support for both Git and Mercurial.
 
 Another, somewhat dated, way to use ``djangobench``, is to run it against two
 complete Django source trees. By default it looks for directories named
 ``django-control`` and ``django-experiment`` in the current working directory,
 but you can change that by using the ``--control`` or ``--experiment`` options.
 
-Now, it isn't convenient to install the Django source code trees under test
-(this is particularly true in the two-trees scenario): ``djangobench`` works its
-magic by mucking with ``PYTHONPATH``.
+Now, it's impractical to install the Django source code trees under test (this
+is particularly true in the two-trees scenario): ``djangobench`` works its magic
+by mucking with ``PYTHONPATH``.
 
 However, the benchmarks themselves need access to the ``djangobench`` module, so
 you'll need to install it.
