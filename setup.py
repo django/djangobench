@@ -9,7 +9,7 @@ setup(
     version = "0.9",
     description = "A harness and a set of benchmarks for measuring Django's performance over time.",
     long_description = read('README.rst'),
-    url = 'http://github.com/jacobian/djangobench',
+    url = 'https://github.com/django/djangobench',
     license = 'BSD',
     author = 'Jacob Kaplan-Moss',
     author_email = 'jacob@jacobian.org',
