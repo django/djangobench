@@ -13,7 +13,7 @@ Here's the short version::
     pip install -e git://github.com/django/djangobench.git#egg=djangobench
     git clone git://github.com/django/django.git
     cd django
-    djangobench --vcs=git --control=1.2 --experiment=master
+    djangobench --control=1.2 --experiment=master
 
 Okay, so what the heck's going on here?
 
@@ -23,16 +23,23 @@ against a "control", reporting on the difference between the two and
 measuring for statistical significance.
 
 Because a Git clone can contain all the project development history, you can
-test against a single repository specifying the ``--cs=git`` switch and
-individual commit IDs, tags (as we've done above) and even possibly branches
-with the ``--control`` and ``--experiment`` options.
+test against a single repository specifying individual commit IDs, tag (as we've
+done above) and even possibly branches names with the ``--control`` and
+``--experiment`` options.
 
-There is support for both Git and Mercurial.
+Before ``djangobench`` 0.10 you had to use ``--vcs=git`` to get this behavior.
+Now it's the default. There is also support for Mercurial (``--vcs=hg``).
 
-Another, somewhat dated, way to use ``djangobench``, is to run it against two
-complete Django source trees. By default it looks for directories named
-``django-control`` and ``django-experiment`` in the current working directory,
-but you can change that by using the ``--control`` or ``--experiment`` options.
+Another way to use ``djangobench``, is to run it against two complete Django
+source trees, you can specify this mode by using ``--vcs=none``. By default it
+looks for directories named ``django-control`` and ``django-experiment`` in the
+current working directory::
+
+    djangobench --vcs=none
+
+but you can change that by using the ``--control`` or ``--experiment`` options::
+
+    djangobench --vcs=none --control pristine --experiment work
 
 Now, it's impractical to install the Django source code trees under test (this
 is particularly true in the two-trees scenario): ``djangobench`` works its magic

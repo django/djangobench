@@ -12,7 +12,7 @@ import sys
 from djangobench import perf
 from unipath import DIRS, FSPath as Path
 
-__version__ = '0.9'
+__version__ = '0.10'
 
 DEFAULT_BENCHMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
 
@@ -261,7 +261,8 @@ def main():
     )
     parser.add_argument(
         '--vcs',
-        choices = ['git', 'hg'],
+        choices = ['git', 'hg', 'none'],
+        default = 'git',
         help = 'Use a VCS for control/experiment. Makes --control/--experiment specify branches, not paths.'
     )
     parser.add_argument(
@@ -314,7 +315,7 @@ def main():
         benchmark_dir = args.benchmark_dir,
         benchmarks = args.benchmarks,
         trials = args.trials,
-        vcs = args.vcs,
+        vcs = None if args.vcs == 'none' else args.vcs,
         record_dir = args.record,
         profile_dir = args.profile_dir,
         continue_on_errror = args.continue_on_errror

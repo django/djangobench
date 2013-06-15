@@ -6,7 +6,7 @@ def read(fname):
 
 setup(
     name = "djangobench",
-    version = "0.9",
+    version = "0.10",
     description = "A harness and a set of benchmarks for measuring Django's performance over time.",
     long_description = read('README.rst'),
     url = 'https://github.com/django/djangobench',
@@ -28,7 +28,7 @@ setup(
         'Topic :: System :: Benchmark'
     ],
     install_requires = ['argparse==1.1', 'Unipath==0.2.1', 'simplejson==2.1.1'],
-        
+
     entry_points = {
         'console_scripts': ['djangobench = djangobench.main:main']
     }
