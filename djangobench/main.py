@@ -106,7 +106,7 @@ def run_benchmark(benchmark, trials, env):
     # Remove Pycs, then call the command once to prime the pump and
     # re-generate fresh ones. This makes sure we're measuring as little of
     # Python's startup time as possible.
-    perf.RemovePycs()
+    RemovePycs()
     command = [sys.executable, '%s/benchmark.py' % benchmark]
     out, _, _ = perf.CallAndCaptureOutput(command + ['-t', 1], env, track_memory=False, inherit_env=[])
     if out.startswith('SKIP:'):
@@ -217,7 +217,7 @@ def format_benchmark_result(result, num_points):
 
 def get_django_version(loc, vcs=None):
     if vcs:
-        switch_to_branch(vcs, loc)
+        switch_to_branch(vcs, loc, do_cleanup=True)
         pythonpath = Path.cwd()
     else:
         pythonpath = Path(loc).absolute()
@@ -227,14 +227,23 @@ def get_django_version(loc, vcs=None):
     )
     return out.strip()
 
-def switch_to_branch(vcs, branchname):
+def switch_to_branch(vcs, branchname, do_cleanup=False):
     if vcs == 'git':
         cmd = ['git', 'checkout', branchname]
     elif vcs == 'hg':
         cmd = ['hg', 'update', '-C', branchname]
     else:
         raise ValueError("Sorry, %s isn't supported (yet?)" % vcs)
+    if do_cleanup:
+        RemovePycs(vcs=vcs)
     subprocess.check_call(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+def RemovePycs(vcs=None):
+    if vcs == 'git':
+        cmd = ['git', 'clean', '-fdX']
+        subprocess.check_call(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        perf.RemovePycs()
 
 def main():
     parser = argparse.ArgumentParser()
