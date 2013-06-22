@@ -16,7 +16,7 @@ __version__ = '0.10'
 
 DEFAULT_BENCHMARK_DIR = Path(__file__).parent.child('benchmarks').absolute()
 
-def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=None, record_dir=None, profile_dir=None, continue_on_errror=False):
+def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=None, record_dir=None, profile_dir=None, continue_on_error=False):
     if benchmarks:
         print "Running benchmarks: %s" % " ".join(benchmarks)
     else:
@@ -64,7 +64,7 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials, vcs=N
                 print "Skipped: %s\n" % reason
                 continue
             except RuntimeError, error:
-                if continue_on_errror:
+                if continue_on_error:
                     print "Failed: %s\n" % error
                     continue
                 raise
@@ -303,7 +303,7 @@ def main():
     )
     parser.add_argument(
         '--continue-on-error',
-        dest = 'continue_on_errror',
+        dest = 'continue_on_error',
         action = 'store_true',
         help = 'Continue with the remaining benchmarks if any fail',
     )
@@ -318,7 +318,7 @@ def main():
         vcs = None if args.vcs == 'none' else args.vcs,
         record_dir = args.record,
         profile_dir = args.profile_dir,
-        continue_on_errror = args.continue_on_errror
+        continue_on_error = args.continue_on_error
     )
 
 if __name__ == '__main__':
