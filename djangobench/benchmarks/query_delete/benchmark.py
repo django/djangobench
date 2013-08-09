@@ -1,16 +1,13 @@
-import time
 from djangobench.utils import run_benchmark
 from query_delete.models import Book
 
 def benchmark():
-    b = Book.objects.create(title='hi')
-    start = time.time()
-    b.delete()
-    return time.time() - start
+    Book.objects.all().delete()
 
 run_benchmark(
     benchmark,
-    meta = {
-        'description': 'Delete an object via Model.delete().',
-    }
+    meta={
+        'description': 'Delete an object via QuerySet.delete().',
+    },
+    setup=lambda: [Book.objects.create(title='hi') for i in range(0, 10)]
 )
