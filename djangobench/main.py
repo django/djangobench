@@ -96,6 +96,10 @@ def discover_benchmarks(benchmark_dir):
         if app.child('benchmark.py').exists() and app.child('settings.py').exists():
             yield app
 
+def print_benchmarks(benchmark_dir):
+    for app in discover_benchmarks(benchmark_dir):
+        print app.name
+
 class SkipBenchmark(Exception):
     pass
 
@@ -307,19 +311,29 @@ def main():
         action = 'store_true',
         help = 'Continue with the remaining benchmarks if any fail',
     )
+    parser.add_argument(
+        '-l',
+        '--list',
+        dest = 'list_benchmarks',
+        action = 'store_true',
+        help = 'List all available benchmarks and exit.',
+    )
 
     args = parser.parse_args()
-    run_benchmarks(
-        control = args.control,
-        experiment = args.experiment,
-        benchmark_dir = args.benchmark_dir,
-        benchmarks = args.benchmarks,
-        trials = args.trials,
-        vcs = None if args.vcs == 'none' else args.vcs,
-        record_dir = args.record,
-        profile_dir = args.profile_dir,
-        continue_on_error = args.continue_on_error
-    )
+    if args.list_benchmarks:
+        print_benchmarks(args.benchmark_dir)
+    else:
+        run_benchmarks(
+            control = args.control,
+            experiment = args.experiment,
+            benchmark_dir = args.benchmark_dir,
+            benchmarks = args.benchmarks,
+            trials = args.trials,
+            vcs = None if args.vcs == 'none' else args.vcs,
+            record_dir = args.record,
+            profile_dir = args.profile_dir,
+            continue_on_error = args.continue_on_error
+        )
 
 if __name__ == '__main__':
     main()
