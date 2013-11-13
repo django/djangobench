@@ -1,5 +1,3 @@
-from time import time
-
 from django.test.client import Client, FakePayload
 from django.conf import global_settings
 from django.conf import settings
@@ -7,6 +5,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.core.handlers.wsgi import WSGIHandler
 
 from djangobench.utils import run_comparison_benchmark
+
 
 class RequestFactory(Client):
     """
@@ -33,7 +32,7 @@ class RequestFactory(Client):
         has created it.
         """
         environ = {
-            'HTTP_COOKIE': self.cookies,
+            'HTTP_COOKIE': self.cookies.output(header='', sep='; '),
             'PATH_INFO': '/',
             'QUERY_STRING': '',
             'REQUEST_METHOD': 'GET',
@@ -48,6 +47,7 @@ class RequestFactory(Client):
 
         return WSGIRequest(environ)
 
+
 def setup():
     global req_factory, handler_default_middleware, handler_no_middleware
     req_factory = RequestFactory()
@@ -60,6 +60,7 @@ def setup():
     handler_no_middleware = WSGIHandler()
     handler_no_middleware.load_middleware()
 
+
 def benchmark_request(middleware_classes):
     settings.MIDDLEWARE_CLASSES = middleware_classes
     req_factory = RequestFactory()
@@ -67,20 +68,23 @@ def benchmark_request(middleware_classes):
     handler.load_middleware()
     handler.get_response(req_factory.get('/'))
 
+
 def benchmark_default_middleware():
     global req_factory, handler_default_middleware
     handler_default_middleware.get_response(req_factory.get('/'))
+
 
 def benchmark_no_middleware():
     global req_factory, handler_no_middleware
     handler_no_middleware.get_response(req_factory.get('/'))
 
+
 run_comparison_benchmark(
     benchmark_default_middleware,
     benchmark_no_middleware, 
-    setup = setup,
-    syncdb = False,
-    meta = {
+    setup=setup,
+    syncdb=False,
+    meta={
         'description': 'Request/response overhead added by the default middleware.',
     }
 )

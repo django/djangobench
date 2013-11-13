@@ -4,9 +4,10 @@ from query_get_or_create.models import Book
 
 counter = itertools.count(1)
 
+
 def benchmark():
-    nextid = counter.next()
-    
+    nextid = next(counter)
+
     # This will do a create ...
     Book.objects.get_or_create(id=nextid, defaults={'title': 'hi'})
     
@@ -15,7 +16,8 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    meta = {
-        'description': 'A Model.objects.get_or_create() call, both for existing and non-existing objects.',
+    meta={
+        'description': 'A Model.objects.get_or_create() call, both for '
+                       'existing and non-existing objects.',
     }
 )

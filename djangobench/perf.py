@@ -75,7 +75,13 @@ import sys
 import tempfile
 import time
 import threading
-import urllib2
+try:
+    from urllib.request import urlopen
+    from urllib.parse import urlparse
+    from urllib.error import URLError
+except ImportError:
+    from urlparse import urlparse
+    from urllib2 import urlopen, URLError
 try:
     import multiprocessing
 except ImportError:
@@ -310,7 +316,7 @@ class MemoryUsageFuture(threading.Thread):
         future = MemoryUsageFuture(some_pid)
         ...
         usage = future.GetMemoryUsage()
-        print max(usage)
+        print(max(usage))
 
     Note that calls to GetMemoryUsage() will block until the process exits.
     """
@@ -684,7 +690,7 @@ def SimpleBenchmark(benchmark_function, base_python, changed_python, options,
                                           *args, **kwargs)
         base_data = benchmark_function(base_python, options,
                                        *args, **kwargs)
-    except subprocess.CalledProcessError, e:
+    except subprocess.CalledProcessError as e:
         return BenchmarkError(e)
 
     return CompareBenchmarkData(base_data, changed_data, options)
@@ -769,8 +775,8 @@ def ShortenUrl(url):
     """
     tinyurl_api = "http://tinyurl.com/api-create.php?url="
     try:
-        url = urllib2.urlopen(tinyurl_api + url).read()
-    except urllib2.URLError:
+        url = urlopen(tinyurl_api + url).read()
+    except URLError:
         info("failed to call out to tinyurl.com")
     return url
 
@@ -829,8 +835,7 @@ def Relative(path):
 
 
 def LogCall(command):
-    command = map(str, command)
-    info("Running %s", " ".join(command))
+    info("Running %s", " ".join(str(c) for c in command))
     return command
 
 
@@ -1021,7 +1026,7 @@ def CallAndCaptureOutput(command, env=None, track_memory=False, inherit_env=[]):
                                env=BuildEnv(env, inherit_env))
     if track_memory:
         future = MemoryUsageFuture(subproc.pid)
-    stdout, stderr = subproc.communicate()
+    stdout, stderr = (b.decode('utf-8') for b in subproc.communicate())
     if subproc.returncode != 0:
         raise RuntimeError("Benchmark died: " + stderr)
     if track_memory:
@@ -1154,7 +1159,7 @@ def BM_PyBench(base_python, changed_python, options):
             result, err = comparer.communicate()
             if comparer.returncode != 0:
                 return BenchmarkError("pybench died: " + err)
-    except subprocess.CalledProcessError, e:
+    except subprocess.CalledProcessError as e:
         return BenchmarkError(e)
 
     if options.verbose:
@@ -1433,7 +1438,7 @@ def BM_SlowSpitfire(base_python, changed_python, options):
                                        spitfire_env, extra_args)
         base_data = MeasureSpitfire(base_python, options,
                                     spitfire_env, extra_args)
-    except subprocess.CalledProcessError, e:
+    except subprocess.CalledProcessError as e:
         return str(e)
 
     return CompareBenchmarkData(base_data, changed_data, options)
@@ -1477,24 +1482,30 @@ def BM_Pickle(base_python, changed_python, options):
     args = ["--use_cpickle", "pickle"]
     return _PickleBenchmark(base_python, changed_python, options, args)
 
+
 def BM_Unpickle(base_python, changed_python, options):
     args = ["--use_cpickle", "unpickle"]
     return _PickleBenchmark(base_python, changed_python, options, args)
+
 
 def BM_Pickle_List(base_python, changed_python, options):
     args = ["--use_cpickle", "pickle_list"]
     return _PickleBenchmark(base_python, changed_python, options, args)
 
+
 def BM_Unpickle_List(base_python, changed_python, options):
     args = ["--use_cpickle", "unpickle_list"]
     return _PickleBenchmark(base_python, changed_python, options, args)
+
 
 def BM_Pickle_Dict(base_python, changed_python, options):
     args = ["--use_cpickle", "pickle_dict"]
     return _PickleBenchmark(base_python, changed_python, options, args)
 
+
 def BM_SlowPickle(base_python, changed_python, options):
     return _PickleBenchmark(base_python, changed_python, options, ["pickle"])
+
 
 def BM_SlowUnpickle(base_python, changed_python, options):
     return _PickleBenchmark(base_python, changed_python, options, ["unpickle"])
@@ -1537,11 +1548,11 @@ def MeasureStartup(python, cmd_opts, num_loops, track_memory, inherit_env):
         # Without this, Python may start and exit before the memory sampler
         # thread has time to work. We can't just do 'time.sleep(x)', because
         # under -S, 'import time' fails.
-        work = "for _ in xrange(200000): pass"
+        work = "for _ in range(200000): pass"
     command = python + cmd_opts + ["-c", work]
     mem_usage = []
     info("Running `%s` %d times", command, num_loops * 20)
-    for _ in xrange(num_loops):
+    for _ in range(num_loops):
         t0 = time.time()
         _StartupPython(command, mem_usage, track_memory, inherit_env)
         _StartupPython(command, mem_usage, track_memory, inherit_env)
@@ -1811,7 +1822,7 @@ def BM_richards(*args, **kwargs):
 
 def _FindAllBenchmarks(namespace):
     return dict((name[3:].lower(), func)
-                for (name, func) in sorted(namespace.iteritems())
+                for (name, func) in sorted(namespace.items())
                 if name.startswith("BM_"))
 
 BENCH_FUNCS = _FindAllBenchmarks(globals())
@@ -2016,24 +2027,24 @@ def main(argv, bench_funcs=BENCH_FUNCS, bench_groups=BENCH_GROUPS):
     results = []
     for name in sorted(should_run):
         func = bench_funcs[name]
-        print "Running %s..." % name
+        print("Running %s..." % name)
         options.benchmark_name = name  # Easier than threading this everywhere.
         results.append((name, func(base_cmd_prefix, changed_cmd_prefix,
                                    options)))
 
-    print
-    print "Report on %s" % " ".join(platform.uname())
+    print('')
+    print("Report on %s" % " ".join(platform.uname()))
     if multiprocessing:
-        print "Total CPU cores:", multiprocessing.cpu_count()
+        print("Total CPU cores:", multiprocessing.cpu_count())
     if options.output_style == "normal":
         for name, result in results:
-            print
-            print "###", name, "###"
-            print result
+            print('')
+            print("###", name, "###")
+            print(result)
     elif options.output_style == "table":
-        print FormatOutputAsTable(options.control_label,
+        print(FormatOutputAsTable(options.control_label,
                                   options.experiment_label,
-                                  results)
+                                  results))
     else:
         raise ValueError("Invalid output_style: %r" % options.output_style)
     return results

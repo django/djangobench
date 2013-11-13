@@ -1,8 +1,10 @@
-from unipath import FSPath as Path
+import os
+
 from djangobench.base_settings import *
 
 USE_I18N = False
 USE_L10N = True
-
-TEMPLATE_DIRS = [Path(__file__).parent.child('templates').absolute()]
+TEMPLATE_DIRS = (
+    os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates')),
+)
 INSTALLED_APPS = ['l10n_render']

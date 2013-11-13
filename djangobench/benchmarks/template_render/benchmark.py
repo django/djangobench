@@ -49,8 +49,8 @@ def benchmark_django_gt_13():
 
 run_benchmark(
     benchmark_django_gt_13 if VERSION > (1, 3) else benchmark_django_lte_13,
-    syncdb = False,
-    meta = {
+    syncdb=False,
+    meta={
         'description': ('Render a somewhat complex, fairly typical template '
                         '(including inheritance, reverse URL resolution, etc.).'),
     }

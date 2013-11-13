@@ -63,7 +63,7 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=T
     if setup:
         setup()
 
-    for x in xrange(trials):
+    for x in range(trials):
         start = time_f()
         profile_file = os.environ.get('DJANGOBENCH_PROFILE_FILE', None)
         if profile_file is not None:
@@ -73,9 +73,10 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=T
         else:
             benchmark_result = benchmark()
         if benchmark_result is not None:
-            print benchmark_result
+            print(benchmark_result)
         else:
-            print time_f() - start
+            print(time_f() - start)
+
 
 def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, trials=None, handle_argv=True, meta={}):
     """
@@ -110,7 +111,7 @@ def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, 
     if setup:
         setup()
 
-    for x in xrange(trials):
+    for x in range(trials):
         start_a = time_f()
         result_a = benchmark_a()
         result_a = result_a or time_f() - start_a
@@ -119,11 +120,12 @@ def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, 
         result_b = benchmark_b()
         result_b = result_b or time_f() - start_b
 
-        print result_a - result_b
+        print(result_a - result_b)
+
 
 def print_benchmark_header(benchmark, meta):
     if 'title' not in map(str.lower, meta.keys()):
         meta['title'] = inspect.getmodule(benchmark).__name__
     for key, value in meta.items():
-        print '%s: %s' % (key.lower(), value)
-    print
+        print('%s: %s' % (key.lower(), value))
+    print('')
