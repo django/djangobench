@@ -3,6 +3,7 @@
 """
 Run us some Django benchmarks.
 """
+import logging
 
 import subprocess
 import argparse
@@ -318,8 +319,20 @@ def main():
         action = 'store_true',
         help = 'List all available benchmarks and exit.',
     )
-
+    parser.add_argument(
+        '--log',
+        dest='loglevel',
+        default='WARNING',
+        help='Define log level, set to INFO to show executed commands. Useful '
+             'for debugging benchmarks.'
+    )
     args = parser.parse_args()
+
+    numeric_level = getattr(logging, args.loglevel.upper(), None)
+    if not isinstance(numeric_level, int):
+        raise ValueError('Invalid log level: %s' % args.loglevel)
+    logging.basicConfig(level=numeric_level)
+
     if args.list_benchmarks:
         print_benchmarks(args.benchmark_dir)
     else:
