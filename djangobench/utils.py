@@ -53,6 +53,9 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=T
 
     print_benchmark_header(benchmark, meta)
 
+    import django
+    if hasattr(django, 'setup'):
+        django.setup()
     if syncdb:
         from django.core.management import call_command
         call_command("syncdb", verbosity=0)
@@ -96,6 +99,9 @@ def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, 
         trials = trials or args.trials
 
     print_benchmark_header(benchmark_a, meta)
+    import django
+    if hasattr(django, 'setup'):
+        django.setup()
 
     if syncdb:
         from django.core.management import call_command
