@@ -2,10 +2,12 @@ from djangobench.utils import run_benchmark
 from django import VERSION
 from query_prefetch_related.models import Book, Author
 
+
 def benchmark():
-    for i in xrange(10):
+    for i in range(10):
         for a in Author.objects.prefetch_related('books'):
             list(a.books.all())
+
 
 def setup():
     for i in range(0, 20):
@@ -22,7 +24,7 @@ else:
     run_benchmark(
         benchmark,
         setup=setup,
-        meta = {
+        meta={
             'description': 'A simple Model.objects.select_related() call.',
         }
     )
