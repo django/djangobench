@@ -59,6 +59,22 @@ This is an example of not-statistically-significant results::
     Not significant
     Stddev: 0.00044 -> 0.00046: 1.0382x larger
 
+Python 3
+~~~~~~~~
+
+Not only is ``djangobench`` Python 3 compatible, but can also be used to
+compare Python 2 vs Python 3 code paths. To do this, you need to provide the
+full paths to the corresponding Python executables in ``--control-python`` and
+``--experiment-python``. The short version (assuming you have also the
+``djangobench`` environment setup like above)::
+
+    mkvirtualenv djangobench-py3 -p python3
+    pip install -e git://github.com/django/djangobench.git#egg=djangobench
+    cd django
+    djangobench --vcs=none --control=. --experiment=. \
+        --control-python=~/.virtualenvs/djangobench/bin/python \
+        --experiment-python=~/.virtualenvs/djangobench-py3/bin/python \
+
 Writing new benchmarks
 ----------------------
 

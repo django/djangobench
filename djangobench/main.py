@@ -20,7 +20,8 @@ DEFAULT_BENCHMARK_DIR = os.path.join(os.path.dirname(__file__), 'benchmarks')
 
 def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials,
                    vcs=None, record_dir=None, profile_dir=None,
-                   continue_on_error=False):
+                   continue_on_error=False, control_python=sys.executable,
+                   experiment_python=sys.executable):
     if benchmarks:
         print("Running benchmarks: %s" % " ".join(benchmarks))
     else:
@@ -67,10 +68,14 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials,
             try:
                 if vcs:
                     switch_to_branch(vcs, control)
-                control_data = run_benchmark(benchmark, benchmark_dir, trials, control_env)
+                control_data = run_benchmark(benchmark, benchmark_dir, trials,
+                                             executable=control_python,
+                                             env=control_env)
                 if vcs:
                     switch_to_branch(vcs, experiment)
-                experiment_data = run_benchmark(benchmark, benchmark_dir, trials, experiment_env)
+                experiment_data = run_benchmark(benchmark, benchmark_dir, trials,
+                                                executable=experiment_python,
+                                                env=experiment_env)
             except SkipBenchmark as reason:
                 print("Skipped: %s\n" % reason)
                 continue
@@ -119,7 +124,7 @@ class SkipBenchmark(Exception):
     pass
 
 
-def run_benchmark(benchmark, benchmark_dir, trials, env):
+def run_benchmark(benchmark, benchmark_dir, trials, executable, env):
     """
     Similar to perf.MeasureGeneric, but modified a bit for our purposes.
     """
@@ -127,7 +132,8 @@ def run_benchmark(benchmark, benchmark_dir, trials, env):
     # re-generate fresh ones. This makes sure we're measuring as little of
     # Python's startup time as possible.
     remove_pycs()
-    command = [sys.executable, os.path.join(benchmark_dir, benchmark, 'benchmark.py')]
+    command = [os.path.expanduser(executable),
+               os.path.join(benchmark_dir, benchmark, 'benchmark.py')]
     out, _, _ = perf.CallAndCaptureOutput(command + ['-t', '1'], env, track_memory=False, inherit_env=[])
     if out.startswith('SKIP:'):
         raise SkipBenchmark(out.replace('SKIP:', '').strip())
@@ -278,22 +284,38 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--control',
-        metavar='PATH',
+        metavar='BRANCH',
         default='django-control',
-        help="Path to the Django code tree to use as control."
+        help="Django version to use as control. If --vcs git refers to a git"
+             "branch name or commit-id. If --vcs none refers to a path."
     )
     parser.add_argument(
         '--experiment',
-        metavar='PATH',
+        metavar='BRANCH',
         default='django-experiment',
-        help="Path to the Django version to use as experiment."
+        help="Django version to use as experiment. If --vcs git refers to a git"
+             "branch name or commit-id. If --vcs none refers to a path."
+    )
+    parser.add_argument(
+        '--control-python',
+        metavar='PATH',
+        default=sys.executable,
+        help="Python executable to use as control. Can be used to test Python "
+             "2 vs 3 performance on the benchmarks."
+    )
+    parser.add_argument(
+        '--experiment-python',
+        metavar='PATH',
+        default=sys.executable,
+        help="Python executable to use as experiment. Can be used to test "
+             "Python 2 vs 3 performance on the benchmarks."
     )
     parser.add_argument(
         '--vcs',
         choices=['git', 'hg', 'none'],
         default='git',
-        help='Use a VCS for control/experiment. Makes --control/--experiment '
-             'specify branches, not paths.'
+        help='Specify which VCS to use for control/experiment. Set to none to '
+             'specify paths, not branch or commit-id\'s.'
     )
     parser.add_argument(
         '-t', '--trials',
@@ -319,7 +341,7 @@ def main():
         'benchmarks',
         metavar='name',
         default=None,
-        help="Benchmarks to be run.  Defaults to all.",
+        help="Benchmarks to be run. Defaults to all.",
         nargs='*'
     )
     parser.add_argument(
@@ -370,7 +392,9 @@ def main():
             vcs=None if args.vcs == 'none' else args.vcs,
             record_dir=args.record,
             profile_dir=args.profile_dir,
-            continue_on_error=args.continue_on_error
+            continue_on_error=args.continue_on_error,
+            control_python=args.control_python,
+            experiment_python=args.experiment_python,
         )
 
 if __name__ == '__main__':
