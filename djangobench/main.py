@@ -234,7 +234,7 @@ def format_benchmark_result(result, num_points, control_data, experiment_data, s
         output += "Avg: %f -> %f: %s\n" % (result.avg_base, result.avg_changed, delta_avg)
 
         if show_median:
-            median = get_median(experiment_data) - get_median(control_data)
+            median = get_median(control_data) - get_median(experiment_data)
             median_text = "%0.10f" % median
             if median > .0:
                 median_body = colorize.good(median_text)
