@@ -234,12 +234,13 @@ def format_benchmark_result(result, num_points, control_data, experiment_data, s
         output += "Avg: %f -> %f: %s\n" % (result.avg_base, result.avg_changed, delta_avg)
 
         if show_median:
-            median = "%0.10f" % (get_median(experiment_data) - get_median(control_data))
-            if median > 0:
-                median_body = colorize.good(median)
+            median = get_median(experiment_data) - get_median(control_data)
+            median_text = "%0.10f" % median
+            if median > .0:
+                median_body = colorize.good(median_text)
             else:
-                median_body = colorize.bad(median)
-        output += "Median: %s\n" % median_body
+                median_body = colorize.bad(median_text)
+            output += "Median: %s\n" % median_body
 
         t_msg = result.t_msg
         if 'Not significant' in t_msg:
