@@ -58,8 +58,12 @@ def run_benchmark(benchmark, migrate=True, setup=None, trials=None, handle_argv=
         django.setup()
     if migrate:
         from django.core.management import call_command
-        call_command("migrate", run_syncdb=True, verbosity=0)
-        call_command("loaddata", "initial_data", verbosity=0)
+        if django.VERSION < (1, 7):
+            call_command("syncdb", run_syncdb=True, verbosity=0)
+        else:
+            call_command("migrate", run_syncdb=True, verbosity=0)
+            if django.VERSION >= (1, 8):
+                call_command("loaddata", "initial_data", verbosity=0)
 
     if setup:
         setup()
