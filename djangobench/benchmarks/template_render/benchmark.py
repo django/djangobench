@@ -43,7 +43,8 @@ def benchmark_django_gt_13():
         'boolean1': boolean1,
         'SCRIPT_CONTENT_URL': SCRIPT_CONTENT_URL,
         'WEBSITE_DOMAIN': WEBSITE_DOMAIN,
-        'SHOW_ALT_HEADER': SHOW_ALT_HEADER
+        'SHOW_ALT_HEADER': SHOW_ALT_HEADER,
+        'base_template': 'base.html' if VERSION > (1, 5) else 'base_django_lte_15.html',
     }
     render_to_response('permalink.html', context)
 
