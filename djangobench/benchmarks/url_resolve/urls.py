@@ -1,17 +1,12 @@
-try:
-    from django.conf.urls import patterns
-except ImportError:
-    from django.conf.urls.defaults import patterns
+from django.conf.urls import url
+from url_resolve import views
 
 def generate_filler_patterns(num=1):
     """ Returns a list of url pattern inputs for garbage views """
     for n in range(num):
-        yield (r''.join((r'^', r'x'*3*n, r'/$')), str(n))
+        yield url(r''.join((r'^', r'x'*3*n, r'/$')), views.basic)
 
-patterns_input = ['']
-patterns_input += generate_filler_patterns(10)
-patterns_input.append((r'^basic/$', 'url_resolve.views.basic'))
-patterns_input.append((r'^[a-z]*/$', 'url_resolve.views.catchall'))
-patterns_input.append((r'^replace/(?P<var>.*?)', 'url_resolve.views.vars'))
-
-urlpatterns = patterns(*patterns_input)
+urlpatterns = list(generate_filler_patterns(10))
+urlpatterns.append(url(r'^basic/$', views.basic, name='basic'))
+urlpatterns.append(url(r'^[a-z]*/$', views.catchall, name='catchall'))
+urlpatterns.append(url(r'^replace/(?P<var>.*?)', views.vars, name='vars'))
