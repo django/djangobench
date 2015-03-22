@@ -1,10 +1,12 @@
 from djangobench.utils import run_benchmark
-from query_delete_related.models import Book, Chapter
 
 def benchmark():
+    global Book
     Book.objects.all().delete()
 
 def setup():
+    global Book
+    from query_delete_related.models import Book, Chapter
     b1 = Book.objects.create(title='hi')
     b2 = Book.objects.create(title='hi')
     b3 = Book.objects.create(title='hi')

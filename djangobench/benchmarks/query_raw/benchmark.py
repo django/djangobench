@@ -1,10 +1,12 @@
 from djangobench.utils import run_benchmark
-from query_raw.models import MultiField
 
 def benchmark():
+    global MultiField
     list(MultiField.objects.raw('select * from query_raw_multifield'))
 
 def setup():
+    global MultiField
+    from query_raw.models import MultiField
     for i in range(0, 1000):
         kwargs = {}
         for j in range(1, 11):

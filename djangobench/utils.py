@@ -14,7 +14,7 @@ except ImportError:
 benchmark_parser = argparse.ArgumentParser()
 benchmark_parser.add_argument('-t', '--trials', type=int, default=100)
 
-def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=True, meta={}):
+def run_benchmark(benchmark, migrate=True, setup=None, trials=None, handle_argv=True, meta={}):
     """
     Run a benchmark a few times and report the results.
 
@@ -27,8 +27,8 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=T
             a value, that result will reported instead of the
             raw timing.
 
-        syncdb
-            If True, a syncdb will be performed before running
+        migrate
+            If True, a migrate will be performed before running
             the benchmark.
 
         setup
@@ -56,9 +56,10 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=T
     import django
     if hasattr(django, 'setup'):
         django.setup()
-    if syncdb:
+    if migrate:
         from django.core.management import call_command
-        call_command("syncdb", verbosity=0)
+        call_command("migrate", run_syncdb=True, verbosity=0)
+        call_command("loaddata", "initial_data", verbosity=0)
 
     if setup:
         setup()
@@ -78,7 +79,7 @@ def run_benchmark(benchmark, syncdb=True, setup=None, trials=None, handle_argv=T
             print(time_f() - start)
 
 
-def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, trials=None, handle_argv=True, meta={}):
+def run_comparison_benchmark(benchmark_a, benchmark_b, migrate=True, setup=None, trials=None, handle_argv=True, meta={}):
     """
     Benchmark the difference between two functions.
 
@@ -104,9 +105,9 @@ def run_comparison_benchmark(benchmark_a, benchmark_b, syncdb=True, setup=None, 
     if hasattr(django, 'setup'):
         django.setup()
 
-    if syncdb:
+    if migrate:
         from django.core.management import call_command
-        call_command("syncdb", verbosity=0)
+        call_command("migrate", verbosity=0)
 
     if setup:
         setup()

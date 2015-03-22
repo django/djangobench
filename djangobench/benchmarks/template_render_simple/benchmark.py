@@ -11,7 +11,7 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    syncdb = False,
+    migrate = False,
     meta = {
         'description': 'Render an extremely simple template (from string)',
     }

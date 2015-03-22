@@ -1,6 +1,7 @@
 # XXX FIXME - has to spawn a new process to measure load time
 
 from djangobench.utils import run_benchmark
+from django import VERSION
 
 def benchmark():
     # Make sure the models and settings are loaded, then we're done. Calling
@@ -8,11 +9,14 @@ def benchmark():
     from django.db import models
     models.get_models()
 
-run_benchmark(
-    benchmark,
-    syncdb = False,
-    trials = 1,
-    meta = {
-        'description': 'Startup time for a simple app.',
-    }
-)
+if VERSION < (1, 9):
+    run_benchmark(
+        benchmark,
+        migrate = False,
+        trials = 1,
+        meta = {
+            'description': 'Startup time for a simple app.',
+        }
+    )
+else:
+    print("SKIP: Django 1.9 and later has changed app loading. This benchmark needs fixing anyway.")

@@ -1,10 +1,12 @@
 from djangobench.utils import run_benchmark
-from query_all_converters.models import Converters
 
 def benchmark():
+    global Converters
     list(Converters.objects.iterator())
 
 def setup():
+    global Converters
+    from query_all_converters.models import Converters
     for i in range(0, 100):
         Converters().save()
 

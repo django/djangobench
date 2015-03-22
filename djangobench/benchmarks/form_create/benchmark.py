@@ -9,7 +9,7 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    syncdb = False,
+    migrate = False,
     meta = {
         'description': 'Time required to instantiate and bind a form.',
     }

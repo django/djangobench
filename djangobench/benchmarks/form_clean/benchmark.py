@@ -20,7 +20,7 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    syncdb=False,
+    migrate=False,
     meta={
         'description': 'Speed of a Form.clean call.',
     },

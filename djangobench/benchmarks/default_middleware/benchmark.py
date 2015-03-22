@@ -83,7 +83,7 @@ run_comparison_benchmark(
     benchmark_default_middleware,
     benchmark_no_middleware, 
     setup=setup,
-    syncdb=False,
+    migrate=False,
     meta={
         'description': 'Request/response overhead added by the default middleware.',
     }

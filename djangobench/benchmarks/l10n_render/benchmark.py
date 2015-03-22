@@ -35,7 +35,7 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    syncdb = False,
+    migrate = False,
     meta = {
         'description': 'Render a l10n intensive template.',
     }

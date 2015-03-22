@@ -1,5 +1,4 @@
 from djangobench.utils import run_benchmark
-from raw_sql.models import OneField
 from django.db import connection
 
 def benchmark():
@@ -8,6 +7,7 @@ def benchmark():
     list(cursor.fetchall())
 
 def setup():
+    from raw_sql.models import OneField
     for i in range(0, 10):
         OneField(field1=i).save()
 

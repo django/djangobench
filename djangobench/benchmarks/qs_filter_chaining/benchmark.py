@@ -1,9 +1,13 @@
 import datetime
 import time
 from djangobench.utils import run_benchmark
-from qs_filter_chaining.models import Book
+
+def setup():
+    global Book
+    from qs_filter_chaining.models import Book
 
 def benchmark():
+    global Book
     Book.objects.filter(title='Talent')\
                 .filter(description__icontains='top performers')\
                 .filter(author_name__startswith='Geoff')\
@@ -14,6 +18,7 @@ def benchmark():
 
 run_benchmark(
     benchmark,
+    setup=setup,
     meta = {
         'description': 'Filter (but do not execute) a queryset mutliple times.',
     }

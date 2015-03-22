@@ -25,7 +25,7 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    syncdb = False,
+    migrate = False,
     meta = {
         'description': 'Template compilation time.',
     }

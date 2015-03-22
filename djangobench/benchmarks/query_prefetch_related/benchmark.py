@@ -1,15 +1,17 @@
 from djangobench.utils import run_benchmark
 from django import VERSION
-from query_prefetch_related.models import Book, Author
 
 
 def benchmark():
+    global Author
     for i in range(10):
         for a in Author.objects.prefetch_related('books'):
             list(a.books.all())
 
 
 def setup():
+    global Author
+    from query_prefetch_related.models import Book, Author
     for i in range(0, 20):
         a = Author.objects.create(author="Author %s" % i)
         bset = set()
