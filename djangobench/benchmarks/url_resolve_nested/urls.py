@@ -1,9 +1,9 @@
 import string
 
 try:
-    from django.conf.urls import include, patterns, url
+    from django.conf.urls import include, url
 except ImportError:
-    from django.conf.urls.defaults import include, patterns, url
+    from django.conf.urls.defaults import include, url
 
 
 def ok_view(request, *a, **kw):
@@ -12,7 +12,7 @@ def ok_view(request, *a, **kw):
 def handler500(request):
     pass
 
-leaf_patterns = patterns('', url(r"^leaf$", ok_view))
+leaf_patterns = [url(r"^leaf$", ok_view)]
 
 def int2ascii(x, mod, alphabet=string.digits + string.ascii_letters):
     alphabet = alphabet[:mod]
@@ -26,10 +26,8 @@ def pattern_tree(parent, height, level):
     if height == 0:
         return leaf_patterns
     ids = [parent + int2ascii(i, level) for i in range(level)]
-    return patterns('',
-       *(url("^%s/" % id_, include(pattern_tree(id_, height-1, level)))
-         for id_ in ids)
-    )
+    return [url("^%s/" % id_, include(pattern_tree(id_, height-1, level)))
+        for id_ in ids]
 
 urlpatterns = pattern_tree("", 8, 2)
 # Total: 2**8 = 256 leafs, 511 nodes

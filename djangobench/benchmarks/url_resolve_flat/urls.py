@@ -1,7 +1,7 @@
 try:
-    from django.conf.urls import patterns, include, url
+    from django.conf.urls import include, url
 except ImportError:
-    from django.conf.urls.defaults import patterns, include, url
+    from django.conf.urls.defaults import include, url
 
 def ok_view(request, *a, **kw):
     pass
@@ -12,17 +12,17 @@ def handler404(request):
 sections = ["section%d" % i for i in range(10)]
 features = ["feature%d" % i for i in range(20)]
 
-urlpatterns = patterns('', *[
+urlpatterns = [
     url("^%s/%s$" % (s, f), ok_view) for s in sections for f in features
-])
+]
 
-urlpatterns += patterns('', *[
+urlpatterns += [
     url("^(?P<locale>en|ru)/%s$" % f, ok_view)
         for f in features
-])
+]
 
-urlpatterns += patterns('', *[
+urlpatterns += [
     url("^(?P<user>\w+)/(?P<repo>\w+)/%s$" % f, ok_view) for f in features
-])
+]
 
 # Total: 240 patterns

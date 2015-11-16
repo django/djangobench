@@ -1,9 +1,10 @@
 try:
-    from django.conf.urls import patterns
+    from django.conf.urls import url
 except ImportError:
-    from django.conf.urls.defaults import patterns
+    from django.conf.urls.defaults import url
 
+from .views import index
 
-urlpatterns = patterns('default_middleware',
-    (r'^.*$', 'views.index'),
-)
+urlpatterns = [
+    url(r'^.*$', index),
+]
