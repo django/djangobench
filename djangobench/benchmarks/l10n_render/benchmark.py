@@ -19,7 +19,7 @@ def make_request():
         'SERVER_PORT': 80,
         'SERVER_PROTOCOL': 'HTTP/1.1',
         "wsgi.input": sys.stdin
-        }
+    }
 
     return WSGIRequest(environ)
 
@@ -28,9 +28,9 @@ req_object = make_request()
 
 
 def benchmark():
-    render_to_response('list.html',
-                       {'numbers': range(0, 200)},
-                       context_instance=RequestContext(req_object))
+    context = RequestContext(req_object)
+    context['numbers'] = range(0, 200)
+    render_to_response('list.html', context)
 
 
 run_benchmark(
