@@ -1,8 +1,7 @@
 import sys
 
 from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 
 from djangobench.utils import run_benchmark
 
@@ -26,9 +25,8 @@ req_object = make_request()
 
 
 def benchmark():
-    context = RequestContext(req_object)
-    context['numbers'] = range(0, 200)
-    render_to_response('list.html', context)
+    context = {'numbers': range(0, 200)}
+    render(req_object, 'list.html', context)
 
 
 run_benchmark(
