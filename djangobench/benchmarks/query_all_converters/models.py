@@ -1,5 +1,7 @@
 import datetime
+
 from django.db import models
+
 
 class Converters(models.Model):
     """Both these fields have converters for sqlite"""

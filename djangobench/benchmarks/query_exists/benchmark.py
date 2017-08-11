@@ -1,5 +1,7 @@
-from djangobench.utils import run_benchmark
 from django.db.models import Manager
+
+from djangobench.utils import run_benchmark
+
 
 def setup():
     global Book

@@ -1,5 +1,6 @@
 from djangobench.utils import run_benchmark
 
+
 def benchmark():
     global Book
     list(Book.objects.iterator())

@@ -1,5 +1,6 @@
 from djangobench.utils import run_benchmark
 
+
 def benchmark():
     global Converters
     list(Converters.objects.iterator())

@@ -1,4 +1,5 @@
 import itertools
+
 from djangobench.utils import run_benchmark
 
 counter = itertools.count(1)

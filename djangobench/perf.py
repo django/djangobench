@@ -57,10 +57,6 @@ will pass the same arguments to both pythons:
   changed_python -A -B the_benchmark.py
 """
 
-from __future__ import division, with_statement
-
-__author__ = "jyasskin@google.com (Jeffrey Yasskin)"
-
 import contextlib
 import logging
 import math
@@ -73,8 +69,11 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import time
 import threading
+import time
+
+__author__ = "jyasskin@google.com (Jeffrey Yasskin)"
+
 try:
     from urllib.request import urlopen
     from urllib.parse import urlparse

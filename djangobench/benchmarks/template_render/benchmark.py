@@ -1,5 +1,6 @@
 from django import VERSION
 from django.shortcuts import render_to_response
+
 from djangobench.utils import run_benchmark
 
 #set up some vars

@@ -1,6 +1,6 @@
-from django.core.urlresolvers import resolve, Resolver404
-from djangobench.utils import run_benchmark
+from django.core.urlresolvers import Resolver404, resolve
 
+from djangobench.utils import run_benchmark
 
 
 def benchmark():

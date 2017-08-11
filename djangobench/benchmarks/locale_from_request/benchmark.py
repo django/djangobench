@@ -3,7 +3,6 @@ from django.utils.translation import get_language_from_request
 
 from djangobench.utils import run_benchmark
 
-
 LANGUAGES = (
     # no language preference
     '',

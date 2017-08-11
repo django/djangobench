@@ -1,5 +1,6 @@
 from djangobench.utils import run_benchmark
 
+
 def setup():
     global Book
     from query_filter.models import Book

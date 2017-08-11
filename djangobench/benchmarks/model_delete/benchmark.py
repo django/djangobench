@@ -1,5 +1,7 @@
 import time
+
 from djangobench.utils import run_benchmark
+
 
 def setup():
     global Book

@@ -1,5 +1,7 @@
 from django.core.urlresolvers import resolve
+
 from djangobench.utils import run_benchmark
+
 
 def benchmark():
     for i in range(0, 100):

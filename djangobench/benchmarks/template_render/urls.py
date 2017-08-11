@@ -5,7 +5,6 @@ except ImportError:
 
 from .views import join, login, logout
 
-
 urlpatterns = [
     url(r'/join/?$', join, name='join'),
     url(r'/login/?$', login, name='login'),

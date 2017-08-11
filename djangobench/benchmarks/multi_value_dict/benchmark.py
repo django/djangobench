@@ -1,5 +1,5 @@
-from time import time
 import copy
+from time import time
 
 from django.utils.datastructures import MultiValueDict
 

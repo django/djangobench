@@ -1,5 +1,6 @@
 from djangobench.utils import run_benchmark
 
+
 def benchmark():
     global MultiField
     list(MultiField.objects.raw('select id from query_raw_deferred_multifield'))

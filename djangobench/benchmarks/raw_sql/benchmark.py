@@ -1,5 +1,7 @@
-from djangobench.utils import run_benchmark
 from django.db import connection
+
+from djangobench.utils import run_benchmark
+
 
 def benchmark():
     cursor = connection.cursor()

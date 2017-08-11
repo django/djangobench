@@ -1,5 +1,7 @@
 from django.db.models import Count
+
 from djangobench.utils import run_benchmark
+
 
 def setup():
     global Book

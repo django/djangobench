@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from url_resolve import views
 
+
 def generate_filler_patterns(num=1):
     """ Returns a list of url pattern inputs for garbage views """
     for n in range(num):

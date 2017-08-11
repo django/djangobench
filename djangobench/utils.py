@@ -1,9 +1,6 @@
 import argparse
 import inspect
 import os
-
-# timeit uses either time.time() or time.clock() depending on which is more
-# accurate on the current platform:
 from timeit import default_timer as time_f
 
 try:

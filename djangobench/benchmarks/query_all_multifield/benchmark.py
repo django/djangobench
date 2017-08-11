@@ -1,5 +1,6 @@
 from djangobench.utils import run_benchmark
 
+
 def benchmark():
     global MultiField
     list(MultiField.objects.iterator())

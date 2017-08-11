@@ -3,14 +3,14 @@
 """
 Run us some Django benchmarks.
 """
-import logging
-import os
-
-import subprocess
 import argparse
 import email
 import json
+import logging
+import os
+import subprocess
 import sys
+
 from djangobench import perf
 
 __version__ = '0.10'

@@ -1,5 +1,6 @@
 from djangobench.utils import run_benchmark
 
+
 def setup():
     global Book
     from model_save_new.models import Book
