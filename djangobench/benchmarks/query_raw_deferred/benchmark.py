@@ -17,7 +17,7 @@ def setup():
 run_benchmark(
     benchmark,
     setup=setup,
-    meta = {
+    meta={
         'description': 'A test for fetching large number of objects by Model.objects.all() with deferred fields.',
     }
 )

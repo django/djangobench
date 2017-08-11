@@ -12,7 +12,7 @@ def benchmark():
 run_benchmark(
     benchmark,
     setup=setup,
-    meta = {
+    meta={
         'description': 'Time of a Model.objects.create() call.',
     }
 )

@@ -54,8 +54,8 @@ def benchmark_dict():
 run_comparison_benchmark(
     benchmark_multi,
     benchmark_dict,
-    migrate = False,
-    meta = {
+    migrate=False,
+    meta={
         'description': 'Overhead of a MultiValueDict compared to a builtin dict.',
     }
 )

@@ -11,8 +11,8 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    migrate = False,
-    meta = {
+    migrate=False,
+    meta={
         'description': 'Time required to instantiate and bind a form.',
     }
 )

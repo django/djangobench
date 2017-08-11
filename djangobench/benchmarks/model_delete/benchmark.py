@@ -17,7 +17,7 @@ def benchmark():
 run_benchmark(
     benchmark,
     setup=setup,
-    meta = {
+    meta={
         'description': 'Delete an object via Model.delete().',
     }
 )

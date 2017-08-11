@@ -33,8 +33,8 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    migrate = False,
-    meta = {
+    migrate=False,
+    meta={
         'description': 'Render a l10n intensive template.',
     }
 )

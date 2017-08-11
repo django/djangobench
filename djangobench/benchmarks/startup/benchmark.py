@@ -14,9 +14,9 @@ def benchmark():
 if VERSION < (1, 9):
     run_benchmark(
         benchmark,
-        migrate = False,
-        trials = 1,
-        meta = {
+        migrate=False,
+        trials=1,
+        meta={
             'description': 'Startup time for a simple app.',
         }
     )

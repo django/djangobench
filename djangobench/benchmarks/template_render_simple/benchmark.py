@@ -12,8 +12,8 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    migrate = False,
-    meta = {
+    migrate=False,
+    meta={
         'description': 'Render an extremely simple template (from string)',
     }
 )

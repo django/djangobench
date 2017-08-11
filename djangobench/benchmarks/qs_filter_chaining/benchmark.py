@@ -20,7 +20,7 @@ def benchmark():
 run_benchmark(
     benchmark,
     setup=setup,
-    meta = {
+    meta={
         'description': 'Filter (but do not execute) a queryset mutliple times.',
     }
 )

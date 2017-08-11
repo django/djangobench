@@ -8,7 +8,7 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    meta = {
+    meta={
         'description': 'URL resolution with long-flat list of patterns.',
     }
 )

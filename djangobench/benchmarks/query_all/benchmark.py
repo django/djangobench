@@ -14,7 +14,7 @@ def setup():
 run_benchmark(
     benchmark,
     setup=setup,
-    meta = {
+    meta={
         'description': 'A simple Model.objects.iterator() call for large number of objects.',
     }
 )

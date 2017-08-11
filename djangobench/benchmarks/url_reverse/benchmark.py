@@ -11,7 +11,7 @@ def benchmark():
 
 run_benchmark(
     benchmark,
-    meta = {
+    meta={
         'description': 'Reverse URL resolution.',
     }
 )
