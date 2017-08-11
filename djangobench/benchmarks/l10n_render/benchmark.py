@@ -1,10 +1,8 @@
-import os
 import sys
 
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.test.client import Client
 
 from djangobench.utils import run_benchmark
 

@@ -1,5 +1,4 @@
 import copy
-from time import time
 
 from django.utils.datastructures import MultiValueDict
 
@@ -16,11 +15,11 @@ def benchmark_multi():
     caseDict['a']
     caseDict['b']
     caseDict['c']
-    
+
     caseDict.update(update)
     copy.copy(caseDict)
     copy.deepcopy(caseDict)
-    
+
     caseDict.items()
     caseDict.lists()
     for i in caseDict:
@@ -34,20 +33,20 @@ def benchmark_dict():
     # Instantiate a new dict and call same methods as above - to be fair,
     # get unlistify in this method where required
     caseDict = dict(case)
-    
+
     caseDict['a'][0]
     caseDict['b'][1]
     caseDict['c'][2]
-    
+
     caseDict.items()
     caseDict.values()
     for i in caseDict:
         i
-    
+
     caseDict.update(update)
     copy.copy(caseDict)
     copy.deepcopy(caseDict)
-    
+
     caseDict['a'] = ['A']
     caseDict['b'] = ['B']
     caseDict['c'] = ['C']

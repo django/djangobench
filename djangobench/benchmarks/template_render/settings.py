@@ -1,6 +1,6 @@
 import os
 
-from djangobench.base_settings import *
+from djangobench.base_settings import *  # NOQA
 
 INSTALLED_APPS = ['template_render']
 TEMPLATE_DIRS = (

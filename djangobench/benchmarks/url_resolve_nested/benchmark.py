@@ -1,4 +1,4 @@
-from django.core.urlresolvers import Resolver404, resolve
+from django.core.urlresolvers import resolve
 
 from djangobench.utils import run_benchmark
 

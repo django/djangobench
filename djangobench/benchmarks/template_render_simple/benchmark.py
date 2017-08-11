@@ -1,5 +1,3 @@
-import os
-
 from django import template
 
 from djangobench.utils import run_benchmark

@@ -76,10 +76,8 @@ __author__ = "jyasskin@google.com (Jeffrey Yasskin)"
 
 try:
     from urllib.request import urlopen
-    from urllib.parse import urlparse
     from urllib.error import URLError
 except ImportError:
-    from urlparse import urlparse
     from urllib2 import urlopen, URLError
 try:
     import multiprocessing

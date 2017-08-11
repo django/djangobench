@@ -1,6 +1,6 @@
 import os
 
-from djangobench.base_settings import *
+from djangobench.base_settings import *  # NOQA
 
 USE_I18N = False
 USE_L10N = True

@@ -1,5 +1,3 @@
-import time
-
 from djangobench.utils import run_benchmark
 
 
@@ -12,7 +10,7 @@ def benchmark():
     Book.objects.create(title='hi!')
 
 run_benchmark(
-    benchmark, 
+    benchmark,
     setup=setup,
     meta = {
         'description': 'Time of a Model.objects.create() call.',

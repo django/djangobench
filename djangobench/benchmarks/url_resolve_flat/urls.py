@@ -1,7 +1,7 @@
 try:
-    from django.conf.urls import include, url
+    from django.conf.urls import url
 except ImportError:
-    from django.conf.urls.defaults import include, url
+    from django.conf.urls.defaults import url
 
 def ok_view(request, *a, **kw):
     pass

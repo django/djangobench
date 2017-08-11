@@ -1,3 +1,3 @@
-from djangobench.base_settings import *
+from djangobench.base_settings import *  # NOQA
 
 INSTALLED_APPS = ['model_creation']
