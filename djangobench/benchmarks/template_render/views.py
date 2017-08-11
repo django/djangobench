@@ -1,4 +1,4 @@
-#some dummy classes for the url reverse
+# some dummy classes for the url reverse
 def join(request):
     pass
 

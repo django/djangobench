@@ -17,8 +17,7 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url("^(?P<locale>en|ru)/%s$" % f, ok_view)
-        for f in features
+    url("^(?P<locale>en|ru)/%s$" % f, ok_view) for f in features
 ]
 
 urlpatterns += [

@@ -26,8 +26,7 @@ def pattern_tree(parent, height, level):
     if height == 0:
         return leaf_patterns
     ids = [parent + int2ascii(i, level) for i in range(level)]
-    return [url("^%s/" % id_, include(pattern_tree(id_, height-1, level)))
-        for id_ in ids]
+    return [url("^%s/" % id_, include(pattern_tree(id_, height - 1, level))) for id_ in ids]
 
 urlpatterns = pattern_tree("", 8, 2)
 # Total: 2**8 = 256 leafs, 511 nodes

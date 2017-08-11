@@ -4,13 +4,15 @@ from djangobench.utils import run_benchmark
 
 
 def benchmark():
+    paths = (
+        '/user/repo/feature19',
+        '/section0/feature0',
+        '/en/feature10',
+        '/ru/feature10',
+        '/missing',
+    )
     for i in range(0, 100):
-        for path in (
-          '/user/repo/feature19',
-          '/section0/feature0',
-          '/en/feature10',
-          '/ru/feature10',
-          '/missing'):
+        for path in paths:
             try:
                 resolve(path)
             except:

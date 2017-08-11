@@ -86,7 +86,8 @@ def run_benchmark(benchmark, migrate=True, setup=None, trials=None, handle_argv=
             print(time_f() - start)
 
 
-def run_comparison_benchmark(benchmark_a, benchmark_b, migrate=True, setup=None, trials=None, handle_argv=True, meta={}):
+def run_comparison_benchmark(benchmark_a, benchmark_b, migrate=True, setup=None,
+                             trials=None, handle_argv=True, meta={}):
     """
     Benchmark the difference between two functions.
 

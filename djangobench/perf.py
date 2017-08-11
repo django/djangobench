@@ -141,12 +141,18 @@ def TDist95ConfLevel(df):
     """
     df = int(round(df))
     highest_table_df = len(T_DIST_95_CONF_LEVELS)
-    if df >= 200: return 1.960
-    if df >= 100: return 1.984
-    if df >= 80: return 1.990
-    if df >= 60: return 2.000
-    if df >= 50: return 2.009
-    if df >= 40: return 2.021
+    if df >= 200:
+        return 1.960
+    if df >= 100:
+        return 1.984
+    if df >= 80:
+        return 1.990
+    if df >= 60:
+        return 2.000
+    if df >= 50:
+        return 2.009
+    if df >= 40:
+        return 2.021
     if df >= highest_table_df:
         return T_DIST_95_CONF_LEVELS[highest_table_df - 1]
     return T_DIST_95_CONF_LEVELS[df]
@@ -206,9 +212,9 @@ def IsSignificant(sample1, sample2):
     return (abs(t_score) >= critical_value, t_score)
 
 
-### Code to parse Linux /proc/%d/smaps files.
-### See http://bmaurer.blogspot.com/2006/03/memory-usage-with-smaps.html for
-### a quick introduction to smaps.
+# Code to parse Linux /proc/%d/smaps files.
+# See http://bmaurer.blogspot.com/2006/03/memory-usage-with-smaps.html for
+# a quick introduction to smaps.
 
 def _ParseSmapsData(smaps_data):
     """Parse the contents of a Linux 2.6 smaps file.
@@ -278,9 +284,10 @@ def _OpenWin32Process(pid):
             ...
     """
     h = win32api.OpenProcess(
-            win32con.PROCESS_QUERY_INFORMATION | win32con.PROCESS_VM_READ,
-            0,
-            pid)
+        win32con.PROCESS_QUERY_INFORMATION | win32con.PROCESS_VM_READ,
+        0,
+        pid,
+    )
     try:
         yield h
     finally:
@@ -378,16 +385,16 @@ class BenchmarkResult(object):
     def __init__(self, min_base, min_changed, delta_min, avg_base,
                  avg_changed, delta_avg, t_msg, std_base, std_changed,
                  delta_std, timeline_link):
-        self.min_base      = min_base
-        self.min_changed   = min_changed
-        self.delta_min     = delta_min
-        self.avg_base      = avg_base
-        self.avg_changed   = avg_changed
-        self.delta_avg     = delta_avg
-        self.t_msg         = t_msg
-        self.std_base      = std_base
-        self.std_changed   = std_changed
-        self.delta_std     = delta_std
+        self.min_base = min_base
+        self.min_changed = min_changed
+        self.delta_min = delta_min
+        self.avg_base = avg_base
+        self.avg_changed = avg_changed
+        self.delta_avg = delta_avg
+        self.t_msg = t_msg
+        self.std_base = std_base
+        self.std_changed = std_changed
+        self.delta_std = delta_std
         self.timeline_link = timeline_link
 
     def get_timeline(self):
@@ -396,13 +403,14 @@ class BenchmarkResult(object):
         return "\nTimeline: %(timeline_link)s" % self.__dict__
 
     def __str__(self):
-        return (("Min: %(min_base)f -> %(min_changed)f:" +
-                 " %(delta_min)s\n" +
-                 "Avg: %(avg_base)f -> %(avg_changed)f:" +
-                 " %(delta_avg)s\n" + self.t_msg +
-                 "Stddev: %(std_base).5f -> %(std_changed).5f:" +
-                 " %(delta_std)s" + self.get_timeline())
-                 % self.__dict__)
+        return ((
+            "Min: %(min_base)f -> %(min_changed)f:" +
+            " %(delta_min)s\n" +
+            "Avg: %(avg_base)f -> %(avg_changed)f:" +
+            " %(delta_avg)s\n" + self.t_msg +
+            "Stddev: %(std_base).5f -> %(std_changed).5f:" +
+            " %(delta_std)s" + self.get_timeline()
+        ) % self.__dict__)
 
 
 class BenchmarkError(object):
@@ -419,9 +427,9 @@ class MemoryUsageResult(object):
     """Memory usage data from a successful benchmark run."""
 
     def __init__(self, max_base, max_changed, delta_max, timeline_link):
-        self.max_base      = max_base
-        self.max_changed   = max_changed
-        self.delta_max     = delta_max
+        self.max_base = max_base
+        self.max_changed = max_changed
+        self.delta_max = delta_max
         self.timeline_link = timeline_link
 
     def get_usage_over_time(self):
@@ -430,18 +438,19 @@ class MemoryUsageResult(object):
         return "\nUsage over time: %(timeline_link)s" % self.__dict__
 
     def __str__(self):
-        return (("Mem max: %(max_base).3f -> %(max_changed).3f:" +
-                 " %(delta_max)s" + self.get_usage_over_time())
-                 % self.__dict__)
+        return ((
+            "Mem max: %(max_base).3f -> %(max_changed).3f:" +
+            " %(delta_max)s" + self.get_usage_over_time()
+        ) % self.__dict__)
 
 
 class SimpleBenchmarkResult(object):
     """Object representing result data from a successful benchmark run."""
 
     def __init__(self, base_time, changed_time, time_delta):
-        self.base_time    = base_time
+        self.base_time = base_time
         self.changed_time = changed_time
-        self.time_delta   = time_delta
+        self.time_delta = time_delta
 
     def __str__(self):
         return ("%(base_time)f -> %(changed_time)f: %(time_delta)s"
@@ -497,7 +506,7 @@ def CompareMemoryUsage(base_usage, changed_usage, options):
     return MemoryUsageResult(max_base, max_changed, delta_max, chart_link)
 
 
-### Utility functions
+# Utility functions
 
 
 def _FormatPerfDataForTable(base_label, changed_label, results):
@@ -986,7 +995,7 @@ def CompareBenchmarkData(base_data, exp_data, options):
             assert exp_data.mem_usage is not None
             return CompareMemoryUsage(base_data.mem_usage, exp_data.mem_usage,
                                       options)
-        return BencharkError("Benchmark does not report memory usage yet")
+        return BenchmarkError("Benchmark does not report memory usage yet")
     if options.diff_instrumentation:
         inst_diff = DiffInstrumentation(base_data.inst_output,
                                         exp_data.inst_output)
@@ -1073,7 +1082,7 @@ def MeasureGeneric(python, options, bm_path, bm_env=None,
     return RawData(times, mem_usage, inst_output=stderr)
 
 
-### Benchmarks
+# Benchmarks
 
 class PyBenchBenchmarkResult(object):
 
@@ -1111,62 +1120,6 @@ def MungePyBenchTotals(line):
         return PyBenchBenchmarkResult(min_base, min_changed, delta_min,
                                       avg_base, avg_changed, delta_avg)
     return BenchmarkError(line)
-
-
-def BM_PyBench(base_python, changed_python, options):
-    if options.track_memory:
-        return BenchmarkError("Benchmark does not report memory usage yet")
-
-    warp = "10"
-    if options.rigorous:
-        warp = "1"
-    if options.fast:
-        warp = "100"
-
-    PYBENCH_PATH = Relative("performance/pybench/pybench.py")
-    PYBENCH_ENV = BuildEnv(inherit_env=options.inherit_env)
-
-    try:
-        with contextlib.nested(open(os.devnull, "wb"),
-                               TemporaryFilename(prefix="baseline."),
-                               TemporaryFilename(prefix="changed.")
-                               ) as (dev_null, base_pybench, changed_pybench):
-            RemovePycs()
-            subprocess.check_call(LogCall(changed_python + [
-                                           PYBENCH_PATH,
-                                           "-w", warp,
-                                           "-f", changed_pybench,
-                                           ]), stdout=dev_null,
-                                           env=PYBENCH_ENV)
-            RemovePycs()
-            subprocess.check_call(LogCall(base_python + [
-                                           PYBENCH_PATH,
-                                           "-w", warp,
-                                           "-f", base_pybench,
-                                           ]), stdout=dev_null,
-                                           env=PYBENCH_ENV)
-            comparer = subprocess.Popen(base_python + [
-                                         PYBENCH_PATH,
-                                         "--debug",
-                                         "-s", base_pybench,
-                                         "-c", changed_pybench,
-                                         ], stdout=subprocess.PIPE,
-                                         stderr=subprocess.PIPE,
-                                         env=PYBENCH_ENV)
-            result, err = comparer.communicate()
-            if comparer.returncode != 0:
-                return BenchmarkError("pybench died: " + err)
-    except subprocess.CalledProcessError as e:
-        return BenchmarkError(e)
-
-    if options.verbose:
-        return BenchmarkError(result)
-    else:
-        for line in result.splitlines():
-            if line.startswith("Totals:"):
-                return MungePyBenchTotals(line)
-        # The format's wrong...
-        return BenchmarkError(result)
 
 
 def MeasureCommand(command, iterations, env, track_memory):
@@ -1316,15 +1269,17 @@ def BM_Float(*args, **kwargs):
 
 
 def MeasureRietveld(python, options):
-    PYTHONPATH = os.pathsep.join([DJANGO_DIR,
-				  # These paths are lifted from
-				  # lib/google_appengine.appcfg.py.  Note that we use
-				  # our own version of Django instead of Appengine's.
-				  Relative("lib/google_appengine"),
-				  Relative("lib/google_appengine/lib/antlr3"),
-				  Relative("lib/google_appengine/lib/webob"),
-				  Relative("lib/google_appengine/lib/yaml/lib"),
-				  Relative("lib/rietveld")])
+    PYTHONPATH = os.pathsep.join([
+        DJANGO_DIR,
+        # These paths are lifted from
+        # lib/google_appengine.appcfg.py.  Note that we use
+        # our own version of Django instead of Appengine's.
+        Relative("lib/google_appengine"),
+        Relative("lib/google_appengine/lib/antlr3"),
+        Relative("lib/google_appengine/lib/webob"),
+        Relative("lib/google_appengine/lib/yaml/lib"),
+        Relative("lib/rietveld"),
+    ])
     bm_path = Relative("performance/bm_rietveld.py")
     bm_env = {"PYTHONPATH": PYTHONPATH, "DJANGO_SETTINGS_MODULE": "settings"}
 
@@ -1574,7 +1529,7 @@ def MeasureStartup(python, cmd_opts, num_loops, track_memory, inherit_env):
         t1 = time.time()
         times.append(t1 - t0)
     if not track_memory:
-      mem_usage = None
+        mem_usage = None
     return RawData(times, mem_usage)
 
 
@@ -1815,7 +1770,7 @@ def MeasureRichards(python, options):
 def BM_richards(*args, **kwargs):
     return SimpleBenchmark(MeasureRichards, *args, **kwargs)
 
-### End benchmarks, begin main entry point support.
+# End benchmarks, begin main entry point support.
 
 def _FindAllBenchmarks(namespace):
     return dict((name[3:].lower(), func)
@@ -1829,19 +1784,19 @@ BENCH_FUNCS = _FindAllBenchmarks(globals())
 # If you update the default group, be sure to update the module docstring, too.
 # An "all" group which includes every benchmark perf.py knows about is generated
 # automatically.
-BENCH_GROUPS = {"default": ["2to3", "django", "nbody", "rietveld",
-                            "slowspitfire", "slowpickle", "slowunpickle",
-                            "spambayes"],
-                "startup": ["normal_startup", "startup_nosite",
-                            "bzr_startup", "hg_startup"],
-                "regex": ["regex_v8", "regex_effbot", "regex_compile"],
-                "threading": ["threaded_count", "iterative_count"],
-                "cpickle": ["pickle", "unpickle"],
-                "apps": ["2to3", "html5lib", "rietveld", "spambayes"],
-                "calls": ["call_simple", "call_method", "call_method_slots",
-                          "call_method_unknown"],
-                "math": ["nbody", "float"],
-               }
+BENCH_GROUPS = {
+    "default": [
+        "2to3", "django", "nbody", "rietveld", "slowspitfire", "slowpickle",
+        "slowunpickle", "spambayes",
+    ],
+    "startup": ["normal_startup", "startup_nosite", "bzr_startup", "hg_startup"],
+    "regex": ["regex_v8", "regex_effbot", "regex_compile"],
+    "threading": ["threaded_count", "iterative_count"],
+    "cpickle": ["pickle", "unpickle"],
+    "apps": ["2to3", "html5lib", "rietveld", "spambayes"],
+    "calls": ["call_simple", "call_method", "call_method_slots", "call_method_unknown"],
+    "math": ["nbody", "float"],
+}
 
 
 def _ExpandBenchmarkName(bm_name, bench_groups):
@@ -1988,7 +1943,6 @@ def main(argv, bench_funcs=BENCH_FUNCS, bench_groups=BENCH_GROUPS):
                             " Unladen Swallow binaries. This is useful for"
                             " examining many benchmarks for optimization"
                             " effects."))
-
 
     options, args = parser.parse_args(argv)
     if len(args) != 2:

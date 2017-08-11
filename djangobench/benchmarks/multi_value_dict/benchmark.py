@@ -4,8 +4,8 @@ from django.utils.datastructures import MultiValueDict
 
 from djangobench.utils import run_comparison_benchmark
 
-case = {'a': ['a'], 'b': ['a','b'], 'c':['a','b','c']}
-update = {'a': ['a'], 'b': ['a','b'], 'c':['a','b','c']}
+case = {'a': ['a'], 'b': ['a', 'b'], 'c': ['a', 'b', 'c']}
+update = {'a': ['a'], 'b': ['a', 'b'], 'c': ['a', 'b', 'c']}
 
 def benchmark_multi():
     # Instantiate a new MultiValueDict and call key method (i.e. that do

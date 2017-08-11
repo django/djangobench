@@ -18,6 +18,6 @@ run_benchmark(
     benchmark,
     setup=setup,
     meta={
-        'description': 'A simple Model.objects.iterator() call for large number of objects and large number of fields.',
+        'description': 'A simple Model.objects.iterator() for a large number of objects and large number of fields.',
     }
 )

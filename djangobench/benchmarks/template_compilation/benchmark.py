@@ -5,7 +5,7 @@ from djangobench.utils import run_benchmark
 
 def benchmark():
     # Just compile the template, no rendering
-    t = Template("""
+    Template("""
         {% for v in vals %}
             {{ v }}
             {{ v }}

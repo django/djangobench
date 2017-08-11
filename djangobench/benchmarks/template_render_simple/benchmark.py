@@ -4,9 +4,7 @@ from djangobench.utils import run_benchmark
 
 
 def benchmark():
-    context = template.Context({
-        'stuff': 'something'
-    });
+    context = template.Context({'stuff': 'something'})
     t = template.Template('{{ stuff }}')
     t.render(context)
 

@@ -9,7 +9,7 @@ def setup():
     global Book
     from query_all.models import Book
     for i in range(0, 3000):
-        Book(pk=i,title='foobar_%s' % i ).save()
+        Book(pk=i, title='foobar_%s' % i).save()
 
 run_benchmark(
     benchmark,

@@ -9,10 +9,10 @@ def setup():
 
 def benchmark():
     global Book
-    #Checking for object that exists
+    # Checking for object that exists
     Book.objects.filter(id=1).exists()
 
-    #Checking for object that does not exist
+    # Checking for object that does not exist
     Book.objects.filter(id=11).exists()
 
 if hasattr(Manager, 'exists'):

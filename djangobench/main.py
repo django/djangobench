@@ -239,7 +239,7 @@ def format_benchmark_result(result, num_points):
             delta_std = colorize.bad(delta_std)
         elif 'smaller' in delta_std:
             delta_std = colorize.good(delta_std)
-        output += "Stddev: %.5f -> %.5f: %s" %(result.std_base, result.std_changed, delta_std)
+        output += "Stddev: %.5f -> %.5f: %s" % (result.std_base, result.std_changed, delta_std)
         output += " (N = %s)" % num_points
         output += result.get_timeline()
         return output

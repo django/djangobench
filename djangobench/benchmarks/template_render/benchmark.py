@@ -3,7 +3,6 @@ from django.shortcuts import render_to_response
 
 from djangobench.utils import run_benchmark
 
-#set up some vars
 objects1 = [object(), object(), object(), object(), object()]
 objects2 = [object(), object(), object(), object(), object()]
 object1 = object()
@@ -23,8 +22,8 @@ def benchmark_django_lte_13():
         'object1': object1,
         'object2': object2,
         'object3': object3,
-        'num1' : num1,
-        'num2' : num2,
+        'num1': num1,
+        'num2': num2,
         'boolean1': boolean1,
         'SCRIPT_CONTENT_URL': SCRIPT_CONTENT_URL,
         'WEBSITE_DOMAIN': WEBSITE_DOMAIN,
@@ -39,8 +38,8 @@ def benchmark_django_gt_13():
         'object1': object1,
         'object2': object2,
         'object3': object3,
-        'num1' : num1,
-        'num2' : num2,
+        'num1': num1,
+        'num2': num2,
         'boolean1': boolean1,
         'SCRIPT_CONTENT_URL': SCRIPT_CONTENT_URL,
         'WEBSITE_DOMAIN': WEBSITE_DOMAIN,

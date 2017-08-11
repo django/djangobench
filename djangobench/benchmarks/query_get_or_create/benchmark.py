@@ -14,7 +14,7 @@ def benchmark():
 
     # This will do a create ...
     Book.objects.get_or_create(id=nextid, defaults={'title': 'hi'})
-    
+
     # ... and this a get.
     Book.objects.get_or_create(id=nextid, defaults={'title': 'hi'})
 
