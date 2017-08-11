@@ -7,7 +7,7 @@ def setup():
 
 def benchmark():
     global Book
-    Book.objects.in_bulk([1]) 
+    Book.objects.in_bulk([1])
 
 run_benchmark(
     benchmark,

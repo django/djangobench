@@ -12,7 +12,7 @@ def setup():
         kwargs = {}
         for j in range(1, 11):
             kwargs['field%s' % j] = 'foobar_%s_%s' % (i, j)
-        MultiField(**kwargs).save() 
+        MultiField(**kwargs).save()
 
 run_benchmark(
     benchmark,

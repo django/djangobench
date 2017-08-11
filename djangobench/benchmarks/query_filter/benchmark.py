@@ -10,7 +10,7 @@ def benchmark():
     list(Book.objects.filter(id=1))
 
 run_benchmark(
-    benchmark, 
+    benchmark,
     setup=setup,
     meta={
         'description': 'A simple Model.objects.filter() call.',

@@ -8,19 +8,19 @@ from djangobench.utils import run_comparison_benchmark
 class RequestFactory(Client):
     """
     Class that lets you create mock Request objects for use in testing.
-    
+
     Usage:
-    
+
     rf = RequestFactory()
     get_request = rf.get('/hello/')
     post_request = rf.post('/submit/', {'foo': 'bar'})
-    
+
     This class re-uses the django.test.client.Client interface, docs here:
     http://www.djangoproject.com/documentation/testing/#the-test-client
-    
-    Once you have a request object you can pass it to any view function, 
+
+    Once you have a request object you can pass it to any view function,
     just as if that view had been hooked up using a URLconf.
-    
+
     Author: Simon (http://djangosnippets.org/users/simon/)
     djangosnippet URL: (http://djangosnippets.org/snippets/963/)
     """
@@ -49,11 +49,11 @@ class RequestFactory(Client):
 def setup():
     global req_factory, handler_default_middleware, handler_no_middleware
     req_factory = RequestFactory()
-    
+
     settings.MIDDLEWARE_CLASSES = global_settings.MIDDLEWARE_CLASSES
     handler_default_middleware = WSGIHandler()
     handler_default_middleware.load_middleware()
-    
+
     settings.MIDDLEWARE_CLASSES = []
     handler_no_middleware = WSGIHandler()
     handler_no_middleware.load_middleware()
@@ -79,7 +79,7 @@ def benchmark_no_middleware():
 
 run_comparison_benchmark(
     benchmark_default_middleware,
-    benchmark_no_middleware, 
+    benchmark_no_middleware,
     setup=setup,
     migrate=False,
     meta={
