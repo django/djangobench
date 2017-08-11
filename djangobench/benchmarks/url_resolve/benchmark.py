@@ -1,4 +1,7 @@
-from django.core.urlresolvers import resolve
+try:
+    from django.urls import resolve
+except ImportError:  # Django < 1.10
+    from django.core.urlresolvers import resolve
 
 from djangobench.utils import run_benchmark
 
