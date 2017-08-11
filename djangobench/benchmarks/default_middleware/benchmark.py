@@ -50,17 +50,25 @@ def setup():
     global req_factory, handler_default_middleware, handler_no_middleware
     req_factory = RequestFactory()
 
-    settings.MIDDLEWARE_CLASSES = global_settings.MIDDLEWARE_CLASSES
+    use_MIDDLEWARE_setting = True
+    try:
+        settings.MIDDLEWARE = global_settings.MIDDLEWARE
+    except AttributeError:
+        settings.MIDDLEWARE_CLASSES = global_settings.MIDDLEWARE_CLASSES
+        use_MIDDLEWARE_setting = False
     handler_default_middleware = WSGIHandler()
     handler_default_middleware.load_middleware()
 
-    settings.MIDDLEWARE_CLASSES = []
+    if use_MIDDLEWARE_setting:
+        settings.MIDDLEWARE = []
+    else:
+        settings.MIDDLEWARE_CLASSES = []
     handler_no_middleware = WSGIHandler()
     handler_no_middleware.load_middleware()
 
 
 def benchmark_request(middleware_classes):
-    settings.MIDDLEWARE_CLASSES = middleware_classes
+    settings.MIDDLEWARE = settings.MIDDLEWARE_CLASSES = middleware_classes
     req_factory = RequestFactory()
     handler = WSGIHandler()
     handler.load_middleware()
