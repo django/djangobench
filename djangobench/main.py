@@ -9,7 +9,7 @@ import os
 import subprocess
 import argparse
 import email
-import simplejson
+import json
 import sys
 from djangobench import perf
 
@@ -148,7 +148,7 @@ def run_benchmark(benchmark, benchmark_dir, trials, executable, env):
 
 def record_benchmark_results(dest, **kwargs):
     kwargs['version'] = __version__
-    simplejson.dump(kwargs, open(dest, 'w'), default=json_encode_custom)
+    json.dump(kwargs, open(dest, 'w'), default=json_encode_custom)
 
 
 def json_encode_custom(obj):

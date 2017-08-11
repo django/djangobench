@@ -32,7 +32,6 @@ setup(
         'Topic :: Software Development :: Testing',
         'Topic :: System :: Benchmark'
     ],
-    install_requires=['simplejson==3.3.1'],
     entry_points={
         'console_scripts': ['djangobench=djangobench.main:main']
     }
