@@ -15,11 +15,8 @@ def setup():
     from query_prefetch_related.models import Book, Author
     for i in range(0, 20):
         a = Author.objects.create(author="Author %s" % i)
-        bset = set()
-        for j in range(0, 3):
-            b = Book.objects.create(title="Title %s" % j)
-            bset.add(b)
-        a.books = bset
+        books = [Book.objects.create(title="Title %s" % j) for j in range(0, 3)]
+        a.books.add(*books)
 
 if VERSION < (1, 4):
     print("SKIP: prefetch_related not supported before Django 1.4")
