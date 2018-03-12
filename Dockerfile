@@ -1,4 +1,4 @@
-ARG IMAGE=conda/miniconda2
+ARG IMAGE=conda/miniconda3
 FROM ${IMAGE} as build
 
 RUN apt-get -qq update && apt-get -qq -y install git \
