@@ -1,5 +1,6 @@
 from django import VERSION
-from django.shortcuts import render_to_response
+from django.http import HttpRequest
+from django.shortcuts import render
 
 from djangobench.utils import run_benchmark
 
@@ -16,6 +17,7 @@ WEBSITE_DOMAIN = 'http://www.somedomain.com'
 SHOW_ALT_HEADER = 'True'
 
 def benchmark_django_lte_13():
+    from django.shortcuts import render_to_response
     context = {
         'objects1': objects1,
         'objects2': objects2,
@@ -46,7 +48,7 @@ def benchmark_django_gt_13():
         'SHOW_ALT_HEADER': SHOW_ALT_HEADER,
         'base_template': 'base.html' if VERSION > (1, 5) else 'base_django_lte_15.html',
     }
-    render_to_response('permalink.html', context)
+    render(HttpRequest(), 'permalink.html', context)
 
 run_benchmark(
     benchmark_django_gt_13 if VERSION > (1, 3) else benchmark_django_lte_13,

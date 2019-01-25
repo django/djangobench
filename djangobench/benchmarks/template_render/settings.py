@@ -2,7 +2,11 @@ import os
 
 from djangobench.base_settings import *  # NOQA
 
-INSTALLED_APPS = ['template_render']
+INSTALLED_APPS = [
+    'template_render',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+]
 TEMPLATE_DIRS = (
     os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates')),
 )
