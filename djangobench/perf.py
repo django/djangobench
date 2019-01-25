@@ -1101,7 +1101,7 @@ class PyBenchBenchmarkResult(object):
                 % self.__dict__)
 
 
-_PY_BENCH_TOTALS_LINE = re.compile("""
+_PY_BENCH_TOTALS_LINE = re.compile(r"""
     Totals:\s+(?P<min_base>\d+)ms\s+
     (?P<min_changed>\d+)ms\s+
     \S+\s+  # Percent change, which we re-compute

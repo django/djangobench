@@ -1,7 +1,7 @@
 try:
-    from django.urls import resolve
+    from django.urls import resolve, Resolver404
 except ImportError:  # Django < 1.10
-    from django.core.urlresolvers import resolve
+    from django.core.urlresolvers import resolve, Resolver404
 
 from djangobench.utils import run_benchmark
 
@@ -18,7 +18,7 @@ def benchmark():
         for path in paths:
             try:
                 resolve(path)
-            except:
+            except Resolver404:
                 pass
 run_benchmark(
     benchmark,

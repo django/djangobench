@@ -17,11 +17,11 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url("^(?P<locale>en|ru)/%s$" % f, ok_view) for f in features
+    url(r"^(?P<locale>en|ru)/%s$" % f, ok_view) for f in features
 ]
 
 urlpatterns += [
-    url("^(?P<user>\w+)/(?P<repo>\w+)/%s$" % f, ok_view) for f in features
+    url(r"^(?P<user>\w+)/(?P<repo>\w+)/%s$" % f, ok_view) for f in features
 ]
 
 # Total: 240 patterns

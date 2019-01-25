@@ -12,7 +12,7 @@ def benchmark():
     try:
         # This will fail, due to too many objects
         Book.objects.get()
-    except:
+    except Book.MultipleObjectsReturned:
         pass
 
 run_benchmark(
