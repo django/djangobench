@@ -49,12 +49,12 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials,
     # benchmarks in.
     if vcs:
         control_env = {
-            'PYTHONPATH': '%s:%s' % (os.path.abspath(os.getcwd()), benchmark_dir),
+            'PYTHONPATH': '%s%s%s' % (os.path.abspath(os.getcwd()), os.pathsep, benchmark_dir),
         }
         experiment_env = control_env.copy()
     else:
-        control_env = {'PYTHONPATH': '%s:%s' % (os.path.abspath(control), benchmark_dir)}
-        experiment_env = {'PYTHONPATH': '%s:%s' % (os.path.abspath(experiment), benchmark_dir)}
+        control_env = {'PYTHONPATH': '%s%s%s' % (os.path.abspath(control), os.pathsep, benchmark_dir)}
+        experiment_env = {'PYTHONPATH': '%s%s%s' % (os.path.abspath(experiment), os.pathsep, benchmark_dir)}
 
     for benchmark in discover_benchmarks(benchmark_dir):
         if not benchmarks or benchmark in benchmarks:
