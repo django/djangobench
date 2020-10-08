@@ -38,8 +38,8 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials,
             raise ValueError('Profile directory "%s" does not exist' % profile_dir)
         print("Recording profile data to '%s'" % profile_dir)
 
-    control_label = get_django_version(control, vcs=vcs)
-    experiment_label = get_django_version(experiment, vcs=vcs)
+    control_label, control_commit = get_django_version(control, vcs=vcs)
+    experiment_label, experiment_commit = get_django_version(experiment, vcs=vcs)
     branch_info = "%s branch " % vcs if vcs else ""
     print("Control: Django %s (in %s%s)" % (control_label, branch_info, control))
     print("Experiment: Django %s (in %s%s)" % (experiment_label, branch_info, experiment))
@@ -100,7 +100,9 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials,
                     name=benchmark,
                     result=result,
                     control=control_label,
+                    control_commit=control_commit,
                     experiment=experiment_label,
+                    experiment_commit=experiment_commit,
                     control_data=control_data,
                     experiment_data=experiment_data,
                 )
@@ -257,7 +259,8 @@ def get_django_version(loc, vcs=None):
         [sys.executable, '-c' 'import django; print(django.get_version())'],
         env={'PYTHONPATH': pythonpath}
     )
-    return out.strip()
+    commit_out, commit_err, _ = perf.CallAndCaptureOutput(['git', 'rev-parse', 'HEAD'])
+    return out.strip(), commit_out.strip()
 
 
 def switch_to_branch(vcs, branchname, do_cleanup=False):
