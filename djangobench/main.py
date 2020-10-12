@@ -164,7 +164,7 @@ def json_encode_custom(obj):
             'avg_base': obj.avg_base,
             'avg_changed': obj.avg_changed,
             'delta_avg': obj.delta_avg,
-            't_msg': obj.t_msg,
+            't_msg': obj.t_msg.strip(),
             'std_base': obj.std_base,
             'std_changed': obj.std_changed,
             'delta_std': obj.delta_std,
