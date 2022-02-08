@@ -1,9 +1,12 @@
+from django.http import HttpResponse
+
+
 # some dummy classes for the url reverse
 def join(request):
-    pass
+    return HttpResponse()
 
 def login(request):
-    pass
+    return HttpResponse()
 
 def logout(request):
-    pass
+    return HttpResponse()
