@@ -46,44 +46,44 @@
     {% endif %}
     <div class="clear"></div>
 
-    {% ifnotequal num1 1 %}
+    {% if num1 != 1 %}
         {% if not object3 %}
-            {% ifnotequal 1 num2 %}
+            {% if 1 != num2 %}
                 {{ num2 }}
             {% else %}
                 <p>Nothing</p>
-            {% endifnotequal %}
+            {% endif %}
         {% else %}
             {{ num1 }}
         {% endif %}
-    {% endifnotequal %}
+    {% endif %}
     <div class="clear"></div>
 
-    {% ifnotequal num2 0 %}
+    {% if num2 != 0 %}
         {% if not object3 %}
-            {% ifnotequal 1 num2 %}
+            {% if 1 != num2 %}
                 {{ num2 }}
             {% else %}
                 <p>Nothing</p>
-            {% endifnotequal %}
+            {% endif %}
         {% else %}
             {{ num1 }}
         {% endif %}
-    {% endifnotequal %}
+    {% endif %}
     <div class="clear"></div>
 
 
-    {% ifnotequal num1 0 %}
+    {% if num1 != 0 %}
         {% if not object3 %}
-            {% ifnotequal 1 num2 %}
+            {% if 1 != num2 %}
                 {{ num2 }}
             {% else %}
                 <p>Nothing</p>
-            {% endifnotequal %}
+            {% endif %}
         {% else %}
             {{ num1 }}
         {% endif %}
-    {% endifnotequal %}
+    {% endif %}
     <div class="clear"></div>
 
     {% include "for_loop.html" %}

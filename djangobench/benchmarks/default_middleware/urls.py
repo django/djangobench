@@ -1,10 +1,15 @@
-try:
-    from django.conf.urls import url
-except ImportError:
-    from django.conf.urls.defaults import url
+import django
 
 from .views import index
 
+if django.VERSION >= (2, 0):
+    from django.urls import re_path
+elif django.VERSION >= (1, 4):
+    from django.conf.urls import url as re_path
+else:
+    from django.conf.urls.defaults import url as re_path
+
+
 urlpatterns = [
-    url(r'^.*$', index),
+    re_path(r'^.*$', index),
 ]

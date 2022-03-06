@@ -1,8 +1,10 @@
-﻿def basic():
-    pass
+﻿from django.http import HttpResponse
 
-def catchall():
-    pass
+def basic(request):
+    return HttpResponse()
 
-def vars(var=None):
-    pass
+def catchall(request):
+    return HttpResponse()
+
+def vars(request, var=None):
+    return HttpResponse()
