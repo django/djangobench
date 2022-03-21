@@ -2,7 +2,6 @@
 
 * Lots and lots and lots more benchmarks. Some remaining ideas
 
-    * ORM overhead compared to cursor.execute()
     * signal dispatch
     * more datastructures
     * more intensive url resolving and reversing
