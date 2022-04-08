@@ -12,7 +12,7 @@ def benchmark():
 
 def setup():
     global Author
-    from query_prefetch_related.models import Book, Author
+    from query_prefetch_related.models import Author, Book
     for i in range(0, 20):
         a = Author.objects.create(author="Author %s" % i)
         books = [Book.objects.create(title="Title %s" % j) for j in range(0, 3)]

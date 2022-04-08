@@ -75,19 +75,19 @@ import time
 __author__ = "jyasskin@google.com (Jeffrey Yasskin)"
 
 try:
-    from urllib.request import urlopen
     from urllib.error import URLError
+    from urllib.request import urlopen
 except ImportError:
-    from urllib2 import urlopen, URLError
+    from urllib2 import URLError, urlopen
 try:
     import multiprocessing
 except ImportError:
     multiprocessing = None
 try:
+    import pywintypes
     import win32api
     import win32con
     import win32process
-    import pywintypes
 except ImportError:
     win32api = None
 
