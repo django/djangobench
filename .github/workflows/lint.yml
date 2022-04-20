@@ -31,4 +31,4 @@ jobs:
           python-version: '3.10'
       - run: pip install isort
       - name: isort
-        run: isort . -c
+        run: isort --check .
