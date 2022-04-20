@@ -8,7 +8,7 @@ def setup():
 
 def benchmark():
     global Book
-    b = Book.objects.create(title="hi")
+    b = Book(title="hi")
     b.full_clean()
 
 run_benchmark(
