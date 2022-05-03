@@ -114,8 +114,19 @@ def run_comparison_benchmark(benchmark_a, benchmark_b, migrate=True, setup=None,
         django.setup()
 
     if migrate:
-        from django.core.management import call_command
-        call_command("migrate", verbosity=0)
+        from django.core.management import CommandError, call_command
+        if django.VERSION < (1, 7):
+            call_command("syncdb", run_syncdb=True, verbosity=0)
+        else:
+            call_command("migrate", run_syncdb=True, verbosity=0)
+            if django.VERSION >= (1, 8):
+                try:
+                    call_command("loaddata", "initial_data", verbosity=0)
+                except CommandError as exc:
+                    # Django 1.10+ raises if the file doesn't exist and not
+                    # all benchmarks have files.
+                    if 'No fixture named' not in str(exc):
+                        raise
 
     if setup:
         setup()
