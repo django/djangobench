@@ -1,5 +1,5 @@
 try:
-    from django.urls import resolve, Resolver404
+    from django.urls import Resolver404, resolve
 except ImportError:  # Django < 1.10
     from django.core.urlresolvers import resolve, Resolver404
 
