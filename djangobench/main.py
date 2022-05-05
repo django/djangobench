@@ -21,7 +21,7 @@ DEFAULT_BENCHMARK_DIR = os.path.join(os.path.dirname(__file__), 'benchmarks')
 def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials,
                    vcs=None, record_dir=None, profile_dir=None,
                    continue_on_error=False, control_python=sys.executable,
-                   experiment_python=sys.executable):
+                   experiment_python=sys.executable, show_median=False):
     if benchmarks:
         print("Running benchmarks: %s" % " ".join(benchmarks))
     else:
@@ -106,7 +106,7 @@ def run_benchmarks(control, experiment, benchmark_dir, benchmarks, trials,
                     control_data=control_data,
                     experiment_data=experiment_data,
                 )
-            print(format_benchmark_result(result, len(control_data.runtimes)))
+            print(format_benchmark_result(result, len(control_data.runtimes), control_data.runtimes, experiment_data.runtimes, show_median))
             print('')
 
 
@@ -116,6 +116,13 @@ def discover_benchmarks(benchmark_dir):
                 os.path.exists(os.path.join(benchmark_dir, app, 'settings.py')):
             yield app
 
+def get_median(runs):
+    sorted_runs = sorted(runs)
+    middle = len(runs) / 2
+    if len(runs) % 2 == 0:
+        return sum(sorted_runs[middle-1:middle+1])/2
+    else:
+        return sorted_runs[middle]
 
 def print_benchmarks(benchmark_dir):
     for app in discover_benchmarks(benchmark_dir):
@@ -211,8 +218,7 @@ class colorize(object):
     def bad(cls, text):
         return cls.colorize(cls.BAD, text)
 
-
-def format_benchmark_result(result, num_points):
+def format_benchmark_result(result, num_points, control_data, experiment_data, show_median):
     if isinstance(result, perf.BenchmarkResult):
         output = ''
         delta_min = result.delta_min
@@ -228,6 +234,15 @@ def format_benchmark_result(result, num_points):
         elif 'slower' in delta_avg:
             delta_avg = colorize.bad(delta_avg)
         output += "Avg: %f -> %f: %s\n" % (result.avg_base, result.avg_changed, delta_avg)
+
+        if show_median:
+            median = get_median(control_data) - get_median(experiment_data)
+            median_text = "%0.10f" % median
+            if median > .0:
+                median_body = colorize.good(median_text)
+            else:
+                median_body = colorize.bad(median_text)
+            output += "Median: %s\n" % median_body
 
         t_msg = result.t_msg
         if 'Not significant' in t_msg:
@@ -370,6 +385,14 @@ def main():
         help='List all available benchmarks and exit.',
     )
     parser.add_argument(
+        '-m',
+        '--median',
+        dest='show_median',
+        default=False,
+        action='store_true',
+        help='Show median in resulting benchmarks',
+    )
+    parser.add_argument(
         '--log',
         dest='loglevel',
         default='WARNING',
@@ -398,6 +421,7 @@ def main():
             continue_on_error=args.continue_on_error,
             control_python=args.control_python,
             experiment_python=args.experiment_python,
+            show_median=args.show_median,
         )
 
 if __name__ == '__main__':
