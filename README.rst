@@ -10,10 +10,10 @@ Running the benchmarks
 Here's the short version::
 
     mkvirtualenv djangobench
-    pip install -e git://github.com/django/djangobench.git#egg=djangobench
-    git clone git://github.com/django/django.git
+    pip install -e git+https://github.com/django/djangobench.git#egg=djangobench
+    git clone https://github.com/django/django.git
     cd django
-    djangobench --control=1.2 --experiment=master
+    djangobench --control=1.2 --experiment=main
 
 Okay, so what the heck's going on here?
 
@@ -69,7 +69,7 @@ full paths to the corresponding Python executables in ``--control-python`` and
 ``djangobench`` environment setup like above)::
 
     mkvirtualenv djangobench-py3 -p python3
-    pip install -e git://github.com/django/djangobench.git#egg=djangobench
+    pip install -e git+https://github.com/django/djangobench.git#egg=djangobench
     cd django
     djangobench --vcs=none --control=. --experiment=. \
         --control-python=~/.virtualenvs/djangobench/bin/python \
